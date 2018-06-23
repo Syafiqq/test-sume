@@ -27,10 +27,16 @@ dependencies:
     - bleach==1.5.0
     - gast==0.2.0
     - grpcio==1.12.1
+    - h5py==2.8.0
     - html5lib==0.9999999
+    - keras==2.2.0
+    - keras-applications==1.0.2
+    - keras-preprocessing==1.0.1
     - markdown==2.6.11
     - numpy==1.14.5
     - protobuf==3.6.0
+    - pyyaml==3.12
+    - scipy==1.1.0
     - six==1.11.0
     - tensorboard==1.8.0
     - tensorflow==1.8.0
