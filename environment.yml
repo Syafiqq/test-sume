@@ -36,6 +36,7 @@ dependencies:
     - markdown==2.6.11
     - numpy==1.14.5
     - protobuf==3.6.0
+    - psycopg2-binary==2.7.5
     - pyyaml==3.12
     - scipy==1.1.0
     - six==1.11.0
