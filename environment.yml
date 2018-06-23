@@ -33,7 +33,7 @@ dependencies:
     - protobuf==3.6.0
     - six==1.11.0
     - tensorboard==1.8.0
-    - tensorflow-gpu==1.8.0
+    - tensorflow==1.8.0
     - termcolor==1.1.0
     - werkzeug==0.14.1
 prefix: sumeenv
