@@ -1,6 +1,7 @@
 import os
 from unittest import TestCase
 
+import numpy
 import pandas
 
 from sumeq.settings import BASE_DIR
@@ -32,3 +33,12 @@ class ReadCSVTest(TestCase):
         features = dataframe.drop(columns=dim[1] - 1)
         self.assertEqual(4, features.shape[1])
         # print(features)
+
+    def test_convert_feature_to_numpy_array(self):
+        dataframe = pandas.read_csv(self.corpus_path, header=None)
+        dim = dataframe.shape
+        r_feature = dataframe.drop(columns=dim[1] - 1)
+        feature = r_feature.values
+        f_shape = numpy.shape(feature)
+        self.assertEqual((8, 4), f_shape)
+        # print(feature)
