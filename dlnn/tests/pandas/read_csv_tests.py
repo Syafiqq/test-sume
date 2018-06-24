@@ -1,9 +1,13 @@
+import os
+from unittest import TestCase
+
 import pandas
-from django.test import TestCase
+
+from sumeq.settings import BASE_DIR
 
 
 class ReadCSVTest(TestCase):
-    corpus_path = 'dlnn/resources/databank/datatrainClassify.csv'
+    corpus_path = os.path.join(BASE_DIR, 'dlnn/resources/databank/datatrainClassify.csv')
 
     def test_read_csv(self):
         dataframe = pandas.read_csv(self.corpus_path, header=None)
