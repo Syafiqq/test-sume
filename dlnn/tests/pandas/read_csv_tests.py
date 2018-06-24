@@ -9,3 +9,9 @@ class ReadCSVTest(TestCase):
         dataframe = pandas.read_csv(self.corpus_path, header=None)
         self.assertIsNotNone(dataframe)
         # print(dataframe)
+
+    def test_get_num_data(self):
+        dataframe = pandas.read_csv(self.corpus_path, header=None)
+        dim = dataframe.shape
+        self.assertEqual(8, dim[0])
+        # print(dim)
