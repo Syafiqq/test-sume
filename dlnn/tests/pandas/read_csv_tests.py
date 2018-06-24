@@ -42,3 +42,12 @@ class ReadCSVTest(TestCase):
         f_shape = numpy.shape(feature)
         self.assertEqual((8, 4), f_shape)
         # print(feature)
+
+    def test_normalize_feature(self):
+        dataframe = pandas.read_csv(self.corpus_path, header=None)
+        dim = dataframe.shape
+        r_feature = dataframe.drop(columns=dim[1] - 1)
+        feature = r_feature.values.astype(float)
+        feature *= 1 / 300.0
+        self.assertTrue(numpy.allclose([.8433, .4367, .8633, .3167], feature[0], rtol=1e-3))
+        # print(feature)
