@@ -21,3 +21,10 @@ class ReadCSVTest(TestCase):
         dim = dataframe.shape
         self.assertEqual(4, dim[1] - 1)
         # print(dim)
+
+    def test_get_feature_data(self):
+        dataframe = pandas.read_csv(self.corpus_path, header=None)
+        dim = dataframe.shape
+        features = dataframe.drop(columns=dim[1] - 1)
+        self.assertEqual(4, features.shape[1])
+        # print(features)
