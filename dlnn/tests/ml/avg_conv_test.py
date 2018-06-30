@@ -3,7 +3,6 @@ from unittest import TestCase
 
 import numpy
 import numpy.matlib
-import pandas
 
 from sumeq.settings import BASE_DIR
 
@@ -29,3 +28,24 @@ class AvgConvTest(TestCase):
         corpus = self.corpus()
         self.assertIsNotNone(corpus)
         # print(corpus)
+
+    def test_keras_invocation(self):
+        import tensorflow as tf
+        sess = tf.Session()
+        t = tf.constant(self.corpus()[0])
+        paddings = tf.constant([[2, 2, ], [2, 2]])
+        print(sess.run(tf.pad(t, paddings, "CONSTANT")))
+        sess.close()
+
+    def test_padding_using_keras(self):
+        import keras
+        import tensorflow as tf
+        print(keras.backend.eval(tf.pad(self.corpus()[0], ((1, 1), (1, 1)), "CONSTANT")))
+
+    def test_slice(self):
+        import keras
+        import tensorflow as tf
+        x = tf.pad(self.corpus()[0], ((1, 1), (1, 1)), "CONSTANT")
+        print(keras.backend.eval(x))
+        # print(keras.backend.eval(tf.slice(x, [0, 0], [3, 3])))
+        print(keras.backend.eval(x[0:0, 3:3]))
