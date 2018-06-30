@@ -66,3 +66,10 @@ class ReadCSVTest(TestCase):
         oneliner = numpy.tile(numpy.reshape(feature, (feature_dim[0], 1, feature_dim[1])), (1, feature_dim[1], 1))
         self.assertTrue(numpy.allclose(nfeature, oneliner, rtol=1e-3))
         # print(oneliner)
+
+    def test_get_label_data(self):
+        dataframe = pandas.read_csv(self.corpus_path, header=None)
+        dim = dataframe.shape
+        features = dataframe.drop(columns=numpy.arange(dim[1] - 1))
+        self.assertEqual(1, features.shape[1])
+        # print(features)
