@@ -24,3 +24,8 @@ class AvgConvTest(TestCase):
         oneliner = numpy.tile(numpy.reshape(feature, (feature_dim[0], 1, feature_dim[1])), (1, feature_dim[1], 1))
         self.assertTrue(numpy.allclose(nfeature, oneliner, rtol=1e-3))
         return oneliner
+
+    def test_corpus(self):
+        corpus = self.corpus()
+        self.assertIsNotNone(corpus)
+        # print(corpus)
