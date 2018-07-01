@@ -20,7 +20,11 @@ class Conv2D(c2D):
             x = K.tile(x, (1, self.filters, 1, 1))
 
         def calls(y):
-            return y + 10
+            xyz = tf.unstack(y)
+            xyz[0] += 10
+            xyz[1] += 20
+            xyz[2] += 30
+            return tf.stack(xyz)
 
         zz = tf.map_fn(calls, x[:])
         return zz
