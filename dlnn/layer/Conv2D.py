@@ -63,3 +63,8 @@ class AvgFilter(_Filter, metaclass=Singleton):
 class MaxFilter(_Filter, metaclass=Singleton):
     def filter(self, tensor, window, **kwargs):
         return super().filter(tensor, window, filter_fun=lambda x: K.max(x))
+
+
+class StdDevFilter(_Filter, metaclass=Singleton):
+    def filter(self, tensor, window, **kwargs):
+        return super().filter(tensor, window, filter_fun=lambda x: K.std(x))
