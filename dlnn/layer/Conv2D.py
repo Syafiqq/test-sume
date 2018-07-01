@@ -31,3 +31,8 @@ class Conv2D(c2D):
 
     def compute_output_shape(self, input_shape):
         return super(Conv2D, self).compute_output_shape(input_shape)
+
+
+class _Filter:
+    def filter(self, tensor, window):
+        pass
