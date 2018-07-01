@@ -57,4 +57,4 @@ class _Filter:
 
 class AvgFilter(_Filter, metaclass=Singleton):
     def filter(self, tensor, window, **kwargs):
-        pass
+        return super().filter(tensor, window, filter_fun=lambda x: K.mean(x))
