@@ -1,6 +1,8 @@
 from keras import backend as K
 from keras.layers import Conv2D as c2D
 
+from dlnn.layer.util.Singleton import Singleton
+
 
 class Conv2D(c2D):
     def __init__(self, filters, **kwargs):
@@ -42,6 +44,6 @@ class _Filter:
         return (window - 1.) / 2.
 
 
-class AvgFilter(_Filter):
+class AvgFilter(_Filter, metaclass=Singleton):
     def filter(self, tensor, window):
         pad = _Filter.calculate_padding(window)
