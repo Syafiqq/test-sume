@@ -50,15 +50,6 @@ class AvgConvTest(TestCase):
         # print(keras.backend.eval(tf.slice(x, [0, 0], [3, 3])))
         print(keras.backend.eval(x[0:0, 3:3]))
 
-    def test_avg_filter(self):
-        from keras import backend as K
-        from dlnn.layer.Conv2D import AvgFilter
-        tensor = K.variable(self.corpus()[0])
-        avg = AvgFilter()
-        ntensor = avg.filter(tensor, 3)
-        # print(K.eval(ntensor))
-        # print(ntensor.shape)
-
     def test_conv(self):
         from keras import Sequential
         from keras import Model
