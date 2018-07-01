@@ -52,9 +52,9 @@ class AvgFilter(_Filter, metaclass=Singleton):
         pad = _Filter.calculate_padding(window)
         padded = PadUtil.pad_center(tensor, pad)
         padded_shape = padded.shape
-        newval = numpy.empty(shape=(1, padded_shape[1] - window + 1, padded_shape[2] - window + 1))
+        newval = K.variable(numpy.empty(shape=(1, padded_shape[1] - window + 1, padded_shape[2] - window + 1)))
         newval_shape = newval.shape
         for x in (range(newval_shape[2])):
             for y in (range(newval_shape[1])):
-                newval[0, y, x] = 1
-        return tensor
+                K.set_value(newval[0, y, x], K.eval(K.mean(padded[:, y:(window + y), x:(window + x)])))
+        return newval
