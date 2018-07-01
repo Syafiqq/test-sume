@@ -21,3 +21,13 @@ class AvgConvTest(TestCase):
         self.assertIsNotNone(self.data)
         tensor = K.variable(self.data)
         # print(K.eval(tensor))
+
+    def test_padding(self):
+        import tensorflow as tf
+        tensor = K.variable(self.data)
+        ntensor = tf.pad(
+            tensor=tensor,
+            paddings=((1, 1), (1, 1), (1, 1), (1, 1))
+        )
+        print(K.eval(ntensor))
+        print(ntensor.shape)
