@@ -36,17 +36,7 @@ class Conv2D(c2D):
 
 
 class _Filter:
-    def filter(self, tensor, window):
-        pass
-
-    @staticmethod
-    def calculate_padding(window):
-        import math
-        return int(math.ceil((window - 1.) / 2.))
-
-
-class AvgFilter(_Filter, metaclass=Singleton):
-    def filter(self, tensor, window):
+    def filter(self, tensor, window, filter_fun):
         from dlnn.layer.util import Pad as PadUtil
         import numpy
         pad = _Filter.calculate_padding(window)
@@ -56,5 +46,15 @@ class AvgFilter(_Filter, metaclass=Singleton):
         newval_shape = newval.shape
         for x in (range(newval_shape[2])):
             for y in (range(newval_shape[1])):
-                K.set_value(newval[0, y, x], K.eval(K.mean(padded[:, y:(window + y), x:(window + x)])))
+                K.set_value(newval[0, y, x], K.eval(filter_fun(padded[:, y:(window + y), x:(window + x)])))
         return newval
+
+    @staticmethod
+    def calculate_padding(window):
+        import math
+        return int(math.ceil((window - 1.) / 2.))
+
+
+class AvgFilter(_Filter, metaclass=Singleton):
+    def filter(self, tensor, window, **kwargs):
+        pass
