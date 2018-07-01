@@ -37,3 +37,12 @@ class FilterTHelper(TestCase):
         ntensor = avg.filter(tensor, 3)
         # print(K.eval(ntensor))
         # print(ntensor.shape)
+
+    def test_stddev_filter(self):
+        from keras import backend as K
+        from dlnn.layer.Conv2D import StdDevFilter
+        tensor = K.variable(self.data[0])
+        avg = StdDevFilter()
+        ntensor = avg.filter(tensor, 3)
+        # print(K.eval(ntensor))
+        # print(ntensor.shape)
