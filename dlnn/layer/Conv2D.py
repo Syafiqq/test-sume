@@ -36,3 +36,7 @@ class Conv2D(c2D):
 class _Filter:
     def filter(self, tensor, window):
         pass
+
+    @staticmethod
+    def calculate_padding(window):
+        return (window - 1.) / 2.
