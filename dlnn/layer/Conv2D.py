@@ -48,6 +48,13 @@ class _Filter:
 class AvgFilter(_Filter, metaclass=Singleton):
     def filter(self, tensor, window):
         from dlnn.layer.util import Pad as PadUtil
+        import numpy
         pad = _Filter.calculate_padding(window)
-        tensor = PadUtil.pad_center(tensor, pad)
+        padded = PadUtil.pad_center(tensor, pad)
+        padded_shape = padded.shape
+        newval = numpy.empty(shape=(1, padded_shape[1] - window + 1, padded_shape[2] - window + 1))
+        newval_shape = newval.shape
+        for x in (range(newval_shape[2])):
+            for y in (range(newval_shape[1])):
+                newval[0, y, x] = 1
         return tensor
