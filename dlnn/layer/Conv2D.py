@@ -47,4 +47,7 @@ class _Filter:
 
 class AvgFilter(_Filter, metaclass=Singleton):
     def filter(self, tensor, window):
+        from dlnn.layer.util import Pad as PadUtil
         pad = _Filter.calculate_padding(window)
+        tensor = PadUtil.pad_center(tensor, pad)
+        return tensor
