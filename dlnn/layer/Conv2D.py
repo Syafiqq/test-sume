@@ -41,7 +41,8 @@ class _Filter:
 
     @staticmethod
     def calculate_padding(window):
-        return (window - 1.) / 2.
+        import math
+        return int(math.ceil((window - 1.) / 2.))
 
 
 class AvgFilter(_Filter, metaclass=Singleton):
