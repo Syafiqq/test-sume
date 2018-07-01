@@ -40,3 +40,8 @@ class _Filter:
     @staticmethod
     def calculate_padding(window):
         return (window - 1.) / 2.
+
+
+class AvgFilter(_Filter):
+    def filter(self, tensor, window):
+        pad = _Filter.calculate_padding(window)
