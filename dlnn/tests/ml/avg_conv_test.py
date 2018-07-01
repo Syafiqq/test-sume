@@ -49,3 +49,39 @@ class AvgConvTest(TestCase):
         print(keras.backend.eval(x))
         # print(keras.backend.eval(tf.slice(x, [0, 0], [3, 3])))
         print(keras.backend.eval(x[0:0, 3:3]))
+
+    def test_conv(self):
+        from keras import Sequential
+        from keras import Model
+        # from keras.layers import Conv2D
+        from dlnn.layer.Conv2D import Conv2D
+
+        from numpy.random import seed
+        seed(1)
+        from tensorflow import set_random_seed
+        set_random_seed(2)
+
+        model = Sequential()
+        model.add(Conv2D(
+            name='abc',
+            filters=3,
+            padding='same',
+            use_bias=False,
+            kernel_size=(4, 4),
+            data_format='channels_first',
+            input_shape=(2, 4, 4)))
+        model.add(Conv2D(
+            name='def',
+            filters=3,
+            padding='same',
+            use_bias=False,
+            kernel_size=(4, 4),
+            data_format='channels_first',
+            input_shape=(3, 4, 4)))
+
+        layer_name = 'abc'
+        intermediate_layer_model = Model(inputs=model.input,
+                                         outputs=model.get_layer(layer_name).output)
+        intermediate_output = intermediate_layer_model.predict(self.corpus())
+        print(intermediate_output)
+        print(intermediate_output.shape)
