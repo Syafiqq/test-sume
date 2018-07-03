@@ -1,0 +1,17 @@
+name: sumeenv
+channels:
+  - defaults
+dependencies:
+  - pip:
+    - django-environ==0.4.4
+    - h5py==2.8.0
+    - keras==2.2.0
+    - keras-applications==1.0.2
+    - keras-preprocessing==1.0.1
+    - pandas==0.23.1
+    - psycopg2-binary==2.7.5
+    - python-dateutil==2.7.3
+    - pyyaml==3.12
+    - scikit-learn==0.19.1
+    - scipy==1.1.0
+    - tensorflow==1.8.0
