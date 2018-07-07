@@ -62,9 +62,13 @@ class AvgConvTest(TestCase):
         set_random_seed(2)
 
         model = Sequential()
+        from dlnn.layer.Conv2D import AvgFilter
+        from dlnn.layer.Conv2D import MaxFilter
+        from dlnn.layer.Conv2D import StdDevFilter
         model.add(Conv2D(
             name='abc',
-            filters=3,
+            filters=[AvgFilter(), MaxFilter(), StdDevFilter()],
+            window=3,
             padding='same',
             use_bias=False,
             kernel_size=(4, 4),
