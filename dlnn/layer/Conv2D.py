@@ -39,17 +39,15 @@ class Conv2D(c2D):
 class _Filter:
     def filter(self, tensor, window, filter_fun):
         from dlnn.layer.util import Pad as PadUtil
-        import numpy
         pad = _Filter.calculate_padding(window)
         padded = PadUtil.pad_center(tensor, pad)
         padded_shape = padded.shape
-        newval = K.variable(numpy.empty(shape=(padded_shape[0] - window + 1, padded_shape[1] - window + 1)))
-        newval_shape = newval.shape
-        ys = []
+        newval = []
+        newval_shape = (padded_shape[0] - window + 1, padded_shape[1] - window + 1)
         for x in (range(newval_shape[1])):
             for y in (range(newval_shape[0])):
-                ys.append(filter_fun(padded[y:(window + y), x:(window + x)]))
-        return K.reshape(ys, newval_shape)
+                newval.append(filter_fun(padded[y:(window + y), x:(window + x)]))
+        return K.reshape(newval, newval_shape)
 
     @staticmethod
     def calculate_padding(window):
