@@ -29,12 +29,12 @@ class AvgConvTest(TestCase):
             tensor=tensor,
             paddings=((1, 1), (1, 1), (1, 1), (1, 1))
         )
-        print(K.eval(ntensor))
-        print(ntensor.shape)
+        # print(K.eval(ntensor))
+        # print(ntensor.shape)
 
     def test_pad_util(self):
         from dlnn.layer.util import Pad as PadUtil
         tensor = K.variable(self.data[0][0])
         ntensor = PadUtil.pad_center(tensor, 1)
-        print(K.eval(ntensor))
-        print(ntensor.shape)
+        # print(K.eval(ntensor))
+        # print(ntensor.shape)
