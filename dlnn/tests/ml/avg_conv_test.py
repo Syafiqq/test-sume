@@ -50,6 +50,24 @@ class AvgConvTest(TestCase):
         # print(keras.backend.eval(tf.slice(x, [0, 0], [3, 3])))
         print(keras.backend.eval(x[0:0, 3:3]))
 
+    def test_raw_conv(self):
+        from keras import backend as K
+        from dlnn.layer.Conv2D import Conv2D
+        from dlnn.layer.Conv2D import AvgFilter
+        from dlnn.layer.Conv2D import MaxFilter
+        from dlnn.layer.Conv2D import StdDevFilter
+        conv = Conv2D(
+            name='abc',
+            filters=[AvgFilter(), MaxFilter(), StdDevFilter()],
+            window=3,
+            padding='same',
+            use_bias=False,
+            kernel_size=(4, 4),
+            data_format='channels_first',
+            input_shape=(1, 4, 4))
+        result = conv.call(self.corpus())
+        print(K.eval(result))
+
     def test_conv(self):
         from keras import Sequential
         from keras import Model
