@@ -7,6 +7,28 @@ import numpy.matlib
 from sumeq.settings import BASE_DIR
 
 
+def initial_layer():
+    from dlnn.layer.Conv2D import Conv2D
+    from dlnn.layer.Conv2D import AvgFilter
+    from dlnn.layer.Conv2D import MaxFilter
+    from dlnn.layer.Conv2D import StdDevFilter
+    return Conv2D(
+        name='abc',
+        filters=[AvgFilter(), MaxFilter(), StdDevFilter()],
+        window=3,
+        padding='same',
+        use_bias=False,
+        kernel_size=(4, 4),
+        data_format='channels_first',
+        input_shape=(1, 4, 4))
+
+
+def initial_result(x):
+    conv = initial_layer()
+    result = conv.call(x)
+    return result
+
+
 class AvgConvTest(TestCase):
     corpus_path = os.path.join(BASE_DIR, 'dlnn/resources/databank/datatrainClassify.csv')
 
@@ -51,22 +73,9 @@ class AvgConvTest(TestCase):
         print(keras.backend.eval(x[0:0, 3:3]))
 
     def test_raw_conv(self):
-        from dlnn.layer.Conv2D import Conv2D
-        from dlnn.layer.Conv2D import AvgFilter
-        from dlnn.layer.Conv2D import MaxFilter
-        from dlnn.layer.Conv2D import StdDevFilter
-        conv = Conv2D(
-            name='abc',
-            filters=[AvgFilter(), MaxFilter(), StdDevFilter()],
-            window=3,
-            padding='same',
-            use_bias=False,
-            kernel_size=(4, 4),
-            data_format='channels_first',
-            input_shape=(1, 4, 4))
-        result = conv.call(self.corpus())
+        result = initial_result(self.corpus())
+        self.assertIsNotNone(result)
         # print(K.eval(result))
-        return conv
 
     def test_conv(self):
         from keras import Sequential
@@ -79,7 +88,7 @@ class AvgConvTest(TestCase):
         set_random_seed(2)
 
         model = Sequential()
-        model.add(self.test_raw_conv())
+        model.add(initial_layer())
 
         layer_name = 'abc'
         intermediate_layer_model = Model(inputs=model.input,
