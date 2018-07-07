@@ -45,10 +45,11 @@ class _Filter:
         padded_shape = padded.shape
         newval = K.variable(numpy.empty(shape=(padded_shape[0] - window + 1, padded_shape[1] - window + 1)))
         newval_shape = newval.shape
-        for x in (range(newval_shape[2])):
-            for y in (range(newval_shape[1])):
-                K.set_value(newval[0, y, x], K.eval(filter_fun(padded[:, y:(window + y), x:(window + x)])))
-        return newval
+        ys = []
+        for x in (range(newval_shape[1])):
+            for y in (range(newval_shape[0])):
+                ys.append(filter_fun(padded[y:(window + y), x:(window + x)]))
+        return K.reshape(ys, newval_shape)
 
     @staticmethod
     def calculate_padding(window):
