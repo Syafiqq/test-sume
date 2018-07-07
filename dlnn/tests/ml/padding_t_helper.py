@@ -34,7 +34,7 @@ class AvgConvTest(TestCase):
 
     def test_pad_util(self):
         from dlnn.layer.util import Pad as PadUtil
-        tensor = K.variable(self.data[0])
+        tensor = K.variable(self.data[0][0])
         ntensor = PadUtil.pad_center(tensor, 1)
         print(K.eval(ntensor))
         print(ntensor.shape)
