@@ -1,5 +1,6 @@
 import os
 from unittest import TestCase
+from keras import backend as K
 
 import numpy
 import numpy.matlib
@@ -56,21 +57,19 @@ class AvgConvTest(TestCase):
         sess = tf.Session()
         t = tf.constant(self.corpus()[0])
         paddings = tf.constant([[2, 2, ], [2, 2]])
-        print(sess.run(tf.pad(t, paddings, "CONSTANT")))
+        # print(sess.run(tf.pad(t, paddings, "CONSTANT")))
         sess.close()
 
     def test_padding_using_keras(self):
-        import keras
-        import tensorflow as tf
-        print(keras.backend.eval(tf.pad(self.corpus()[0], ((1, 1), (1, 1)), "CONSTANT")))
+        pass
+        # print(keras.backend.eval(tf.pad(self.corpus()[0], ((1, 1), (1, 1)), "CONSTANT")))
 
     def test_slice(self):
-        import keras
         import tensorflow as tf
         x = tf.pad(self.corpus()[0], ((1, 1), (1, 1)), "CONSTANT")
-        print(keras.backend.eval(x))
+        # print(keras.backend.eval(x))
         # print(keras.backend.eval(tf.slice(x, [0, 0], [3, 3])))
-        print(keras.backend.eval(x[0:0, 3:3]))
+        # print(keras.backend.eval(x[0:0, 3:3]))
 
     def test_raw_conv(self):
         result = initial_result(self.corpus())
@@ -94,5 +93,5 @@ class AvgConvTest(TestCase):
         intermediate_layer_model = Model(inputs=model.input,
                                          outputs=model.get_layer(layer_name).output)
         intermediate_output = intermediate_layer_model.predict(self.corpus())
-        print(intermediate_output)
-        print(intermediate_output.shape)
+        # print(intermediate_output)
+        # print(intermediate_output.shape)
