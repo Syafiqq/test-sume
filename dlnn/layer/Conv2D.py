@@ -25,9 +25,8 @@ class Conv2D(c2D):
 
         def calls(y):
             xyz = tf.unstack(y)
-            xyz[0] += 10
-            xyz[1] += 20
-            xyz[2] += 30
+            for k, v in enumerate(self.filters_cls):
+                xyz[k] = v.filter(xyz[k], self.window)
             return tf.stack(xyz)
 
         zz = tf.map_fn(calls, x[:])
