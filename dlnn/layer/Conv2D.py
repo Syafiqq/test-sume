@@ -5,9 +5,11 @@ from dlnn.layer.util.Singleton import Singleton
 
 
 class Conv2D(c2D):
-    def __init__(self, filters, **kwargs):
-        self.filters = filters
-        super(Conv2D, self).__init__(filters, **kwargs)
+    def __init__(self, filters, window, **kwargs):
+        self.filters_cls = filters
+        self.filters = len(self.filters_cls)
+        self.window = window
+        super(Conv2D, self).__init__(self.filters, **kwargs)
 
     def build(self, input_shape):
         super(Conv2D, self).build(input_shape)  # Be sure to call this at the end
