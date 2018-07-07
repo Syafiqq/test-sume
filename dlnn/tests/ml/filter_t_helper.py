@@ -23,7 +23,7 @@ class FilterTHelper(TestCase):
     def test_avg_filter(self):
         from keras import backend as K
         from dlnn.layer.Conv2D import AvgFilter
-        tensor = K.variable(self.data[0])
+        tensor = K.variable(self.data[0][0])
         avg = AvgFilter()
         ntensor = avg.filter(tensor, 3)
         # print(K.eval(ntensor))
@@ -32,7 +32,7 @@ class FilterTHelper(TestCase):
     def test_max_filter(self):
         from keras import backend as K
         from dlnn.layer.Conv2D import MaxFilter
-        tensor = K.variable(self.data[0])
+        tensor = K.variable(self.data[0][0])
         avg = MaxFilter()
         ntensor = avg.filter(tensor, 3)
         # print(K.eval(ntensor))
@@ -41,7 +41,7 @@ class FilterTHelper(TestCase):
     def test_stddev_filter(self):
         from keras import backend as K
         from dlnn.layer.Conv2D import StdDevFilter
-        tensor = K.variable(self.data[0])
+        tensor = K.variable(self.data[0][0])
         avg = StdDevFilter()
         ntensor = avg.filter(tensor, 3)
         # print(K.eval(ntensor))
