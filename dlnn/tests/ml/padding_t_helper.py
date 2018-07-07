@@ -20,6 +20,7 @@ class AvgConvTest(TestCase):
     def test_it_generate_Tensor(self):
         self.assertIsNotNone(self.data)
         tensor = K.variable(self.data)
+        self.assertIsNotNone(tensor)
         # print(K.eval(tensor))
 
     def test_padding(self):
@@ -29,6 +30,7 @@ class AvgConvTest(TestCase):
             tensor=tensor,
             paddings=((1, 1), (1, 1), (1, 1), (1, 1))
         )
+        self.assertIsNotNone(ntensor)
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
@@ -36,5 +38,6 @@ class AvgConvTest(TestCase):
         from dlnn.layer.util import Pad as PadUtil
         tensor = K.variable(self.data[0][0])
         ntensor = PadUtil.pad_center(tensor, 1)
+        self.assertIsNotNone(ntensor)
         # print(K.eval(ntensor))
         # print(ntensor.shape)
