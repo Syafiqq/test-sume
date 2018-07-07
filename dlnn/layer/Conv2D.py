@@ -43,7 +43,7 @@ class _Filter:
         pad = _Filter.calculate_padding(window)
         padded = PadUtil.pad_center(tensor, pad)
         padded_shape = padded.shape
-        newval = K.variable(numpy.empty(shape=(1, padded_shape[1] - window + 1, padded_shape[2] - window + 1)))
+        newval = K.variable(numpy.empty(shape=(padded_shape[0] - window + 1, padded_shape[1] - window + 1)))
         newval_shape = newval.shape
         for x in (range(newval_shape[2])):
             for y in (range(newval_shape[1])):
