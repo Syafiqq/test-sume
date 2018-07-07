@@ -24,8 +24,8 @@ class FilterTHelper(TestCase):
         from keras import backend as K
         from dlnn.layer.Conv2D import AvgFilter
         tensor = K.variable(self.data[0][0])
-        avg = AvgFilter()
-        ntensor = avg.filter(tensor, 3)
+        fltr = AvgFilter()
+        ntensor = fltr.filter(tensor, 3)
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
@@ -33,8 +33,8 @@ class FilterTHelper(TestCase):
         from keras import backend as K
         from dlnn.layer.Conv2D import MaxFilter
         tensor = K.variable(self.data[0][0])
-        avg = MaxFilter()
-        ntensor = avg.filter(tensor, 3)
+        fltr = MaxFilter()
+        ntensor = fltr.filter(tensor, 3)
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
@@ -42,7 +42,7 @@ class FilterTHelper(TestCase):
         from keras import backend as K
         from dlnn.layer.Conv2D import StdDevFilter
         tensor = K.variable(self.data[0][0])
-        avg = StdDevFilter()
-        ntensor = avg.filter(tensor, 3)
+        fltr = StdDevFilter()
+        ntensor = fltr.filter(tensor, 3)
         # print(K.eval(ntensor))
         # print(ntensor.shape)
