@@ -51,7 +51,6 @@ class AvgConvTest(TestCase):
         print(keras.backend.eval(x[0:0, 3:3]))
 
     def test_raw_conv(self):
-        from keras import backend as K
         from dlnn.layer.Conv2D import Conv2D
         from dlnn.layer.Conv2D import AvgFilter
         from dlnn.layer.Conv2D import MaxFilter
@@ -66,13 +65,13 @@ class AvgConvTest(TestCase):
             data_format='channels_first',
             input_shape=(1, 4, 4))
         result = conv.call(self.corpus())
-        print(K.eval(result))
+        # print(K.eval(result))
+        return conv
 
     def test_conv(self):
         from keras import Sequential
         from keras import Model
         # from keras.layers import Conv2D
-        from dlnn.layer.Conv2D import Conv2D
 
         from numpy.random import seed
         seed(1)
@@ -80,18 +79,7 @@ class AvgConvTest(TestCase):
         set_random_seed(2)
 
         model = Sequential()
-        from dlnn.layer.Conv2D import AvgFilter
-        from dlnn.layer.Conv2D import MaxFilter
-        from dlnn.layer.Conv2D import StdDevFilter
-        model.add(Conv2D(
-            name='abc',
-            filters=[AvgFilter(), MaxFilter(), StdDevFilter()],
-            window=3,
-            padding='same',
-            use_bias=False,
-            kernel_size=(4, 4),
-            data_format='channels_first',
-            input_shape=(1, 4, 4)))
+        model.add(self.test_raw_conv())
 
         layer_name = 'abc'
         intermediate_layer_model = Model(inputs=model.input,
