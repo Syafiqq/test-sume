@@ -56,8 +56,12 @@ class AvgConvTest(TestCase):
         sess.close()
 
     def test_raw_conv(self):
-        result = initial_result(self.corpus())
+        from dlnn.tests.ml.repos_helper import normalized
+        from dlnn.tests.ml.repos_helper import corr_step_1
+        conv = initial_layer()
+        result = conv.call(normalized)
         self.assertIsNotNone(result)
+        self.assertTrue(numpy.allclose(K.eval(result), corr_step_1, rtol=1e-3))
         # print(K.eval(result))
 
     def test_conv(self):
