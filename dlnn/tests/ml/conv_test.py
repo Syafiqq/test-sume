@@ -24,7 +24,7 @@ def initial_layer():
         input_shape=(1, 4, 4))
 
 
-class AvgConvTest(TestCase):
+class ConvTest(TestCase):
     corpus_path = os.path.join(BASE_DIR, 'dlnn/resources/databank/datatrainClassify.csv')
 
     def corpus(self):
