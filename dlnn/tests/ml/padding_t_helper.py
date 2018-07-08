@@ -41,3 +41,17 @@ class AvgConvTest(TestCase):
         self.assertIsNotNone(ntensor)
         # print(K.eval(ntensor))
         # print(ntensor.shape)
+
+    def test_repos_normalized_padding(self):
+        from dlnn.layer.util import Pad as PadUtil
+        from dlnn.tests.ml.repos_helper import normalized
+        import tensorflow as tf
+        tensor = K.variable(normalized[0][0])
+        ntensor = PadUtil.pad_center(tensor, 1)
+        correction = tf.pad(
+            tensor=normalized[0][0],
+            paddings=((1, 1), (1, 1)),
+        )
+        self.assertTrue(numpy.allclose(K.eval(ntensor), K.eval(correction), rtol=1e-3))
+        # print(K.eval(ntensor))
+        # print(ntensor.shape)
