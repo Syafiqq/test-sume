@@ -49,3 +49,42 @@ class FilterTHelper(TestCase):
         self.assertIsNotNone(ntensor)
         # print(K.eval(ntensor))
         # print(ntensor.shape)
+
+    def test_repos_normalized_avg_filter(self):
+        from keras import backend as K
+        from dlnn.layer.Conv2D import AvgFilter
+        from dlnn.tests.ml.repos_helper import normalized
+        from dlnn.tests.ml.repos_helper import corr_step_1_seg_1
+        tensor = K.variable(normalized[0][0])
+        fltr = AvgFilter()
+        ntensor = fltr.filter(tensor, 3)
+        self.assertIsNotNone(ntensor)
+        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_1_seg_1, rtol=1e-3))
+        # print(K.eval(ntensor))
+        # print(ntensor.shape)
+
+    def test_repos_max_avg_filter(self):
+        from keras import backend as K
+        from dlnn.layer.Conv2D import MaxFilter
+        from dlnn.tests.ml.repos_helper import normalized
+        from dlnn.tests.ml.repos_helper import corr_step_1_seg_2
+        tensor = K.variable(normalized[0][0])
+        fltr = MaxFilter()
+        ntensor = fltr.filter(tensor, 3)
+        self.assertIsNotNone(ntensor)
+        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_1_seg_2, rtol=1e-3))
+        # print(K.eval(ntensor))
+        # print(ntensor.shape)
+
+    def test_repos_max_std_filter(self):
+        from keras import backend as K
+        from dlnn.layer.Conv2D import StdDevFilter
+        from dlnn.tests.ml.repos_helper import normalized
+        from dlnn.tests.ml.repos_helper import corr_step_1_seg_3
+        tensor = K.variable(normalized[0][0])
+        fltr = StdDevFilter()
+        ntensor = fltr.filter(tensor, 3)
+        self.assertIsNotNone(ntensor)
+        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_1_seg_3, rtol=1e-3))
+        # print(K.eval(ntensor))
+        # print(ntensor.shape)
