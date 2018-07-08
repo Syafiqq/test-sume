@@ -11,11 +11,10 @@ class ActivationTest(TestCase):
         self.assertIsNotNone(x)
         # print(K.eval(x))
 
-    def test_activation_1(self):
+    def test_sigmoid_activation_from_corr_step_1(self):
         from keras.layers import Activation
+        from dlnn.tests.ml.repos_helper import corr_step_1
         act = Activation('sigmoid')
-        from dlnn.tests.ml.conv_test import initial_result
-        from dlnn.tests.ml.conv_test import ConvTest
-        x = act.call(initial_result(ConvTest().corpus()))
+        x = act.call(corr_step_1)
         self.assertIsNotNone(x)
         # print(K.eval(x))
