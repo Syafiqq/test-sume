@@ -1,9 +1,9 @@
 import os
 from unittest import TestCase
-from keras import backend as K
 
 import numpy
 import numpy.matlib
+from keras import backend as K
 
 from sumeq.settings import BASE_DIR
 
@@ -28,6 +28,23 @@ def initial_result(x):
     conv = initial_layer()
     result = conv.call(x)
     return result
+
+
+def initial_result_check():
+    return K.variable([[
+        [[0.2844, 0.4763, 0.3593, 0.2622],
+         [0.4267, 0.7144, 0.5389, 0.3933],
+         [0.4267, 0.7144, 0.5389, 0.3933],
+         [0.2844, 0.4763, 0.3593, 0.2622]],
+        [[0.8433, 0.8633, 0.8633, 0.8633],
+         [0.8433, 0.8633, 0.8633, 0.8633],
+         [0.8433, 0.8633, 0.8633, 0.8633],
+         [0.8433, 0.8633, 0.8633, 0.8633]],
+        [[0.3667, 0.3957, 0.3375, 0.3661],
+         [0.3653, 0.2085, 0.2488, 0.3782],
+         [0.3653, 0.2085, 0.2488, 0.3782],
+         [0.3667, 0.3957, 0.3375, 0.3661]],
+    ]])
 
 
 class AvgConvTest(TestCase):
