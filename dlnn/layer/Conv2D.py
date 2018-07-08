@@ -75,7 +75,7 @@ class StdDevFilter(_Filter, metaclass=Singleton):
         m = tf.reduce_mean(x, axis=axis, keep_dims=True)
         devs_squared = tf.square(x - m)
         return tf.div(tf.reduce_sum(devs_squared, axis=axis, keep_dims=keepdims),
-                      tf.subtract(tf.size(devs_squared, out_type=tf.float32), 1.0))
+                      tf.subtract(tf.size(devs_squared, out_type=tf.float64), 1.0))
 
     def reduce_std(self, x, axis=None, keepdims=False):
         import tensorflow as tf
