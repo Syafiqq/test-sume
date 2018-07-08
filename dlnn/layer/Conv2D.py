@@ -66,5 +66,20 @@ class MaxFilter(_Filter, metaclass=Singleton):
 
 
 class StdDevFilter(_Filter, metaclass=Singleton):
+    # cannot use K.std because implementation difference
+    # use below function instead
+    # @see: https://www.mathworks.com/help/matlab/ref/std.html
+    # @see: https://stackoverflow.com/a/43409235
+    def reduce_var(self, x, axis=None, keepdims=False):
+        import tensorflow as tf
+        m = tf.reduce_mean(x, axis=axis, keep_dims=True)
+        devs_squared = tf.square(x - m)
+        return tf.div(tf.reduce_sum(devs_squared, axis=axis, keep_dims=keepdims),
+                      tf.subtract(tf.size(devs_squared, out_type=tf.float32), 1.0))
+
+    def reduce_std(self, x, axis=None, keepdims=False):
+        import tensorflow as tf
+        return tf.sqrt(self.reduce_var(x, axis=axis, keepdims=keepdims))
+
     def filter(self, tensor, window, **kwargs):
-        return super().filter(tensor, window, filter_fun=lambda x: K.std(x))
+        return super().filter(tensor, window, filter_fun=lambda x: self.reduce_std(x))
