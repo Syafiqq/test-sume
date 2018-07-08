@@ -44,8 +44,8 @@ class _Filter:
         padded_shape = padded.shape
         newval = []
         newval_shape = (padded_shape[0] - window + 1, padded_shape[1] - window + 1)
-        for x in (range(newval_shape[1])):
-            for y in (range(newval_shape[0])):
+        for y in (range(newval_shape[0])):
+            for x in (range(newval_shape[1])):
                 newval.append(filter_fun(padded[y:(window + y), x:(window + x)]))
         return K.reshape(newval, newval_shape)
 
