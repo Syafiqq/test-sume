@@ -55,7 +55,7 @@ class AvgConvTest(TestCase):
         # print(sess.run(tf.pad(t, paddings, "CONSTANT")))
         sess.close()
 
-    def test_raw_conv(self):
+    def test_step_1(self):
         from dlnn.tests.ml.repos_helper import normalized
         from dlnn.tests.ml.repos_helper import corr_step_1
         conv = initial_layer()
