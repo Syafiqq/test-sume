@@ -26,6 +26,7 @@ class FilterTHelper(TestCase):
         tensor = K.variable(self.data[0][0])
         fltr = AvgFilter()
         ntensor = fltr.filter(tensor, 3)
+        self.assertIsNotNone(ntensor)
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
@@ -35,6 +36,7 @@ class FilterTHelper(TestCase):
         tensor = K.variable(self.data[0][0])
         fltr = MaxFilter()
         ntensor = fltr.filter(tensor, 3)
+        self.assertIsNotNone(ntensor)
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
@@ -44,5 +46,6 @@ class FilterTHelper(TestCase):
         tensor = K.variable(self.data[0][0])
         fltr = StdDevFilter()
         ntensor = fltr.filter(tensor, 3)
+        self.assertIsNotNone(ntensor)
         # print(K.eval(ntensor))
         # print(ntensor.shape)
