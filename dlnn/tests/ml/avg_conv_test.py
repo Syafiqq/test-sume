@@ -51,6 +51,7 @@ class AvgConvTest(TestCase):
     corpus_path = os.path.join(BASE_DIR, 'dlnn/resources/databank/datatrainClassify.csv')
 
     def corpus(self):
+        import pandas
         dataframe = pandas.read_csv(self.corpus_path, header=None)
         dim = dataframe.shape
         r_feature = dataframe.drop(columns=dim[1] - 1)
