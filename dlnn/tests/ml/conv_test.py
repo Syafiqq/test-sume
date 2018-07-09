@@ -65,6 +65,7 @@ class ConvTest(TestCase):
         # print(K.eval(result))
 
     def test_conv(self):
+        from dlnn.tests.ml.repos_helper import normalized
         from keras import Sequential
         from keras import Model
         # from keras.layers import Conv2D
@@ -80,6 +81,6 @@ class ConvTest(TestCase):
         layer_name = 'step_1'
         intermediate_layer_model = Model(inputs=model.input,
                                          outputs=model.get_layer(layer_name).output)
-        intermediate_output = intermediate_layer_model.predict(self.corpus())
+        intermediate_output = intermediate_layer_model.predict(normalized)
         # print(intermediate_output)
         # print(intermediate_output.shape)
