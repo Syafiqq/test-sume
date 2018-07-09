@@ -8,13 +8,13 @@ from keras import backend as K
 from sumeq.settings import BASE_DIR
 
 
-def initial_layer():
+def layer_step_1():
     from dlnn.layer.Conv2D import Conv2D
     from dlnn.layer.Conv2D import AvgFilter
     from dlnn.layer.Conv2D import MaxFilter
     from dlnn.layer.Conv2D import StdDevFilter
     return Conv2D(
-        name='abc',
+        name='step_1',
         filters=[AvgFilter(), MaxFilter(), StdDevFilter()],
         window=3,
         padding='same',
@@ -58,7 +58,7 @@ class ConvTest(TestCase):
     def test_step_1(self):
         from dlnn.tests.ml.repos_helper import normalized
         from dlnn.tests.ml.repos_helper import corr_step_1
-        conv = initial_layer()
+        conv = layer_step_1()
         result = conv.call(normalized)
         self.assertIsNotNone(result)
         self.assertTrue(numpy.allclose(K.eval(result), corr_step_1, rtol=1e-3))
@@ -75,9 +75,9 @@ class ConvTest(TestCase):
         set_random_seed(2)
 
         model = Sequential()
-        model.add(initial_layer())
+        model.add(layer_step_1())
 
-        layer_name = 'abc'
+        layer_name = 'step_1'
         intermediate_layer_model = Model(inputs=model.input,
                                          outputs=model.get_layer(layer_name).output)
         intermediate_output = intermediate_layer_model.predict(self.corpus())
