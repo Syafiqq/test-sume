@@ -50,7 +50,7 @@ class FilterTHelper(TestCase):
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
-    def test_repos_normalized_avg_filter(self):
+    def test_repos_normalized_avg_filter_from_normalized(self):
         from keras import backend as K
         from dlnn.layer.Conv2D import AvgFilter
         from dlnn.tests.ml.repos_helper import normalized
@@ -63,7 +63,7 @@ class FilterTHelper(TestCase):
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
-    def test_repos_max_avg_filter(self):
+    def test_repos_max_avg_filter_from_normalized(self):
         from keras import backend as K
         from dlnn.layer.Conv2D import MaxFilter
         from dlnn.tests.ml.repos_helper import normalized
@@ -76,7 +76,7 @@ class FilterTHelper(TestCase):
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
-    def test_repos_max_std_filter(self):
+    def test_repos_max_std_filter_from_normalized(self):
         from keras import backend as K
         from dlnn.layer.Conv2D import StdDevFilter
         from dlnn.tests.ml.repos_helper import normalized
