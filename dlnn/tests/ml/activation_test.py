@@ -3,6 +3,11 @@ from unittest import TestCase
 from keras import backend as K
 
 
+def layer_step_2():
+    from keras.layers import Activation
+    return Activation('sigmoid')
+
+
 class ActivationTest(TestCase):
     def test_sigmoid_activation(self):
         from keras.layers import Activation
