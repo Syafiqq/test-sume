@@ -3,7 +3,7 @@ from unittest import TestCase
 import numpy
 
 
-class FilterTHelper(TestCase):
+class FilterTest(TestCase):
     data = numpy.array(
         [
             [
