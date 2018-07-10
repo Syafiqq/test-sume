@@ -60,6 +60,13 @@ corr_step_4_seg_3 = numpy.array([[0.57623623, 0.57200247, 0.57206757, 0.57616581
                                  [0.57196601, 0.50459718, 0.50476107, 0.57215313],
                                  [0.57623623, 0.57200246, 0.57206757, 0.57616581]])
 corr_step_4 = numpy.concatenate(([[corr_step_4_seg_1]], [[corr_step_4_seg_2]], [[corr_step_4_seg_3]]), axis=1)
+corr_step_5_seg_1 = numpy.array([[0.65053177, 0.64999000],
+                                 [0.65053177, 0.64999000]])
+corr_step_5_seg_2 = numpy.array([[0.66893154, 0.66893154],
+                                 [0.66893154, 0.66893154]])
+corr_step_5_seg_3 = numpy.array([[0.57623625, 0.57616580],
+                                 [0.57623625, 0.57616580]])
+corr_step_5 = numpy.concatenate(([[corr_step_5_seg_1]], [[corr_step_5_seg_2]], [[corr_step_5_seg_3]]), axis=1)
 
 
 class ReposHelper(TestCase):
