@@ -4,7 +4,7 @@ import numpy
 from keras import backend as K
 
 
-class AvgConvTest(TestCase):
+class PaddingTest(TestCase):
     data = numpy.array([[
         [[0.1, 0.2, 0.3, 0.4],
          [0.1, 0.2, 0.3, 0.4],
