@@ -88,24 +88,3 @@ class ConvTest(TestCase):
         self.assertIsNotNone(result)
         self.assertTrue(numpy.allclose(K.eval(result), corr_step_3, rtol=1e-3))
         # print(K.eval(result))
-
-    def test_conv(self):
-        from dlnn.tests.ml.repos_helper import normalized
-        from keras import Sequential
-        from keras import Model
-        # from keras.layers import Conv2D
-
-        from numpy.random import seed
-        seed(1)
-        from tensorflow import set_random_seed
-        set_random_seed(2)
-
-        model = Sequential()
-        model.add(layer_step_1())
-
-        layer_name = 'step_1'
-        intermediate_layer_model = Model(inputs=model.input,
-                                         outputs=model.get_layer(layer_name).output)
-        intermediate_output = intermediate_layer_model.predict(normalized)
-        # print(intermediate_output)
-        # print(intermediate_output.shape)
