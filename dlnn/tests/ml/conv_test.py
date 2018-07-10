@@ -24,6 +24,22 @@ def layer_step_1():
         input_shape=(1, 4, 4))
 
 
+def layer_step_3():
+    from dlnn.layer.Conv2D import Conv2D
+    from dlnn.layer.Conv2D import AvgFilter
+    from dlnn.layer.Conv2D import MaxFilter
+    from dlnn.layer.Conv2D import StdDevFilter
+    return Conv2D(
+        name='step_3',
+        filters=[AvgFilter(), MaxFilter(), StdDevFilter()],
+        window=3,
+        padding='same',
+        use_bias=False,
+        kernel_size=(4, 4),
+        data_format='channels_first',
+        input_shape=(3, 4, 4))
+
+
 class ConvTest(TestCase):
     corpus_path = os.path.join(BASE_DIR, 'dlnn/resources/databank/datatrainClassify.csv')
 
@@ -62,6 +78,15 @@ class ConvTest(TestCase):
         result = conv.call(normalized)
         self.assertIsNotNone(result)
         self.assertTrue(numpy.allclose(K.eval(result), corr_step_1, rtol=1e-3))
+        # print(K.eval(result))
+
+    def test_step_3(self):
+        from dlnn.tests.ml.repos_helper import corr_step_2
+        from dlnn.tests.ml.repos_helper import corr_step_3
+        conv = layer_step_3()
+        result = conv.call(corr_step_2)
+        self.assertIsNotNone(result)
+        self.assertTrue(numpy.allclose(K.eval(result), corr_step_3, rtol=1e-3))
         # print(K.eval(result))
 
     def test_conv(self):
