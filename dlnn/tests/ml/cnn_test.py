@@ -10,6 +10,7 @@ class CnnTest(TestCase):
         from dlnn.tests.ml.activation_test import layer_step_4
         from dlnn.tests.ml.pooling_test import layer_step_5
         from dlnn.tests.ml.conv_test import layer_step_6
+        from dlnn.tests.ml.activation_test import layer_step_7
 
         model = Sequential()
         model.add(layer_step_1())
@@ -18,6 +19,7 @@ class CnnTest(TestCase):
         model.add(layer_step_4())
         model.add(layer_step_5(2))
         model.add(layer_step_6())
+        model.add(layer_step_7())
         return model
 
     def test_input_to_step_1(self):
@@ -101,5 +103,19 @@ class CnnTest(TestCase):
         output = network.predict(normalized)
         self.assertIsNotNone(output)
         self.assertTrue(numpy.allclose(output, corr_step_6, rtol=1e-3))
+        # print(output)
+        # print(output.shape)
+
+    def test_input_to_step_7(self):
+        from keras import Model
+        from dlnn.tests.ml.repos_helper import normalized
+        from dlnn.tests.ml.repos_helper import corr_step_7
+        import numpy
+        model = self.build_helper()
+        network = Model(inputs=model.input,
+                        outputs=model.get_layer(index=6).output)
+        output = network.predict(normalized)
+        self.assertIsNotNone(output)
+        self.assertTrue(numpy.allclose(output, corr_step_7, rtol=1e-3))
         # print(output)
         # print(output.shape)

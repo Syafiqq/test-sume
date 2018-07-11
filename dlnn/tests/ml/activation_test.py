@@ -13,6 +13,11 @@ def layer_step_4():
     return Activation('sigmoid')
 
 
+def layer_step_7():
+    from keras.layers import Activation
+    return Activation('sigmoid')
+
+
 class ActivationTest(TestCase):
     def test_sigmoid_activation(self):
         from keras.layers import Activation
@@ -99,4 +104,44 @@ class ActivationTest(TestCase):
         x = act.call(corr_step_3)
         self.assertIsNotNone(x)
         self.assertTrue(numpy.allclose(K.eval(x), corr_step_4, rtol=1e-3))
+        # print(K.eval(x))
+
+    def test_sigmoid_activation_from_corr_step_6_seg_1(self):
+        from dlnn.tests.ml.repos_helper import corr_step_6_seg_1
+        from dlnn.tests.ml.repos_helper import corr_step_7_seg_1
+        import numpy
+        act = layer_step_7()
+        x = act.call(corr_step_6_seg_1)
+        self.assertIsNotNone(x)
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_7_seg_1, rtol=1e-3))
+        # print(K.eval(x))
+
+    def test_sigmoid_activation_from_corr_step_6_seg_2(self):
+        from dlnn.tests.ml.repos_helper import corr_step_6_seg_2
+        from dlnn.tests.ml.repos_helper import corr_step_7_seg_2
+        import numpy
+        act = layer_step_7()
+        x = act.call(corr_step_6_seg_2)
+        self.assertIsNotNone(x)
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_7_seg_2, rtol=1e-3))
+        # print(K.eval(x))
+
+    def test_sigmoid_activation_from_corr_step_6_seg_3(self):
+        from dlnn.tests.ml.repos_helper import corr_step_6_seg_3
+        from dlnn.tests.ml.repos_helper import corr_step_7_seg_3
+        import numpy
+        act = layer_step_7()
+        x = act.call(corr_step_6_seg_3)
+        self.assertIsNotNone(x)
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_7_seg_3, rtol=1e-3))
+        # print(K.eval(x))
+
+    def test_sigmoid_activation_from_corr_step_6(self):
+        from dlnn.tests.ml.repos_helper import corr_step_6
+        from dlnn.tests.ml.repos_helper import corr_step_7
+        import numpy
+        act = layer_step_7()
+        x = act.call(corr_step_6)
+        self.assertIsNotNone(x)
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_7, rtol=1e-3))
         # print(K.eval(x))
