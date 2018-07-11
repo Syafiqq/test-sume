@@ -33,7 +33,7 @@ class ActivationTest(TestCase):
         act = layer_step_2()
         x = act.call(corr_step_1_seg_1)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_2_seg_1, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_2_seg_1, rtol=1e-6))
         # print(K.eval(x))
 
     def test_sigmoid_activation_from_corr_step_1_seg_2(self):
@@ -43,7 +43,7 @@ class ActivationTest(TestCase):
         act = layer_step_2()
         x = act.call(corr_step_1_seg_2)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_2_seg_2, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_2_seg_2, rtol=1e-6))
         # print(K.eval(x))
 
     def test_sigmoid_activation_from_corr_step_1_seg_3(self):
@@ -53,7 +53,7 @@ class ActivationTest(TestCase):
         act = layer_step_2()
         x = act.call(corr_step_1_seg_3)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_2_seg_3, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_2_seg_3, rtol=1e-6))
         # print(K.eval(x))
 
     def test_sigmoid_activation_from_corr_step_1(self):
@@ -63,7 +63,7 @@ class ActivationTest(TestCase):
         act = layer_step_2()
         x = act.call(corr_step_1)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_2, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_2, rtol=1e-6))
         # print(K.eval(x))
 
     def test_sigmoid_activation_from_corr_step_3_seg_1(self):
@@ -73,7 +73,7 @@ class ActivationTest(TestCase):
         act = layer_step_4()
         x = act.call(corr_step_3_seg_1)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_4_seg_1, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_4_seg_1, rtol=1e-6))
         # print(K.eval(x))
 
     def test_sigmoid_activation_from_corr_step_3_seg_2(self):
@@ -83,7 +83,7 @@ class ActivationTest(TestCase):
         act = layer_step_4()
         x = act.call(corr_step_3_seg_2)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_4_seg_2, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_4_seg_2, rtol=1e-6))
         # print(K.eval(x))
 
     def test_sigmoid_activation_from_corr_step_3_seg_3(self):
@@ -93,7 +93,7 @@ class ActivationTest(TestCase):
         act = layer_step_4()
         x = act.call(corr_step_3_seg_3)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_4_seg_3, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_4_seg_3, rtol=1e-6))
         # print(K.eval(x))
 
     def test_sigmoid_activation_from_corr_step_3(self):
@@ -103,7 +103,7 @@ class ActivationTest(TestCase):
         act = layer_step_4()
         x = act.call(corr_step_3)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_4, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_4, rtol=1e-6))
         # print(K.eval(x))
 
     def test_sigmoid_activation_from_corr_step_6_seg_1(self):
@@ -113,7 +113,7 @@ class ActivationTest(TestCase):
         act = layer_step_7()
         x = act.call(corr_step_6_seg_1)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_7_seg_1, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_7_seg_1, rtol=1e-6))
         # print(K.eval(x))
 
     def test_sigmoid_activation_from_corr_step_6_seg_2(self):
@@ -123,7 +123,7 @@ class ActivationTest(TestCase):
         act = layer_step_7()
         x = act.call(corr_step_6_seg_2)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_7_seg_2, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_7_seg_2, rtol=1e-6))
         # print(K.eval(x))
 
     def test_sigmoid_activation_from_corr_step_6_seg_3(self):
@@ -133,7 +133,7 @@ class ActivationTest(TestCase):
         act = layer_step_7()
         x = act.call(corr_step_6_seg_3)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_7_seg_3, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_7_seg_3, rtol=1e-6))
         # print(K.eval(x))
 
     def test_sigmoid_activation_from_corr_step_6(self):
@@ -143,5 +143,5 @@ class ActivationTest(TestCase):
         act = layer_step_7()
         x = act.call(corr_step_6)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_7, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_7, rtol=1e-6))
         # print(K.eval(x))

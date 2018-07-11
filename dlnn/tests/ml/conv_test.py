@@ -71,7 +71,7 @@ class ConvTest(TestCase):
         for _k, _v in enumerate(feature):
             nfeature = numpy.concatenate((nfeature, [numpy.matlib.repmat(_v, feature_dim[1], 1)]))
         oneliner = numpy.tile(numpy.reshape(feature, (feature_dim[0], 1, feature_dim[1])), (1, feature_dim[1], 1))
-        self.assertTrue(numpy.allclose(nfeature, oneliner, rtol=1e-3))
+        self.assertTrue(numpy.allclose(nfeature, oneliner, rtol=1e-6))
         return oneliner
 
     def test_corpus(self):
@@ -93,7 +93,7 @@ class ConvTest(TestCase):
         conv = layer_step_1()
         result = conv.call(normalized)
         self.assertIsNotNone(result)
-        self.assertTrue(numpy.allclose(K.eval(result), corr_step_1, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(result), corr_step_1, rtol=1e-6))
         # print(K.eval(result))
 
     def test_step_3(self):
@@ -102,7 +102,7 @@ class ConvTest(TestCase):
         conv = layer_step_3()
         result = conv.call(corr_step_2)
         self.assertIsNotNone(result)
-        self.assertTrue(numpy.allclose(K.eval(result), corr_step_3, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(result), corr_step_3, rtol=1e-6))
         # print(K.eval(result))
 
     def test_step_6(self):
@@ -111,5 +111,5 @@ class ConvTest(TestCase):
         conv = layer_step_6()
         result = conv.call(corr_step_5)
         self.assertIsNotNone(result)
-        self.assertTrue(numpy.allclose(K.eval(result), corr_step_6, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(result), corr_step_6, rtol=1e-6))
         # print(K.eval(result))

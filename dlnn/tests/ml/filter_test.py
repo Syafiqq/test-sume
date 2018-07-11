@@ -59,7 +59,7 @@ class FilterTest(TestCase):
         fltr = AvgFilter()
         ntensor = fltr.filter(tensor, 3)
         self.assertIsNotNone(ntensor)
-        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_1_seg_1, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_1_seg_1, rtol=1e-6))
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
@@ -72,7 +72,7 @@ class FilterTest(TestCase):
         fltr = MaxFilter()
         ntensor = fltr.filter(tensor, 3)
         self.assertIsNotNone(ntensor)
-        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_1_seg_2, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_1_seg_2, rtol=1e-6))
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
@@ -85,7 +85,7 @@ class FilterTest(TestCase):
         fltr = StdDevFilter()
         ntensor = fltr.filter(tensor, 3)
         self.assertIsNotNone(ntensor)
-        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_1_seg_3, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_1_seg_3, rtol=1e-6))
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
@@ -98,7 +98,7 @@ class FilterTest(TestCase):
         fltr = AvgFilter()
         ntensor = fltr.filter(tensor, 3)
         self.assertIsNotNone(ntensor)
-        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_3_seg_1, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_3_seg_1, rtol=1e-6))
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
@@ -111,7 +111,7 @@ class FilterTest(TestCase):
         fltr = MaxFilter()
         ntensor = fltr.filter(tensor, 3)
         self.assertIsNotNone(ntensor)
-        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_3_seg_2, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_3_seg_2, rtol=1e-6))
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
@@ -124,7 +124,7 @@ class FilterTest(TestCase):
         fltr = StdDevFilter()
         ntensor = fltr.filter(tensor, 3)
         self.assertIsNotNone(ntensor)
-        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_3_seg_3, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_3_seg_3, rtol=1e-6))
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
@@ -137,7 +137,7 @@ class FilterTest(TestCase):
         fltr = AvgFilter()
         ntensor = fltr.filter(tensor, 3)
         self.assertIsNotNone(ntensor)
-        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_6_seg_1, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_6_seg_1, rtol=1e-6))
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
@@ -150,7 +150,7 @@ class FilterTest(TestCase):
         fltr = MaxFilter()
         ntensor = fltr.filter(tensor, 3)
         self.assertIsNotNone(ntensor)
-        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_6_seg_2, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_6_seg_2, rtol=1e-6))
         # print(K.eval(ntensor))
         # print(ntensor.shape)
 
@@ -163,6 +163,6 @@ class FilterTest(TestCase):
         fltr = StdDevFilter()
         ntensor = fltr.filter(tensor, 3)
         self.assertIsNotNone(ntensor)
-        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_6_seg_3, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(ntensor), corr_step_6_seg_3, rtol=1e-6))
         # print(K.eval(ntensor))
         # print(ntensor.shape)

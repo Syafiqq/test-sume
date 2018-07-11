@@ -52,6 +52,6 @@ class PaddingTest(TestCase):
             tensor=normalized[0][0],
             paddings=((1, 1), (1, 1)),
         )
-        self.assertTrue(numpy.allclose(K.eval(ntensor), K.eval(correction), rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(ntensor), K.eval(correction), rtol=1e-6))
         # print(K.eval(ntensor))
         # print(ntensor.shape)

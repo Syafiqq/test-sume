@@ -21,7 +21,7 @@ class PoolingTest(TestCase):
         act = layer_step_5(2)
         x = act.call(K.variable(numpy.concatenate(([[[corr_step_4_seg_1]]]))))
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x)[0][0], corr_step_5_seg_1, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x)[0][0], corr_step_5_seg_1, rtol=1e-6))
         # print(K.eval(x))
 
     def test_pooling_w2_from_corr_step_4_seg_2(self):
@@ -31,7 +31,7 @@ class PoolingTest(TestCase):
         act = layer_step_5(2)
         x = act.call(K.variable(numpy.concatenate(([[[corr_step_4_seg_2]]]))))
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x)[0][0], corr_step_5_seg_2, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x)[0][0], corr_step_5_seg_2, rtol=1e-6))
         # print(K.eval(x))
 
     def test_pooling_w2_from_corr_step_4_seg_3(self):
@@ -41,7 +41,7 @@ class PoolingTest(TestCase):
         act = layer_step_5(2)
         x = act.call(K.variable(numpy.concatenate(([[[corr_step_4_seg_3]]]))))
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x)[0][0], corr_step_5_seg_3, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x)[0][0], corr_step_5_seg_3, rtol=1e-6))
         # print(K.eval(x))
 
     def test_pooling_w2_from_corr_step_4(self):
@@ -51,7 +51,7 @@ class PoolingTest(TestCase):
         act = layer_step_5(2)
         x = act.call(K.variable(corr_step_4))
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_5, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_5, rtol=1e-6))
         # print(K.eval(x))
 
     def test_pooling_w1_from_corr_step_7_seg_1(self):
@@ -61,7 +61,7 @@ class PoolingTest(TestCase):
         act = layer_step_8(1)
         x = act.call(K.variable(numpy.concatenate(([[[corr_step_7_seg_1]]]))))
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x)[0][0], corr_step_8_seg_1, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x)[0][0], corr_step_8_seg_1, rtol=1e-6))
         # print(K.eval(x))
 
     def test_pooling_w1_from_corr_step_7_seg_2(self):
@@ -71,7 +71,7 @@ class PoolingTest(TestCase):
         act = layer_step_8(1)
         x = act.call(K.variable(numpy.concatenate(([[[corr_step_7_seg_2]]]))))
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x)[0][0], corr_step_8_seg_2, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x)[0][0], corr_step_8_seg_2, rtol=1e-6))
         # print(K.eval(x))
 
     def test_pooling_w1_from_corr_step_7_seg_3(self):
@@ -81,7 +81,7 @@ class PoolingTest(TestCase):
         act = layer_step_8(1)
         x = act.call(K.variable(numpy.concatenate(([[[corr_step_7_seg_3]]]))))
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x)[0][0], corr_step_8_seg_3, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x)[0][0], corr_step_8_seg_3, rtol=1e-6))
         # print(K.eval(x))
 
     def test_pooling_w1_from_corr_step_7(self):
@@ -91,5 +91,5 @@ class PoolingTest(TestCase):
         act = layer_step_8(1)
         x = act.call(K.variable(corr_step_7))
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_8, rtol=1e-3))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_8, rtol=1e-6))
         # print(K.eval(x))
