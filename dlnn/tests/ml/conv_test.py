@@ -93,7 +93,7 @@ class ConvTest(TestCase):
         conv = layer_step_1()
         result = conv.call(normalized)
         self.assertIsNotNone(result)
-        self.assertTrue(numpy.allclose(K.eval(result), corr_step_1, rtol=1e-6))
+        self.assertTrue(numpy.allclose(K.eval(result)[0], corr_step_1, rtol=1e-6))
         # print(K.eval(result))
 
     def test_step_3(self):

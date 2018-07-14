@@ -34,7 +34,7 @@ class CnnTest(TestCase):
                         outputs=model.get_layer(index=0).output)
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_1, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output[0], corr_step_1, rtol=1e-6))
         # print(output)
         # print(output.shape)
 
@@ -48,7 +48,7 @@ class CnnTest(TestCase):
                         outputs=model.get_layer(index=1).output)
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_2, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output[0], corr_step_2, rtol=1e-6))
         # print(output)
         # print(output.shape)
 
@@ -62,7 +62,7 @@ class CnnTest(TestCase):
                         outputs=model.get_layer(index=2).output)
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_3, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output[0], corr_step_3, rtol=1e-6))
         # print(output)
         # print(output.shape)
 
@@ -76,7 +76,7 @@ class CnnTest(TestCase):
                         outputs=model.get_layer(index=3).output)
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_4, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output[0], corr_step_4, rtol=1e-6))
         # print(output)
         # print(output.shape)
 
@@ -90,7 +90,7 @@ class CnnTest(TestCase):
                         outputs=model.get_layer(index=4).output)
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_5, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output[0], corr_step_5, rtol=1e-6))
         # print(output)
         # print(output.shape)
 
@@ -104,7 +104,7 @@ class CnnTest(TestCase):
                         outputs=model.get_layer(index=5).output)
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_6, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output[0], corr_step_6, rtol=1e-6))
         # print(output)
         # print(output.shape)
 
@@ -118,7 +118,7 @@ class CnnTest(TestCase):
                         outputs=model.get_layer(index=6).output)
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_7, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output[0], corr_step_7, rtol=1e-6))
         # print(output)
         # print(output.shape)
 
@@ -132,6 +132,6 @@ class CnnTest(TestCase):
                         outputs=model.get_layer(index=7).output)
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_8, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output[0], corr_step_8, rtol=1e-6))
         # print(output)
         # print(output.shape)
