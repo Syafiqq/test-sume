@@ -135,3 +135,17 @@ class CnnTest(TestCase):
         self.assertTrue(numpy.allclose(output[0], corr_step_8, rtol=1e-6))
         # print(output)
         # print(output.shape)
+
+    def test_input_to_step_8_full(self):
+        from keras import Model
+        from dlnn.tests.ml.repos_helper import normalized
+        from dlnn.tests.ml.repos_helper import corr_step_8_full
+        import numpy
+        model = self.build_helper()
+        network = Model(inputs=model.input,
+                        outputs=model.get_layer(index=7).output)
+        output = network.predict(normalized)
+        self.assertIsNotNone(output)
+        self.assertTrue(numpy.allclose(output, corr_step_8_full, rtol=1e-6))
+        # print(output)
+        # print(output.shape)
