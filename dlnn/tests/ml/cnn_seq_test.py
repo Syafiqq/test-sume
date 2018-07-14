@@ -1,7 +1,7 @@
 from dlnn.tests.ml.testcase import TestCase
 
 
-class CnnTest(TestCase):
+class CnnSeqTest(TestCase):
     def build_helper(self):
         from keras import Sequential
         from dlnn.tests.ml.conv_test import layer_step_1
