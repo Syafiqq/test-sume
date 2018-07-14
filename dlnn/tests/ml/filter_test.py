@@ -1,6 +1,6 @@
 import numpy
 
-from dlnn.tests.ml.unittest import TestCase
+from dlnn.tests.ml.testcase import TestCase
 
 
 class FilterTest(TestCase):

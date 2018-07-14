@@ -4,7 +4,7 @@ import numpy
 import numpy.matlib
 from keras import backend as K
 
-from dlnn.tests.ml.unittest import TestCase
+from dlnn.tests.ml.testcase import TestCase
 from sumeq.settings import BASE_DIR
 
 

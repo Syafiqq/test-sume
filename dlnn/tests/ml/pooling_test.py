@@ -1,6 +1,6 @@
 from keras import backend as K
 
-from dlnn.tests.ml.unittest import TestCase
+from dlnn.tests.ml.testcase import TestCase
 
 
 def layer_step_5(window_size):
