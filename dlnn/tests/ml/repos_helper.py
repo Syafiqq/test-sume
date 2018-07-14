@@ -1,6 +1,6 @@
-from unittest import TestCase
-
 import numpy
+
+from dlnn.tests.ml.unittest import TestCase
 
 normalized = numpy.array([[[0.84333333, 0.43666667, 0.86333333, 0.31666667],
                            [0.84333333, 0.43666667, 0.86333333, 0.31666667],

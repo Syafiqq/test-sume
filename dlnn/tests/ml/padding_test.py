@@ -1,7 +1,7 @@
-from unittest import TestCase
-
 import numpy
 from keras import backend as K
+
+from dlnn.tests.ml.unittest import TestCase
 
 
 class PaddingTest(TestCase):

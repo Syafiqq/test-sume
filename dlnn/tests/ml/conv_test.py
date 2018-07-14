@@ -1,10 +1,10 @@
 import os
-from unittest import TestCase
 
 import numpy
 import numpy.matlib
 from keras import backend as K
 
+from dlnn.tests.ml.unittest import TestCase
 from sumeq.settings import BASE_DIR
 
 

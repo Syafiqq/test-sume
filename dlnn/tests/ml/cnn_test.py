@@ -1,4 +1,4 @@
-from unittest import TestCase
+from dlnn.tests.ml.unittest import TestCase
 
 
 class CnnTest(TestCase):
