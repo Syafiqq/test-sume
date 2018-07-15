@@ -4,13 +4,13 @@ from dlnn.tests.ml.testcase import TestCase
 
 
 def step_10_dummy_kernel_init(shape, dtype=None):
-    from dlnn.tests.ml.repos_helper import corr_10_dummy_kernel_init
-    return K.variable(corr_10_dummy_kernel_init)
+    from dlnn.tests.ml.repos_helper import corr_step_10_dummy_kernel_init
+    return K.variable(corr_step_10_dummy_kernel_init)
 
 
 def step_10_dummy_bias_init(shape, dtype=None):
-    from dlnn.tests.ml.repos_helper import corr_10_dummy_bias_init
-    return K.variable(corr_10_dummy_bias_init)
+    from dlnn.tests.ml.repos_helper import corr_step_10_dummy_bias_init
+    return K.variable(corr_step_10_dummy_bias_init)
 
 
 class ElmProcessHelper(TestCase):
