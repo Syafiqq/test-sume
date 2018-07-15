@@ -16,7 +16,7 @@ def unifinv_init(shape, dtype=None):
 
 
 class ElmFuncTest(TestCase):
-    def test_input_to_step_9_0(self):
+    def test_input_to_step_9(self):
         from keras import Model
         from dlnn.tests.ml.repos_helper import corr_step_9_flatten
         import numpy
