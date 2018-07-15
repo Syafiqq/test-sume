@@ -40,14 +40,14 @@ class ElmFuncTest(TestCase):
         # print(output)
         # print(output.shape)
 
-    def test_input_to_step_10(self):
+    def test_input_to_step_10_a_dummy(self):
         from keras import Model
-        from dlnn.tests.ml.repos_helper import corr_step_10_a
+        from dlnn.tests.ml.repos_helper import corr_step_10_a_dummy
         import numpy
         network = Model(inputs=inputs, outputs=step_10_a_dummy)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_10_a, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output, corr_step_10_a_dummy, rtol=1e-6))
         # print(output)
         # print(output.shape)

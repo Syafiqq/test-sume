@@ -63,27 +63,27 @@ class ElmProcessHelper(TestCase):
         self.assertIsNotNone(w)
         # print(K.eval(w))
 
-    def test_step_10_a_non_bias_manual_operation(self):
+    def test_step_10_a_dummy_non_bias_manual_operation(self):
         from dlnn.tests.ml.repos_helper import corr_step_9
-        from dlnn.tests.ml.repos_helper import corr_step_10_a_non_bias
+        from dlnn.tests.ml.repos_helper import corr_step_10_a_dummy_non_bias
         import numpy
         x = K.dot(K.variable(corr_step_9), step_10_a_dummy_kernel_init(None))
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_10_a_non_bias, rtol=1e-6))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_10_a_dummy_non_bias, rtol=1e-6))
         # print(K.eval(x))
 
-    def test_step_10_a_manual_operation(self):
+    def test_step_10_a_dummy_manual_operation(self):
         from dlnn.tests.ml.repos_helper import corr_step_9
-        from dlnn.tests.ml.repos_helper import corr_step_10_a
+        from dlnn.tests.ml.repos_helper import corr_step_10_a_dummy
         import numpy
         x = K.dot(K.variable(corr_step_9), step_10_a_dummy_kernel_init(None)) + step_10_a_dummy_bias_init(None)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_10_a, rtol=1e-6))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_10_a_dummy, rtol=1e-6))
         # print(K.eval(x))
 
-    def test_step_10_a_output(self):
+    def test_step_10_a_dummy_output(self):
         from dlnn.tests.ml.repos_helper import corr_step_9
-        from dlnn.tests.ml.repos_helper import corr_step_10_a
+        from dlnn.tests.ml.repos_helper import corr_step_10_a_dummy
         from keras.layers import Dense
         import numpy
         corr_step_9 = K.variable(corr_step_9)
@@ -92,5 +92,5 @@ class ElmProcessHelper(TestCase):
         layer.build(corr_step_9.shape)
         x = layer.call(corr_step_9)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_10_a, rtol=1e-6))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_10_a_dummy, rtol=1e-6))
         # print(K.eval(x))
