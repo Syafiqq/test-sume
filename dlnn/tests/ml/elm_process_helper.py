@@ -3,14 +3,14 @@ from keras import backend as K
 from dlnn.tests.ml.testcase import TestCase
 
 
-def step_10_dummy_kernel_init(shape, dtype=None):
-    from dlnn.tests.ml.repos_helper import corr_step_10_dummy_kernel_init
-    return K.variable(corr_step_10_dummy_kernel_init)
+def step_10_a_dummy_kernel_init(shape, dtype=None):
+    from dlnn.tests.ml.repos_helper import corr_step_10_a_dummy_kernel_init
+    return K.variable(corr_step_10_a_dummy_kernel_init)
 
 
-def step_10_dummy_bias_init(shape, dtype=None):
-    from dlnn.tests.ml.repos_helper import corr_step_10_dummy_bias_init
-    return K.variable(corr_step_10_dummy_bias_init)
+def step_10_a_dummy_bias_init(shape, dtype=None):
+    from dlnn.tests.ml.repos_helper import corr_step_10_a_dummy_bias_init
+    return K.variable(corr_step_10_a_dummy_bias_init)
 
 
 class ElmProcessHelper(TestCase):
@@ -45,7 +45,7 @@ class ElmProcessHelper(TestCase):
         from dlnn.tests.ml.elm_func_test import unifinv_init
         w = unifinv_init((5, 12), dtype=K.tf.float32)
         self.assertIsNotNone(w)
-        print(K.eval(w))
+        # print(K.eval(w))
 
     def test_standard_uniform_distribution(self):
         import numpy
@@ -59,20 +59,20 @@ class ElmProcessHelper(TestCase):
         self.assertIsNotNone(w)
         # print(K.eval(w))
 
-    def test_step_10_non_bias_manual_operation(self):
+    def test_step_10_a_non_bias_manual_operation(self):
         from dlnn.tests.ml.repos_helper import corr_step_9
-        from dlnn.tests.ml.repos_helper import corr_step_10_non_bias
+        from dlnn.tests.ml.repos_helper import corr_step_10_a_non_bias
         import numpy
-        x = K.dot(K.variable(corr_step_9), step_10_dummy_kernel_init(None))
+        x = K.dot(K.variable(corr_step_9), step_10_a_dummy_kernel_init(None))
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_10_non_bias, rtol=1e-6))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_10_a_non_bias, rtol=1e-6))
         # print(K.eval(x))
 
-    def test_step_10_manual_operation(self):
+    def test_step_10_a_manual_operation(self):
         from dlnn.tests.ml.repos_helper import corr_step_9
-        from dlnn.tests.ml.repos_helper import corr_step_10
+        from dlnn.tests.ml.repos_helper import corr_step_10_a
         import numpy
-        x = K.dot(K.variable(corr_step_9), step_10_dummy_kernel_init(None)) + step_10_dummy_bias_init(None)
+        x = K.dot(K.variable(corr_step_9), step_10_a_dummy_kernel_init(None)) + step_10_a_dummy_bias_init(None)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_10, rtol=1e-6))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_10_a, rtol=1e-6))
         # print(K.eval(x))
