@@ -18,6 +18,11 @@ def layer_step_7():
     return Activation('sigmoid')
 
 
+def layer_step_11_a():
+    from keras.layers import Activation
+    return Activation('sigmoid')
+
+
 class ActivationTest(TestCase):
     def test_sigmoid_activation(self):
         from keras.layers import Activation
