@@ -90,8 +90,10 @@ class ConvTest(TestCase):
     def test_step_1(self):
         from dlnn.tests.ml.repos_helper import normalized
         from dlnn.tests.ml.repos_helper import corr_step_1
+        i = K.variable(normalized)
         conv = layer_step_1()
-        result = conv.call(normalized)
+        conv.build(i.shape)
+        result = conv.call(i)
         self.assertIsNotNone(result)
         self.assertTrue(numpy.allclose(K.eval(result)[0], corr_step_1, rtol=1e-6))
         # print(K.eval(result))
@@ -99,8 +101,10 @@ class ConvTest(TestCase):
     def test_step_3(self):
         from dlnn.tests.ml.repos_helper import corr_step_2
         from dlnn.tests.ml.repos_helper import corr_step_3
+        i = K.variable(corr_step_2)
         conv = layer_step_3()
-        result = conv.call(corr_step_2)
+        conv.build(i.shape)
+        result = conv.call(i)
         self.assertIsNotNone(result)
         self.assertTrue(numpy.allclose(K.eval(result), corr_step_3, rtol=1e-6))
         # print(K.eval(result))
@@ -108,8 +112,10 @@ class ConvTest(TestCase):
     def test_step_6(self):
         from dlnn.tests.ml.repos_helper import corr_step_5
         from dlnn.tests.ml.repos_helper import corr_step_6
+        i = K.variable(corr_step_5)
         conv = layer_step_6()
-        result = conv.call(corr_step_5)
+        conv.build(i.shape)
+        result = conv.call(i)
         self.assertIsNotNone(result)
         self.assertTrue(numpy.allclose(K.eval(result), corr_step_6, rtol=1e-6))
         # print(K.eval(result))

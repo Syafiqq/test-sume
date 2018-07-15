@@ -23,8 +23,10 @@ class ElmProcessHelper(TestCase):
         from dlnn.tests.ml.repos_helper import corr_step_9
         from dlnn.tests.ml.elm_func_test import layer_step_9
         import numpy
+        i = K.variable(corr_step_8_full)
         layer = layer_step_9()
-        x = layer.call(corr_step_8_full)
+        layer.build(i.shape)
+        x = layer.call(i)
         self.assertIsNotNone(x)
         self.assertTrue(numpy.allclose(K.eval(x), corr_step_9, rtol=1e-6))
         # print(K.eval(x))
