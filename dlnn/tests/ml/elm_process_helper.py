@@ -67,3 +67,12 @@ class ElmProcessHelper(TestCase):
         self.assertIsNotNone(x)
         self.assertTrue(numpy.allclose(K.eval(x), corr_step_10_non_bias, rtol=1e-6))
         # print(K.eval(x))
+
+    def test_step_10_manual_operation(self):
+        from dlnn.tests.ml.repos_helper import corr_step_9
+        from dlnn.tests.ml.repos_helper import corr_step_10
+        import numpy
+        x = K.dot(K.variable(corr_step_9), step_10_dummy_kernel_init(None)) + step_10_dummy_bias_init(None)
+        self.assertIsNotNone(x)
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_10, rtol=1e-6))
+        # print(K.eval(x))
