@@ -1,3 +1,4 @@
+from keras import backend as K
 from keras.layers import Flatten
 
 from dlnn.tests.ml.testcase import TestCase
@@ -33,3 +34,9 @@ class ElmProcessHelper(TestCase):
         w = stats.uniform.ppf(numpy.random.rand(5, 12), loc=-.5, scale=(0.5 - -0.5))
         self.assertIsNotNone(w)
         # print(w)
+
+    def test_unifinv_callable_function(self):
+        from dlnn.tests.ml.elm_func_test import unifinv_init
+        w = unifinv_init((5, 12), dtype=K.tf.float32)
+        self.assertIsNotNone(w)
+        print(K.eval(w))
