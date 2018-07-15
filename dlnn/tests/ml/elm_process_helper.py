@@ -4,7 +4,7 @@ from keras.layers import Flatten
 from dlnn.tests.ml.testcase import TestCase
 
 
-def layer_step_9_0():
+def layer_step_9():
     return Flatten()
 
 
@@ -13,7 +13,7 @@ class ElmProcessHelper(TestCase):
         from dlnn.tests.ml.repos_helper import corr_step_8_full
         from dlnn.tests.ml.repos_helper import corr_step_9_flatten
         import numpy
-        layer = layer_step_9_0()
+        layer = layer_step_9()
         x = layer.call(corr_step_8_full)
         self.assertIsNotNone(x)
         self.assertTrue(numpy.allclose(K.eval(x), corr_step_9_flatten, rtol=1e-6))
