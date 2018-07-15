@@ -7,7 +7,7 @@ from dlnn.tests.ml.elm_process_helper import layer_step_9
 from dlnn.tests.ml.repos_helper import normalized
 from dlnn.tests.ml.testcase import TestCase
 
-step_9_0 = layer_step_9()(step_8)
+step_9 = layer_step_9()(step_8)
 
 
 def unifinv_init(shape, dtype=None):
@@ -20,7 +20,7 @@ class ElmFuncTest(TestCase):
         from keras import Model
         from dlnn.tests.ml.repos_helper import corr_step_9_flatten
         import numpy
-        network = Model(inputs=inputs, outputs=step_9_0)
+        network = Model(inputs=inputs, outputs=step_9)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
