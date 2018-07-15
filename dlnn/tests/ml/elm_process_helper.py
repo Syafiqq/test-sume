@@ -9,14 +9,14 @@ def layer_step_9():
 
 
 class ElmProcessHelper(TestCase):
-    def test_step_9_flatten_data(self):
+    def test_step_9_output(self):
         from dlnn.tests.ml.repos_helper import corr_step_8_full
-        from dlnn.tests.ml.repos_helper import corr_step_9_flatten
+        from dlnn.tests.ml.repos_helper import corr_step_9
         import numpy
         layer = layer_step_9()
         x = layer.call(corr_step_8_full)
         self.assertIsNotNone(x)
-        self.assertTrue(numpy.allclose(K.eval(x), corr_step_9_flatten, rtol=1e-6))
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_9, rtol=1e-6))
         # print(K.eval(x))
 
     def test_raw_label_to_categorical_label(self):

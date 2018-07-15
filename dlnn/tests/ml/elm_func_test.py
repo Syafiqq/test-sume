@@ -18,12 +18,12 @@ def unifinv_init(shape, dtype=None):
 class ElmFuncTest(TestCase):
     def test_input_to_step_9(self):
         from keras import Model
-        from dlnn.tests.ml.repos_helper import corr_step_9_flatten
+        from dlnn.tests.ml.repos_helper import corr_step_9
         import numpy
         network = Model(inputs=inputs, outputs=step_9)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_9_flatten, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output, corr_step_9, rtol=1e-6))
         # print(output)
         # print(output.shape)
