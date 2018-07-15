@@ -58,3 +58,12 @@ class ElmProcessHelper(TestCase):
         w = RandomUniform()((5, 1), dtype=K.tf.float32)
         self.assertIsNotNone(w)
         # print(K.eval(w))
+
+    def test_step_10_non_bias_manual_operation(self):
+        from dlnn.tests.ml.repos_helper import corr_step_9
+        from dlnn.tests.ml.repos_helper import corr_step_10_non_bias
+        import numpy
+        x = K.dot(K.variable(corr_step_9), step_10_dummy_kernel_init(None))
+        self.assertIsNotNone(x)
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_10_non_bias, rtol=1e-6))
+        # print(K.eval(x))
