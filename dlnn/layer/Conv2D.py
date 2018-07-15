@@ -2,7 +2,7 @@ from keras import backend as K
 from keras.engine import InputSpec
 from keras.layers import Conv2D as c2D
 
-from dlnn.layer.util.Singleton import Singleton
+from dlnn.util.Singleton import Singleton
 
 
 class Conv2D(c2D):
@@ -39,7 +39,7 @@ class Conv2D(c2D):
 
 class _Filter:
     def filter(self, tensor, window, filter_fun):
-        from dlnn.layer.util import Pad as PadUtil
+        from dlnn.util import Pad as PadUtil
         pad = _Filter.calculate_padding(window)
         padded = PadUtil.pad_center(tensor, pad)
         padded_shape = padded.shape
