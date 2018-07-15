@@ -40,3 +40,15 @@ class ElmProcessHelper(TestCase):
         w = unifinv_init((5, 12), dtype=K.tf.float32)
         self.assertIsNotNone(w)
         print(K.eval(w))
+
+    def test_standard_uniform_distribution(self):
+        import numpy
+        w = numpy.random.uniform(0, 1, (5, 1))
+        self.assertIsNotNone(w)
+        # print(w)
+
+    def test_contrib_standard_uniform_distribution(self):
+        from keras.initializers import RandomUniform
+        w = RandomUniform()((5, 1), dtype=K.tf.float32)
+        self.assertIsNotNone(w)
+        # print(K.eval(w))
