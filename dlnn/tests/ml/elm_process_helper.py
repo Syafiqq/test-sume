@@ -22,10 +22,10 @@ class ElmProcessHelper(TestCase):
     def test_step_9_categorical_label(self):
         from dlnn.util import to_categorical
         from dlnn.tests.ml.repos_helper import label_init
-        from dlnn.tests.ml.repos_helper import corr_step_9_Y
+        from dlnn.tests.ml.repos_helper import categorical_label_init
         import numpy
         result = to_categorical(label_init, numpy.unique(label_init).size).astype(int)
-        self.assertTrue(numpy.allclose(result, corr_step_9_Y, rtol=0))
+        self.assertTrue(numpy.allclose(result, categorical_label_init, rtol=0))
         # print(result)
 
     def test_unifinv_function(self):
