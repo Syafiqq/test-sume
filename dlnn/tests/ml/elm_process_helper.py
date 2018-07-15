@@ -26,3 +26,10 @@ class ElmProcessHelper(TestCase):
         result = to_categorical(label_init, numpy.unique(label_init).size).astype(int)
         self.assertTrue(numpy.allclose(result, corr_step_9_Y, rtol=0))
         # print(result)
+
+    def test_unifinv_function(self):
+        from scipy import stats
+        import numpy
+        w = stats.uniform.ppf(numpy.random.rand(5, 12), loc=-.5, scale=(0.5 - -0.5))
+        self.assertIsNotNone(w)
+        # print(w)
