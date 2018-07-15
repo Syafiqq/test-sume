@@ -1,9 +1,18 @@
+import numpy
+from keras import backend as K
+from scipy import stats
+
 from dlnn.tests.ml.cnn_func_test import inputs, step_8
 from dlnn.tests.ml.elm_process_helper import layer_step_9_0
 from dlnn.tests.ml.repos_helper import normalized
 from dlnn.tests.ml.testcase import TestCase
 
 step_9_0 = layer_step_9_0()(step_8)
+
+
+def unifinv_init(shape, dtype=None):
+    return K.variable(stats.uniform.ppf(numpy.random.rand(*shape), loc=-.5, scale=(.5 - -.5)),
+                      dtype=dtype)
 
 
 class ElmFuncTest(TestCase):
