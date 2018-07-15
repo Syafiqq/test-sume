@@ -13,7 +13,22 @@ class Conv2D(c2D):
         super(Conv2D, self).__init__(self.filters, **kwargs)
 
     def build(self, input_shape):
-        super(Conv2D, self).build(input_shape)  # Be sure to call this at the end
+        if self.data_format == 'channels_first':
+            channel_axis = 1
+        else:
+            channel_axis = -1
+        if input_shape[channel_axis] is None:
+            raise ValueError('The channel dimension of the inputs '
+                             'should be defined. Found `None`.')
+        input_dim = input_shape[channel_axis]
+        kernel_shape = self.kernel_size + (input_dim, self.filters)
+
+        # Set input spec.
+        self.input_spec = InputSpec(ndim=self.rank + 2,
+                                    axes={channel_axis: input_dim})
+        self.bias = None
+        self.kernel = None
+        self.built = True
 
     def call(self, x):
         import tensorflow as tf
