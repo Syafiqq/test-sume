@@ -150,3 +150,15 @@ class ActivationTest(TestCase):
         self.assertIsNotNone(x)
         self.assertTrue(numpy.allclose(K.eval(x), corr_step_7, rtol=1e-6))
         # print(K.eval(x))
+
+    def test_sigmoid_activation_from_corr_step_10_a_dummy(self):
+        from dlnn.tests.ml.repos_helper import corr_step_10_a_dummy
+        from dlnn.tests.ml.repos_helper import corr_step_11_a_dummy
+        import numpy
+        i = K.variable(corr_step_10_a_dummy)
+        act = layer_step_11_a()
+        act.build(i.shape)
+        x = act.call(i)
+        self.assertIsNotNone(x)
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_11_a_dummy, rtol=1e-6))
+        # print(K.eval(x))
