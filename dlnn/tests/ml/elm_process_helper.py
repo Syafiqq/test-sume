@@ -1,17 +1,13 @@
 from keras import backend as K
-from keras.layers import Flatten
 
 from dlnn.tests.ml.testcase import TestCase
-
-
-def layer_step_9():
-    return Flatten()
 
 
 class ElmProcessHelper(TestCase):
     def test_step_9_output(self):
         from dlnn.tests.ml.repos_helper import corr_step_8_full
         from dlnn.tests.ml.repos_helper import corr_step_9
+        from dlnn.tests.ml.elm_func_test import layer_step_9
         import numpy
         layer = layer_step_9()
         x = layer.call(corr_step_8_full)
