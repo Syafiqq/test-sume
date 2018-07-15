@@ -1,4 +1,5 @@
 from keras import backend as K
+from keras.engine import InputSpec
 from keras.layers import Conv2D as c2D
 
 from dlnn.layer.util.Singleton import Singleton
@@ -72,9 +73,9 @@ class StdDevFilter(_Filter, metaclass=Singleton):
     # @see: https://stackoverflow.com/a/43409235
     def reduce_var(self, x, axis=None, keepdims=False):
         import tensorflow as tf
-        m = tf.reduce_mean(x, axis=axis, keep_dims=True)
+        m = tf.reduce_mean(x, axis=axis, keepdims=True)
         devs_squared = tf.square(x - m)
-        return tf.div(tf.reduce_sum(devs_squared, axis=axis, keep_dims=keepdims),
+        return tf.div(tf.reduce_sum(devs_squared, axis=axis, keepdims=keepdims),
                       tf.subtract(tf.size(devs_squared, out_type=devs_squared.dtype), 1.0))
 
     def reduce_std(self, x, axis=None, keepdims=False):
