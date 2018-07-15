@@ -19,7 +19,7 @@ class ElmProcessHelper(TestCase):
         self.assertTrue(numpy.allclose(K.eval(x), corr_step_9_flatten, rtol=1e-6))
         # print(K.eval(x))
 
-    def test_step_9_categorical_label(self):
+    def test_raw_label_to_categorical_label(self):
         from dlnn.util import to_categorical
         from dlnn.tests.ml.repos_helper import label_init
         from dlnn.tests.ml.repos_helper import categorical_label_init
