@@ -76,3 +76,18 @@ class ElmFuncTest(TestCase):
         self.assertIsNotNone(beta)
         # print(K.eval(beta))
         # print(beta.shape)
+
+    def test_check_weights_layer(self):
+        from keras import Model
+        from dlnn.tests.ml.cnn_func_test import inputs
+        network = Model(inputs=inputs, outputs=step_11_a_dummy)
+        network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
+        for i in range(12):
+            layer = network.get_layer(index=i).get_weights()
+            self.assertIsNotNone(layer)
+            # print("step_%d" % (i + 1), layer)
+        network.predict(normalized)
+        for i in range(12):
+            layer = network.get_layer(index=i).get_weights()
+            self.assertIsNotNone(layer)
+            # print("step_%d" % (i + 1), layer)
