@@ -1,3 +1,4 @@
+import keras
 import numpy
 from keras import backend as K
 from keras.layers import Flatten, Dense
@@ -19,6 +20,10 @@ def layer_step_10_a_dummy():
                  bias_initializer=step_10_a_dummy_bias_non_spread_init, trainable=False)
 
 
+def layer_step_12_a_dummy():
+    return Dense(3, activation=None, use_bias=False, kernel_initializer=keras.initializers.Zeros(), trainable=False)
+
+
 def unifinv_init(shape, dtype=None):
     return K.variable(stats.uniform.ppf(numpy.random.rand(*shape), loc=-.5, scale=(.5 - -.5)),
                       dtype=dtype)
@@ -27,6 +32,7 @@ def unifinv_init(shape, dtype=None):
 step_9 = layer_step_9()(step_8)
 step_10_a_dummy = layer_step_10_a_dummy()(step_9)
 step_11_a_dummy = layer_step_11_a()(step_10_a_dummy)
+step_12_a_dummy = layer_step_12_a_dummy()(step_11_a_dummy)
 
 
 class ElmFuncTest(TestCase):
