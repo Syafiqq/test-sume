@@ -96,3 +96,12 @@ class ElmProcessHelper(TestCase):
         self.assertIsNotNone(x)
         self.assertTrue(numpy.allclose(K.eval(x), corr_step_10_a_dummy, rtol=1e-6))
         # print(K.eval(x))
+
+    def test_raw_moore_penrose(self):
+        from dlnn.tests.ml.repos_helper import corr_step_11_a_dummy, categorical_label_init
+        from dlnn.util import MoorePenrose
+        x = corr_step_11_a_dummy
+        t = categorical_label_init
+        r = K.dot(MoorePenrose.pinv2(K.variable(x), 1e-31), K.variable(t))
+        self.assertIsNotNone(r)
+        # print(K.eval(r))
