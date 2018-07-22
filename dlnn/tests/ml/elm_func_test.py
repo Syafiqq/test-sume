@@ -6,7 +6,7 @@ from scipy import stats
 
 from dlnn.tests.ml.activation_test import layer_step_11_a
 from dlnn.tests.ml.cnn_func_test import inputs, step_8
-from dlnn.tests.ml.elm_process_helper import step_10_a_dummy_kernel_init, step_10_a_dummy_bias_non_spread_init
+from dlnn.tests.ml.elm_process_helper import step_10_a_dummy_kernel_init, step_10_a_dummy_bias_init
 from dlnn.tests.ml.repos_helper import normalized, categorical_label_init
 from dlnn.tests.ml.testcase import TestCase
 
@@ -17,7 +17,7 @@ def layer_step_9():
 
 def layer_step_10_a_dummy():
     return Dense(5, activation=None, use_bias=True, kernel_initializer=step_10_a_dummy_kernel_init,
-                 bias_initializer=step_10_a_dummy_bias_non_spread_init, trainable=False)
+                 bias_initializer=step_10_a_dummy_bias_init, trainable=False)
 
 
 def layer_step_12_a_dummy():

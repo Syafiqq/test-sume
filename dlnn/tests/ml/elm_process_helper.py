@@ -13,10 +13,6 @@ def step_10_a_dummy_bias_init(shape, dtype=None):
     return K.variable(corr_step_10_a_dummy_bias_init)
 
 
-def step_10_a_dummy_bias_non_spread_init(shape, dtype=None):
-    return step_10_a_dummy_bias_init(shape, dtype)[0]
-
-
 class ElmProcessHelper(TestCase):
     def test_step_9_output(self):
         from dlnn.tests.ml.repos_helper import corr_step_8_full
@@ -90,7 +86,7 @@ class ElmProcessHelper(TestCase):
         import numpy
         corr_step_9 = K.variable(corr_step_9)
         layer = Dense(5, activation=None, use_bias=True, kernel_initializer=step_10_a_dummy_kernel_init,
-                      bias_initializer=step_10_a_dummy_bias_non_spread_init, trainable=False)
+                      bias_initializer=step_10_a_dummy_bias_init, trainable=False)
         layer.build(corr_step_9.shape)
         x = layer.call(corr_step_9)
         self.assertIsNotNone(x)
