@@ -4,7 +4,7 @@ from keras import backend as K
 from keras.layers import Flatten, Dense
 from scipy import stats
 
-from dlnn.tests.ml.activation_test import layer_step_11_a
+from dlnn.tests.ml.activation_test import layer_step_11_a, layer_step_11_b
 from dlnn.tests.ml.cnn_func_test import inputs, step_8
 from dlnn.tests.ml.elm_process_helper import step_10_a_dummy_kernel_init, step_10_a_dummy_bias_init, \
     step_10_b_dummy_kernel_init, step_10_b_dummy_bias_init
@@ -136,3 +136,15 @@ class ElmFuncTest(TestCase):
         result = network.predict(normalized, batch_size=normalized.shape[0])
         self.assertIsNotNone(result)
         # print(result.argmax(axis=-1))
+
+    def test_input_to_step_10_b_dummy(self):
+        from keras import Model
+        from dlnn.tests.ml.repos_helper import corr_step_10_b_dummy
+        import numpy
+        network = Model(inputs=inputs, outputs=step_10_b_dummy)
+        network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
+        output = network.predict(normalized)
+        self.assertIsNotNone(output)
+        self.assertTrue(numpy.allclose(output, corr_step_10_b_dummy, rtol=1e-6))
+        # print(output)
+        # print(output.shape)
