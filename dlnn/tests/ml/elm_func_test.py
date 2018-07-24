@@ -46,6 +46,7 @@ step_12_a_dummy = layer_step_12_a_dummy()(step_11_a_dummy)
 step_10_b_dummy = layer_step_10_b_dummy()(step_9)
 step_11_b_dummy = layer_step_11_b()(step_10_b_dummy)
 step_12_b_dummy = layer_step_12_b_dummy()(step_11_b_dummy)
+step_13_dummy = keras.layers.concatenate([step_12_a_dummy, step_12_b_dummy])
 
 
 class ElmFuncTest(TestCase):
@@ -177,3 +178,35 @@ class ElmFuncTest(TestCase):
         self.assertIsNotNone(beta)
         # print(K.eval(beta))
         # print(beta.shape)
+
+    def test_training_model_bka_to_step_12_b_dummy(self):
+        from keras import Model
+        from dlnn.tests.ml.cnn_func_test import inputs
+        from dlnn.util import MoorePenrose
+        #
+        # Feed Beta
+        #
+        feed = Model(inputs=inputs, outputs=step_11_b_dummy)
+        output = feed.predict(normalized)
+        w_10_b = feed.get_layer(index=10).get_weights()
+        w_12_b = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
+        for i in range(12):
+            layer = feed.get_layer(index=i).get_weights()
+            self.assertIsNotNone(layer)
+            # print("step_%d" % (i + 1), layer)
+
+        #
+        # Training Model
+        #
+        network = Model(inputs=inputs, outputs=step_12_b_dummy)
+        network.compile(optimizer=keras.optimizers.RMSprop(lr=0.0, rho=0.0, epsilon=None, decay=0.0),
+                        loss=keras.losses.categorical_crossentropy,
+                        metrics=[keras.metrics.categorical_accuracy, keras.metrics.mape])
+        network.get_layer(index=10).set_weights(w_10_b)
+        network.get_layer(index=12).set_weights(w_12_b)
+        network.fit(normalized, categorical_label_init, batch_size=normalized.shape[0])
+        self.assertTrue(numpy.allclose(w_10_b[0], network.get_layer(index=10).get_weights()[0], rtol=0))
+        self.assertTrue(numpy.allclose(w_12_b[0], network.get_layer(index=12).get_weights()[0], rtol=0))
+        result = network.predict(normalized, batch_size=normalized.shape[0])
+        self.assertIsNotNone(result)
+        # print(result.argmax(axis=-1))
