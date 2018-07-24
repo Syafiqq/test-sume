@@ -40,6 +40,7 @@ step_10_a_dummy = layer_step_10_a_dummy()(step_9)
 step_11_a_dummy = layer_step_11_a()(step_10_a_dummy)
 step_12_a_dummy = layer_step_12_a_dummy()(step_11_a_dummy)
 step_10_b_dummy = layer_step_10_b_dummy()(step_9)
+step_11_b_dummy = layer_step_11_b()(step_10_b_dummy)
 
 
 class ElmFuncTest(TestCase):
@@ -146,5 +147,17 @@ class ElmFuncTest(TestCase):
         output = network.predict(normalized)
         self.assertIsNotNone(output)
         self.assertTrue(numpy.allclose(output, corr_step_10_b_dummy, rtol=1e-6))
+        # print(output)
+        # print(output.shape)
+
+    def test_input_to_step_11_b_dummy(self):
+        from keras import Model
+        from dlnn.tests.ml.repos_helper import corr_step_11_b_dummy
+        import numpy
+        network = Model(inputs=inputs, outputs=step_11_b_dummy)
+        network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
+        output = network.predict(normalized)
+        self.assertIsNotNone(output)
+        self.assertTrue(numpy.allclose(output, corr_step_11_b_dummy, rtol=1e-6))
         # print(output)
         # print(output.shape)
