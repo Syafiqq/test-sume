@@ -128,7 +128,7 @@ class ElmFuncTest(TestCase):
         network = Model(inputs=inputs, outputs=step_12_a_dummy)
         network.compile(optimizer=keras.optimizers.RMSprop(lr=0.0, rho=0.0, epsilon=None, decay=0.0),
                         loss=keras.losses.categorical_crossentropy,
-                        metrics=[keras.metrics.MAPE])
+                        metrics=[keras.metrics.categorical_accuracy, keras.metrics.mape])
         network.get_layer(index=10).set_weights(w_10_a)
         network.get_layer(index=12).set_weights(w_12_a)
         network.fit(normalized, categorical_label_init, batch_size=normalized.shape[0])
