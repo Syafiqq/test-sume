@@ -86,7 +86,7 @@ class ElmFuncTest(TestCase):
         network = Model(inputs=inputs, outputs=step_11_a_dummy)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
-        beta = K.dot(MoorePenrose.pinv2(output), K.variable(categorical_label_init))
+        beta = K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init))
         self.assertIsNotNone(beta)
         # print(K.eval(beta))
         # print(beta.shape)
@@ -116,7 +116,7 @@ class ElmFuncTest(TestCase):
         feed = Model(inputs=inputs, outputs=step_11_a_dummy)
         output = feed.predict(normalized)
         w_10_a = feed.get_layer(index=10).get_weights()
-        w_12_a = [K.eval(K.dot(MoorePenrose.pinv2(output), K.variable(categorical_label_init)))]
+        w_12_a = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
         for i in range(12):
             layer = feed.get_layer(index=i).get_weights()
             self.assertIsNotNone(layer)
