@@ -241,3 +241,14 @@ class ElmFuncTest(TestCase):
         self.assertTrue(numpy.allclose(output, corr_step_11_c_dummy, rtol=1e-6))
         # print(output)
         # print(output.shape)
+
+    def test_input_to_beta_c_dummy(self):
+        from keras import Model
+        from dlnn.util import MoorePenrose
+        network = Model(inputs=inputs, outputs=step_11_c_dummy)
+        network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
+        output = network.predict(normalized)
+        beta = K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init))
+        self.assertIsNotNone(beta)
+        # print(K.eval(beta))
+        # print(beta.shape)
