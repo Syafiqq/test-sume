@@ -39,6 +39,10 @@ def layer_step_12_b_dummy():
     return Dense(3, activation=None, use_bias=False, kernel_initializer=keras.initializers.Zeros(), trainable=False)
 
 
+def layer_step_12_c_dummy():
+    return Dense(3, activation=None, use_bias=False, kernel_initializer=keras.initializers.Zeros(), trainable=False)
+
+
 def unifinv_init(shape, dtype=None):
     return K.variable(stats.uniform.ppf(numpy.random.rand(*shape), loc=-.5, scale=(.5 - -.5)),
                       dtype=dtype)
@@ -53,6 +57,7 @@ step_11_b_dummy = layer_step_11_b()(step_10_b_dummy)
 step_12_b_dummy = layer_step_12_b_dummy()(step_11_b_dummy)
 step_10_c_dummy = layer_step_10_c_dummy()(step_9)
 step_11_c_dummy = layer_step_11_b()(step_10_c_dummy)
+step_12_c_dummy = layer_step_12_c_dummy()(step_11_c_dummy)
 step_13_dummy = keras.layers.concatenate([step_12_a_dummy, step_12_b_dummy])
 
 
