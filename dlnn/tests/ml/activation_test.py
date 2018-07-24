@@ -23,6 +23,11 @@ def layer_step_11_a():
     return Activation('sigmoid')
 
 
+def layer_step_11_b():
+    from keras.layers import Activation
+    return Activation('sigmoid')
+
+
 class ActivationTest(TestCase):
     def test_sigmoid_activation(self):
         from keras.layers import Activation
@@ -187,4 +192,16 @@ class ActivationTest(TestCase):
         x = act.call(i)
         self.assertIsNotNone(x)
         self.assertTrue(numpy.allclose(K.eval(x), corr_step_11_a_dummy, rtol=1e-6))
+        # print(K.eval(x))
+
+    def test_sigmoid_activation_from_corr_step_10_b_dummy(self):
+        from dlnn.tests.ml.repos_helper import corr_step_10_b_dummy
+        from dlnn.tests.ml.repos_helper import corr_step_11_b_dummy
+        import numpy
+        i = K.variable(corr_step_10_b_dummy)
+        act = layer_step_11_b()
+        act.build(i.shape)
+        x = act.call(i)
+        self.assertIsNotNone(x)
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_11_b_dummy, rtol=1e-6))
         # print(K.eval(x))
