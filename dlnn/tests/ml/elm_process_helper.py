@@ -23,6 +23,16 @@ def step_10_b_dummy_bias_init(shape, dtype=None):
     return K.variable(corr_step_10_b_dummy_bias_init)
 
 
+def step_10_c_dummy_kernel_init(shape, dtype=None):
+    from dlnn.tests.ml.repos_helper import corr_step_10_c_dummy_kernel_init
+    return K.variable(corr_step_10_c_dummy_kernel_init)
+
+
+def step_10_c_dummy_bias_init(shape, dtype=None):
+    from dlnn.tests.ml.repos_helper import corr_step_10_c_dummy_bias_init
+    return K.variable(corr_step_10_c_dummy_bias_init)
+
+
 class ElmProcessHelper(TestCase):
     def test_step_9_output(self):
         from dlnn.tests.ml.repos_helper import corr_step_8_full
