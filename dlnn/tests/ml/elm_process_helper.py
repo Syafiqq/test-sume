@@ -110,3 +110,12 @@ class ElmProcessHelper(TestCase):
         r = K.dot(MoorePenrose.pinv2(K.variable(x), 1e-31), K.variable(t))
         self.assertIsNotNone(r)
         # print(K.eval(r))
+
+    def test_step_10_b_dummy_non_bias_manual_operation(self):
+        from dlnn.tests.ml.repos_helper import corr_step_9
+        from dlnn.tests.ml.repos_helper import corr_step_10_b_dummy_non_bias
+        import numpy
+        x = K.dot(K.variable(corr_step_9), step_10_b_dummy_kernel_init(None))
+        self.assertIsNotNone(x)
+        self.assertTrue(numpy.allclose(K.eval(x), corr_step_10_b_dummy_non_bias, rtol=1e-4))
+        print(K.eval(x))
