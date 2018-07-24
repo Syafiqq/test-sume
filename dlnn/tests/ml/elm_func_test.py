@@ -7,7 +7,7 @@ from scipy import stats
 from dlnn.tests.ml.activation_test import layer_step_11_a, layer_step_11_b
 from dlnn.tests.ml.cnn_func_test import inputs, step_8
 from dlnn.tests.ml.elm_process_helper import step_10_a_dummy_kernel_init, step_10_a_dummy_bias_init, \
-    step_10_b_dummy_kernel_init, step_10_b_dummy_bias_init
+    step_10_b_dummy_kernel_init, step_10_b_dummy_bias_init, step_10_c_dummy_kernel_init, step_10_c_dummy_bias_init
 from dlnn.tests.ml.repos_helper import normalized, categorical_label_init
 from dlnn.tests.ml.testcase import TestCase
 
@@ -24,6 +24,11 @@ def layer_step_10_a_dummy():
 def layer_step_10_b_dummy():
     return Dense(7, activation=None, use_bias=True, kernel_initializer=step_10_b_dummy_kernel_init,
                  bias_initializer=step_10_b_dummy_bias_init, trainable=False)
+
+
+def layer_step_10_c_dummy():
+    return Dense(4, activation=None, use_bias=True, kernel_initializer=step_10_c_dummy_kernel_init,
+                 bias_initializer=step_10_c_dummy_bias_init, trainable=False)
 
 
 def layer_step_12_a_dummy():
@@ -46,6 +51,7 @@ step_12_a_dummy = layer_step_12_a_dummy()(step_11_a_dummy)
 step_10_b_dummy = layer_step_10_b_dummy()(step_9)
 step_11_b_dummy = layer_step_11_b()(step_10_b_dummy)
 step_12_b_dummy = layer_step_12_b_dummy()(step_11_b_dummy)
+step_10_c_dummy = layer_step_10_c_dummy()(step_9)
 step_13_dummy = keras.layers.concatenate([step_12_a_dummy, step_12_b_dummy])
 
 
