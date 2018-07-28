@@ -4,24 +4,24 @@ from dlnn.tests.ml.testcase import TestCase
 class CnnSeqTest(TestCase):
     def build_helper(self):
         from keras import Sequential
-        from dlnn.tests.ml.conv_test import layer_step_1
-        from dlnn.tests.ml.activation_test import layer_step_2
-        from dlnn.tests.ml.conv_test import layer_step_3
-        from dlnn.tests.ml.activation_test import layer_step_4
-        from dlnn.tests.ml.pooling_test import layer_step_5
-        from dlnn.tests.ml.conv_test import layer_step_6
-        from dlnn.tests.ml.activation_test import layer_step_7
-        from dlnn.tests.ml.pooling_test import layer_step_8
+        from dlnn.tests.ml.conv_test import layer_1_conv
+        from dlnn.tests.ml.activation_test import layer_2_activation
+        from dlnn.tests.ml.conv_test import layer_3_conv
+        from dlnn.tests.ml.activation_test import layer_4_activation
+        from dlnn.tests.ml.pooling_test import layer_5_pool
+        from dlnn.tests.ml.conv_test import layer_6_conv
+        from dlnn.tests.ml.activation_test import layer_7_activation
+        from dlnn.tests.ml.pooling_test import layer_8_pool
 
         model = Sequential()
-        model.add(layer_step_1())
-        model.add(layer_step_2())
-        model.add(layer_step_3())
-        model.add(layer_step_4())
-        model.add(layer_step_5(2))
-        model.add(layer_step_6())
-        model.add(layer_step_7())
-        model.add(layer_step_8(1))
+        model.add(layer_1_conv())
+        model.add(layer_2_activation())
+        model.add(layer_3_conv())
+        model.add(layer_4_activation())
+        model.add(layer_5_pool(2))
+        model.add(layer_6_conv())
+        model.add(layer_7_activation())
+        model.add(layer_8_pool(1))
         return model
 
     def test_input_to_step_1(self):

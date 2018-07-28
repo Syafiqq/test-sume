@@ -1,25 +1,25 @@
 from keras import Input
 
-from dlnn.tests.ml.activation_test import layer_step_2
-from dlnn.tests.ml.activation_test import layer_step_4
-from dlnn.tests.ml.activation_test import layer_step_7
-from dlnn.tests.ml.conv_test import layer_step_1
-from dlnn.tests.ml.conv_test import layer_step_3
-from dlnn.tests.ml.conv_test import layer_step_6
-from dlnn.tests.ml.pooling_test import layer_step_5
-from dlnn.tests.ml.pooling_test import layer_step_8
+from dlnn.tests.ml.activation_test import layer_2_activation
+from dlnn.tests.ml.activation_test import layer_4_activation
+from dlnn.tests.ml.activation_test import layer_7_activation
+from dlnn.tests.ml.conv_test import layer_1_conv
+from dlnn.tests.ml.conv_test import layer_3_conv
+from dlnn.tests.ml.conv_test import layer_6_conv
+from dlnn.tests.ml.pooling_test import layer_5_pool
+from dlnn.tests.ml.pooling_test import layer_8_pool
 from dlnn.tests.ml.repos_helper import normalized
 from dlnn.tests.ml.testcase import TestCase
 
 inputs = Input(shape=normalized.shape[1:])
-step_1 = layer_step_1()(inputs)
-step_2 = layer_step_2()(step_1)
-step_3 = layer_step_3()(step_2)
-step_4 = layer_step_4()(step_3)
-step_5 = layer_step_5(2)(step_4)
-step_6 = layer_step_6()(step_5)
-step_7 = layer_step_7()(step_6)
-step_8 = layer_step_8(1)(step_7)
+step_1_conv = layer_1_conv()(inputs)
+step_2_activation = layer_2_activation()(step_1_conv)
+step_3_conv = layer_3_conv()(step_2_activation)
+step_4_activation = layer_4_activation()(step_3_conv)
+step_5_pool = layer_5_pool(2)(step_4_activation)
+step_6_conv = layer_6_conv()(step_5_pool)
+step_7_activation = layer_7_activation()(step_6_conv)
+step_8_pool = layer_8_pool(1)(step_7_activation)
 
 
 class CnnFuncTest(TestCase):
@@ -27,7 +27,7 @@ class CnnFuncTest(TestCase):
         from keras import Model
         from dlnn.tests.ml.repos_helper import corr_step_1
         import numpy
-        network = Model(inputs=inputs, outputs=step_1)
+        network = Model(inputs=inputs, outputs=step_1_conv)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
@@ -39,7 +39,7 @@ class CnnFuncTest(TestCase):
         from keras import Model
         from dlnn.tests.ml.repos_helper import corr_step_2
         import numpy
-        network = Model(inputs=inputs, outputs=step_2)
+        network = Model(inputs=inputs, outputs=step_2_activation)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
@@ -51,7 +51,7 @@ class CnnFuncTest(TestCase):
         from keras import Model
         from dlnn.tests.ml.repos_helper import corr_step_3
         import numpy
-        network = Model(inputs=inputs, outputs=step_3)
+        network = Model(inputs=inputs, outputs=step_3_conv)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
@@ -63,7 +63,7 @@ class CnnFuncTest(TestCase):
         from keras import Model
         from dlnn.tests.ml.repos_helper import corr_step_4
         import numpy
-        network = Model(inputs=inputs, outputs=step_4)
+        network = Model(inputs=inputs, outputs=step_4_activation)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
@@ -75,7 +75,7 @@ class CnnFuncTest(TestCase):
         from keras import Model
         from dlnn.tests.ml.repos_helper import corr_step_5
         import numpy
-        network = Model(inputs=inputs, outputs=step_5)
+        network = Model(inputs=inputs, outputs=step_5_pool)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
@@ -87,7 +87,7 @@ class CnnFuncTest(TestCase):
         from keras import Model
         from dlnn.tests.ml.repos_helper import corr_step_6
         import numpy
-        network = Model(inputs=inputs, outputs=step_6)
+        network = Model(inputs=inputs, outputs=step_6_conv)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
@@ -99,7 +99,7 @@ class CnnFuncTest(TestCase):
         from keras import Model
         from dlnn.tests.ml.repos_helper import corr_step_7
         import numpy
-        network = Model(inputs=inputs, outputs=step_7)
+        network = Model(inputs=inputs, outputs=step_7_activation)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
@@ -111,7 +111,7 @@ class CnnFuncTest(TestCase):
         from keras import Model
         from dlnn.tests.ml.repos_helper import corr_step_8
         import numpy
-        network = Model(inputs=inputs, outputs=step_8)
+        network = Model(inputs=inputs, outputs=step_8_pool)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
@@ -123,7 +123,7 @@ class CnnFuncTest(TestCase):
         from keras import Model
         from dlnn.tests.ml.repos_helper import corr_step_8_full
         import numpy
-        network = Model(inputs=inputs, outputs=step_8)
+        network = Model(inputs=inputs, outputs=step_8_pool)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)

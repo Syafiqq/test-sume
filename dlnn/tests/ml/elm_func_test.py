@@ -4,46 +4,54 @@ from keras import backend as K
 from keras.layers import Flatten, Dense
 from scipy import stats
 
-from dlnn.tests.ml.activation_test import layer_step_11_a, layer_step_11_b
-from dlnn.tests.ml.cnn_func_test import inputs, step_8
-from dlnn.tests.ml.elm_process_helper import step_10_a_dummy_kernel_init, step_10_a_dummy_bias_init, \
-    step_10_b_dummy_kernel_init, step_10_b_dummy_bias_init, step_10_c_dummy_kernel_init, step_10_c_dummy_bias_init
+from dlnn.tests.ml.activation_test import layer_11_a_activation, layer_11_b_activation, layer_11_c_activation
+from dlnn.tests.ml.cnn_func_test import inputs, step_8_pool
+from dlnn.tests.ml.elm_process_helper import step_10_a_kernel_init, step_10_a_bias_init, \
+    step_10_b_kernel_init, step_10_b_bias_init, step_10_c_kernel_init, step_10_c_bias_init
 from dlnn.tests.ml.repos_helper import normalized, categorical_label_init
 from dlnn.tests.ml.testcase import TestCase
 
 
-def layer_step_9():
+def layer_9_flatten():
     return Flatten()
 
 
-def layer_step_10_a_dummy():
-    return Dense(5, activation=None, use_bias=True, kernel_initializer=step_10_a_dummy_kernel_init,
-                 bias_initializer=step_10_a_dummy_bias_init, trainable=False)
+def layer_10_a_dense():
+    return Dense(5, activation=None, use_bias=True, kernel_initializer=step_10_a_kernel_init,
+                 bias_initializer=step_10_a_bias_init, trainable=False)
 
 
-def layer_step_10_b_dummy():
-    return Dense(7, activation=None, use_bias=True, kernel_initializer=step_10_b_dummy_kernel_init,
-                 bias_initializer=step_10_b_dummy_bias_init, trainable=False)
+def layer_10_b_dense():
+    return Dense(7, activation=None, use_bias=True, kernel_initializer=step_10_b_kernel_init,
+                 bias_initializer=step_10_b_bias_init, trainable=False)
 
 
-def layer_step_10_c_dummy():
-    return Dense(4, activation=None, use_bias=True, kernel_initializer=step_10_c_dummy_kernel_init,
-                 bias_initializer=step_10_c_dummy_bias_init, trainable=False)
+def layer_10_c_dense():
+    return Dense(4, activation=None, use_bias=True, kernel_initializer=step_10_c_kernel_init,
+                 bias_initializer=step_10_c_bias_init, trainable=False)
 
 
-def layer_step_12_a_dummy():
+def layer_12_a_dense():
     return Dense(3, activation=None, use_bias=False, kernel_initializer=keras.initializers.Zeros(), trainable=False)
 
 
-def layer_step_12_b_dummy():
+def layer_12_b_dense():
     return Dense(3, activation=None, use_bias=False, kernel_initializer=keras.initializers.Zeros(), trainable=False)
 
 
-def layer_step_12_c_dummy():
+def layer_12_c_dense():
     return Dense(3, activation=None, use_bias=False, kernel_initializer=keras.initializers.Zeros(), trainable=False)
 
 
-def layer_step_15():
+def layer_13_concatenate():
+    return keras.layers.Concatenate()
+
+
+def layer_14_reshape():
+    return keras.layers.Reshape((3, 3))
+
+
+def layer_15_merge_categorical():
     from dlnn.layer.MergeCategorical import MergeCategorical
     return MergeCategorical(3)
 
@@ -53,19 +61,19 @@ def unifinv_init(shape, dtype=None):
                       dtype=dtype)
 
 
-step_9 = layer_step_9()(step_8)
-step_10_a_dummy = layer_step_10_a_dummy()(step_9)
-step_11_a_dummy = layer_step_11_a()(step_10_a_dummy)
-step_12_a_dummy = layer_step_12_a_dummy()(step_11_a_dummy)
-step_10_b_dummy = layer_step_10_b_dummy()(step_9)
-step_11_b_dummy = layer_step_11_b()(step_10_b_dummy)
-step_12_b_dummy = layer_step_12_b_dummy()(step_11_b_dummy)
-step_10_c_dummy = layer_step_10_c_dummy()(step_9)
-step_11_c_dummy = layer_step_11_b()(step_10_c_dummy)
-step_12_c_dummy = layer_step_12_c_dummy()(step_11_c_dummy)
-step_13_dummy = keras.layers.concatenate([step_12_a_dummy, step_12_b_dummy, step_12_c_dummy])
-step_14_dummy = keras.layers.Reshape((3, 3))(step_13_dummy)
-step_15 = layer_step_15()(step_14_dummy)
+step_9_flatten = layer_9_flatten()(step_8_pool)
+step_10_a_dense = layer_10_a_dense()(step_9_flatten)
+step_11_a_activation = layer_11_a_activation()(step_10_a_dense)
+step_12_a_dense = layer_12_a_dense()(step_11_a_activation)
+step_10_b_dense = layer_10_b_dense()(step_9_flatten)
+step_11_b_activation = layer_11_b_activation()(step_10_b_dense)
+step_12_b_dense = layer_12_b_dense()(step_11_b_activation)
+step_10_c_dense = layer_10_c_dense()(step_9_flatten)
+step_11_c_activation = layer_11_c_activation()(step_10_c_dense)
+step_12_c_dense = layer_12_c_dense()(step_11_c_activation)
+step_13_concatenate = layer_13_concatenate()([step_12_a_dense, step_12_b_dense, step_12_c_dense])
+step_14_reshape = layer_14_reshape()(step_13_concatenate)
+step_15_output = layer_15_merge_categorical()(step_14_reshape)
 
 
 class ElmFuncTest(TestCase):
@@ -73,7 +81,7 @@ class ElmFuncTest(TestCase):
         from keras import Model
         from dlnn.tests.ml.repos_helper import corr_step_9
         import numpy
-        network = Model(inputs=inputs, outputs=step_9)
+        network = Model(inputs=inputs, outputs=step_9_flatten)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
@@ -81,34 +89,34 @@ class ElmFuncTest(TestCase):
         # print(output)
         # print(output.shape)
 
-    def test_input_to_step_10_a_dummy(self):
+    def test_input_to_step_10_a(self):
         from keras import Model
-        from dlnn.tests.ml.repos_helper import corr_step_10_a_dummy
+        from dlnn.tests.ml.repos_helper import corr_step_10_a
         import numpy
-        network = Model(inputs=inputs, outputs=step_10_a_dummy)
+        network = Model(inputs=inputs, outputs=step_10_a_dense)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_10_a_dummy, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output, corr_step_10_a, rtol=1e-6))
         # print(output)
         # print(output.shape)
 
-    def test_input_to_step_11_a_dummy(self):
+    def test_input_to_step_11_a(self):
         from keras import Model
-        from dlnn.tests.ml.repos_helper import corr_step_11_a_dummy
+        from dlnn.tests.ml.repos_helper import corr_step_11_a
         import numpy
-        network = Model(inputs=inputs, outputs=step_11_a_dummy)
+        network = Model(inputs=inputs, outputs=step_11_a_activation)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_11_a_dummy, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output, corr_step_11_a, rtol=1e-6))
         # print(output)
         # print(output.shape)
 
-    def test_input_to_beta_a_dummy(self):
+    def test_input_to_beta_a(self):
         from keras import Model
         from dlnn.util import MoorePenrose
-        network = Model(inputs=inputs, outputs=step_11_a_dummy)
+        network = Model(inputs=inputs, outputs=step_11_a_activation)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         beta = K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init))
@@ -119,7 +127,7 @@ class ElmFuncTest(TestCase):
     def test_check_weights_layer(self):
         from keras import Model
         from dlnn.tests.ml.cnn_func_test import inputs
-        network = Model(inputs=inputs, outputs=step_11_a_dummy)
+        network = Model(inputs=inputs, outputs=step_11_a_activation)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         for i in range(12):
             layer = network.get_layer(index=i).get_weights()
@@ -131,14 +139,14 @@ class ElmFuncTest(TestCase):
             self.assertIsNotNone(layer)
             # print("step_%d" % (i + 1), layer)
 
-    def test_training_model_aka_to_step_12_a_dummy(self):
+    def test_training_model_aka_to_step_12_a(self):
         from keras import Model
         from dlnn.tests.ml.cnn_func_test import inputs
         from dlnn.util import MoorePenrose
         #
         # Feed Beta
         #
-        feed = Model(inputs=inputs, outputs=step_11_a_dummy)
+        feed = Model(inputs=inputs, outputs=step_11_a_activation)
         output = feed.predict(normalized)
         w_10_a = feed.get_layer(index=10).get_weights()
         w_12_a = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
@@ -150,7 +158,7 @@ class ElmFuncTest(TestCase):
         #
         # Training Model
         #
-        network = Model(inputs=inputs, outputs=step_12_a_dummy)
+        network = Model(inputs=inputs, outputs=step_12_a_dense)
         network.compile(optimizer=keras.optimizers.RMSprop(lr=0.0, rho=0.0, epsilon=None, decay=0.0),
                         loss=keras.losses.categorical_crossentropy,
                         metrics=[keras.metrics.categorical_accuracy, keras.metrics.mape])
@@ -163,34 +171,34 @@ class ElmFuncTest(TestCase):
         self.assertIsNotNone(result)
         # print(result.argmax(axis=-1))
 
-    def test_input_to_step_10_b_dummy(self):
+    def test_input_to_step_10_b(self):
         from keras import Model
-        from dlnn.tests.ml.repos_helper import corr_step_10_b_dummy
+        from dlnn.tests.ml.repos_helper import corr_step_10_b
         import numpy
-        network = Model(inputs=inputs, outputs=step_10_b_dummy)
+        network = Model(inputs=inputs, outputs=step_10_b_dense)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_10_b_dummy, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output, corr_step_10_b, rtol=1e-6))
         # print(output)
         # print(output.shape)
 
-    def test_input_to_step_11_b_dummy(self):
+    def test_input_to_step_11_b(self):
         from keras import Model
-        from dlnn.tests.ml.repos_helper import corr_step_11_b_dummy
+        from dlnn.tests.ml.repos_helper import corr_step_11_b
         import numpy
-        network = Model(inputs=inputs, outputs=step_11_b_dummy)
+        network = Model(inputs=inputs, outputs=step_11_b_activation)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_11_b_dummy, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output, corr_step_11_b, rtol=1e-6))
         # print(output)
         # print(output.shape)
 
-    def test_input_to_beta_b_dummy(self):
+    def test_input_to_beta_b(self):
         from keras import Model
         from dlnn.util import MoorePenrose
-        network = Model(inputs=inputs, outputs=step_11_b_dummy)
+        network = Model(inputs=inputs, outputs=step_11_b_activation)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         beta = K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init))
@@ -198,14 +206,14 @@ class ElmFuncTest(TestCase):
         # print(K.eval(beta))
         # print(beta.shape)
 
-    def test_training_model_bka_to_step_12_b_dummy(self):
+    def test_training_model_bka_to_step_12_b(self):
         from keras import Model
         from dlnn.tests.ml.cnn_func_test import inputs
         from dlnn.util import MoorePenrose
         #
         # Feed Beta
         #
-        feed = Model(inputs=inputs, outputs=step_11_b_dummy)
+        feed = Model(inputs=inputs, outputs=step_11_b_activation)
         output = feed.predict(normalized)
         w_10_b = feed.get_layer(index=10).get_weights()
         w_12_b = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
@@ -217,7 +225,7 @@ class ElmFuncTest(TestCase):
         #
         # Training Model
         #
-        network = Model(inputs=inputs, outputs=step_12_b_dummy)
+        network = Model(inputs=inputs, outputs=step_12_b_dense)
         network.compile(optimizer=keras.optimizers.RMSprop(lr=0.0, rho=0.0, epsilon=None, decay=0.0),
                         loss=keras.losses.categorical_crossentropy,
                         metrics=[keras.metrics.categorical_accuracy, keras.metrics.mape])
@@ -230,34 +238,34 @@ class ElmFuncTest(TestCase):
         self.assertIsNotNone(result)
         # print(result.argmax(axis=-1))
 
-    def test_input_to_step_10_c_dummy(self):
+    def test_input_to_step_10_c(self):
         from keras import Model
-        from dlnn.tests.ml.repos_helper import corr_step_10_c_dummy
+        from dlnn.tests.ml.repos_helper import corr_step_10_c
         import numpy
-        network = Model(inputs=inputs, outputs=step_10_c_dummy)
+        network = Model(inputs=inputs, outputs=step_10_c_dense)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_10_c_dummy, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output, corr_step_10_c, rtol=1e-6))
         # print(output)
         # print(output.shape)
 
-    def test_input_to_step_11_c_dummy(self):
+    def test_input_to_step_11_c(self):
         from keras import Model
-        from dlnn.tests.ml.repos_helper import corr_step_11_c_dummy
+        from dlnn.tests.ml.repos_helper import corr_step_11_c
         import numpy
-        network = Model(inputs=inputs, outputs=step_11_c_dummy)
+        network = Model(inputs=inputs, outputs=step_11_c_activation)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         self.assertIsNotNone(output)
-        self.assertTrue(numpy.allclose(output, corr_step_11_c_dummy, rtol=1e-6))
+        self.assertTrue(numpy.allclose(output, corr_step_11_c, rtol=1e-6))
         # print(output)
         # print(output.shape)
 
-    def test_input_to_beta_c_dummy(self):
+    def test_input_to_beta_c(self):
         from keras import Model
         from dlnn.util import MoorePenrose
-        network = Model(inputs=inputs, outputs=step_11_c_dummy)
+        network = Model(inputs=inputs, outputs=step_11_c_activation)
         network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
         output = network.predict(normalized)
         beta = K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init))
@@ -265,14 +273,14 @@ class ElmFuncTest(TestCase):
         # print(K.eval(beta))
         # print(beta.shape)
 
-    def test_training_model_bka_to_step_12_c_dummy(self):
+    def test_training_model_bka_to_step_12_c(self):
         from keras import Model
         from dlnn.tests.ml.cnn_func_test import inputs
         from dlnn.util import MoorePenrose
         #
         # Feed Beta
         #
-        feed = Model(inputs=inputs, outputs=step_11_c_dummy)
+        feed = Model(inputs=inputs, outputs=step_11_c_activation)
         output = feed.predict(normalized)
         w_10_b = feed.get_layer(index=10).get_weights()
         w_12_b = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
@@ -284,7 +292,7 @@ class ElmFuncTest(TestCase):
         #
         # Training Model
         #
-        network = Model(inputs=inputs, outputs=step_12_c_dummy)
+        network = Model(inputs=inputs, outputs=step_12_c_dense)
         network.compile(optimizer=keras.optimizers.RMSprop(lr=0.0, rho=0.0, epsilon=None, decay=0.0),
                         loss=keras.losses.categorical_crossentropy,
                         metrics=[keras.metrics.categorical_accuracy, keras.metrics.mape])
@@ -305,15 +313,15 @@ class ElmFuncTest(TestCase):
         #
         # Feed Beta
         #
-        feed = Model(inputs=inputs, outputs=step_11_a_dummy)
+        feed = Model(inputs=inputs, outputs=step_11_a_activation)
         output = feed.predict(normalized)
         w_10_a = feed.get_layer(index=10).get_weights()
         w_12_a = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
-        feed = Model(inputs=inputs, outputs=step_11_b_dummy)
+        feed = Model(inputs=inputs, outputs=step_11_b_activation)
         output = feed.predict(normalized)
         w_10_b = feed.get_layer(index=10).get_weights()
         w_12_b = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
-        feed = Model(inputs=inputs, outputs=step_11_c_dummy)
+        feed = Model(inputs=inputs, outputs=step_11_c_activation)
         output = feed.predict(normalized)
         w_10_c = feed.get_layer(index=10).get_weights()
         w_12_c = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
@@ -321,7 +329,7 @@ class ElmFuncTest(TestCase):
         #
         # Training Model
         #
-        network = Model(inputs=inputs, outputs=step_14_dummy)
+        network = Model(inputs=inputs, outputs=step_14_reshape)
         network.compile(optimizer=keras.optimizers.RMSprop(lr=0.0, rho=0.0, epsilon=None, decay=0.0),
                         loss=keras.losses.categorical_crossentropy,
                         metrics=[keras.metrics.categorical_accuracy, keras.metrics.mape])
@@ -348,15 +356,15 @@ class ElmFuncTest(TestCase):
         #
         # Feed Beta
         #
-        feed = Model(inputs=inputs, outputs=step_11_a_dummy)
+        feed = Model(inputs=inputs, outputs=step_11_a_activation)
         output = feed.predict(normalized)
         w_10_a = feed.get_layer(index=10).get_weights()
         w_12_a = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
-        feed = Model(inputs=inputs, outputs=step_11_b_dummy)
+        feed = Model(inputs=inputs, outputs=step_11_b_activation)
         output = feed.predict(normalized)
         w_10_b = feed.get_layer(index=10).get_weights()
         w_12_b = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
-        feed = Model(inputs=inputs, outputs=step_11_c_dummy)
+        feed = Model(inputs=inputs, outputs=step_11_c_activation)
         output = feed.predict(normalized)
         w_10_c = feed.get_layer(index=10).get_weights()
         w_12_c = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
@@ -364,7 +372,7 @@ class ElmFuncTest(TestCase):
         #
         # Training Model
         #
-        network = Model(inputs=inputs, outputs=step_15)
+        network = Model(inputs=inputs, outputs=step_15_output)
         network.compile(optimizer=keras.optimizers.RMSprop(lr=0.0, rho=0.0, epsilon=None, decay=0.0),
                         loss=keras.losses.categorical_crossentropy,
                         metrics=[keras.metrics.categorical_accuracy, keras.metrics.mape])

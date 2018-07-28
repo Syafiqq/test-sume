@@ -8,7 +8,7 @@ from dlnn.tests.ml.testcase import TestCase
 from sumeq.settings import BASE_DIR
 
 
-def layer_step_1():
+def layer_1_conv():
     from dlnn.layer.Conv2D import Conv2D
     from dlnn.layer.Conv2D import AvgFilter
     from dlnn.layer.Conv2D import MaxFilter
@@ -24,7 +24,7 @@ def layer_step_1():
         input_shape=(1, 4, 4))
 
 
-def layer_step_3():
+def layer_3_conv():
     from dlnn.layer.Conv2D import Conv2D
     from dlnn.layer.Conv2D import AvgFilter
     from dlnn.layer.Conv2D import MaxFilter
@@ -40,7 +40,7 @@ def layer_step_3():
         input_shape=(3, 4, 4))
 
 
-def layer_step_6():
+def layer_6_conv():
     from dlnn.layer.Conv2D import Conv2D
     from dlnn.layer.Conv2D import AvgFilter
     from dlnn.layer.Conv2D import MaxFilter
@@ -91,7 +91,7 @@ class ConvTest(TestCase):
         from dlnn.tests.ml.repos_helper import normalized
         from dlnn.tests.ml.repos_helper import corr_step_1
         i = K.variable(normalized)
-        conv = layer_step_1()
+        conv = layer_1_conv()
         conv.build(i.shape)
         result = conv.call(i)
         self.assertIsNotNone(result)
@@ -102,7 +102,7 @@ class ConvTest(TestCase):
         from dlnn.tests.ml.repos_helper import corr_step_2
         from dlnn.tests.ml.repos_helper import corr_step_3
         i = K.variable(corr_step_2)
-        conv = layer_step_3()
+        conv = layer_3_conv()
         conv.build(i.shape)
         result = conv.call(i)
         self.assertIsNotNone(result)
@@ -113,7 +113,7 @@ class ConvTest(TestCase):
         from dlnn.tests.ml.repos_helper import corr_step_5
         from dlnn.tests.ml.repos_helper import corr_step_6
         i = K.variable(corr_step_5)
-        conv = layer_step_6()
+        conv = layer_6_conv()
         conv.build(i.shape)
         result = conv.call(i)
         self.assertIsNotNone(result)
