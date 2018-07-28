@@ -1,0 +1,2 @@
+class Dlnn(object):
+    pass
