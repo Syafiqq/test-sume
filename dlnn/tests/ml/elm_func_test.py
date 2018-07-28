@@ -290,3 +290,47 @@ class ElmFuncTest(TestCase):
         result = network.predict(normalized, batch_size=normalized.shape[0])
         self.assertIsNotNone(result)
         # print(result.argmax(axis=1))
+
+    def test_manual_merge_categorical_value(self):
+        from keras import Model
+        from dlnn.tests.ml.cnn_func_test import inputs
+        from dlnn.util import MoorePenrose
+        import tensorflow as tf
+        #
+        # Feed Beta
+        #
+        feed = Model(inputs=inputs, outputs=step_11_a_dummy)
+        output = feed.predict(normalized)
+        w_10_a = feed.get_layer(index=10).get_weights()
+        w_12_a = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
+        feed = Model(inputs=inputs, outputs=step_11_b_dummy)
+        output = feed.predict(normalized)
+        w_10_b = feed.get_layer(index=10).get_weights()
+        w_12_b = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
+        feed = Model(inputs=inputs, outputs=step_11_c_dummy)
+        output = feed.predict(normalized)
+        w_10_c = feed.get_layer(index=10).get_weights()
+        w_12_c = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
+
+        #
+        # Training Model
+        #
+        network = Model(inputs=inputs, outputs=step_14_dummy)
+        network.compile(optimizer=keras.optimizers.RMSprop(lr=0.0, rho=0.0, epsilon=None, decay=0.0),
+                        loss=keras.losses.categorical_crossentropy,
+                        metrics=[keras.metrics.categorical_accuracy, keras.metrics.mape])
+        network.get_layer(index=10).set_weights(w_10_a)
+        network.get_layer(index=11).set_weights(w_10_b)
+        network.get_layer(index=12).set_weights(w_10_c)
+        network.get_layer(index=16).set_weights(w_12_a)
+        network.get_layer(index=17).set_weights(w_12_b)
+        network.get_layer(index=18).set_weights(w_12_c)
+        result = network.predict(normalized, batch_size=normalized.shape[0])
+        # print(result)
+        result = K.cast(K.argmax(result), dtype=tf.int32)
+        # print(K.eval(result))
+        result = tf.map_fn(lambda x: tf.bincount(x, minlength=3), result)
+        # print(K.eval(result))
+        result = K.argmax(result)
+        # print(K.eval(result))
+        self.assertIsNotNone(result)
