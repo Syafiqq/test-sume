@@ -43,6 +43,11 @@ def layer_step_12_c_dummy():
     return Dense(3, activation=None, use_bias=False, kernel_initializer=keras.initializers.Zeros(), trainable=False)
 
 
+def layer_step_15():
+    from dlnn.layer.MergeCategorical import MergeCategorical
+    return MergeCategorical(3)
+
+
 def unifinv_init(shape, dtype=None):
     return K.variable(stats.uniform.ppf(numpy.random.rand(*shape), loc=-.5, scale=(.5 - -.5)),
                       dtype=dtype)
@@ -60,6 +65,7 @@ step_11_c_dummy = layer_step_11_b()(step_10_c_dummy)
 step_12_c_dummy = layer_step_12_c_dummy()(step_11_c_dummy)
 step_13_dummy = keras.layers.concatenate([step_12_a_dummy, step_12_b_dummy, step_12_c_dummy])
 step_14_dummy = keras.layers.Reshape((3, 3))(step_13_dummy)
+step_15 = layer_step_15()(step_14_dummy)
 
 
 class ElmFuncTest(TestCase):
@@ -333,4 +339,52 @@ class ElmFuncTest(TestCase):
         # print(K.eval(result))
         result = K.argmax(result)
         # print(K.eval(result))
+        self.assertIsNotNone(result)
+
+    def test_dlnn_final(self):
+        from keras import Model
+        from dlnn.tests.ml.cnn_func_test import inputs
+        from dlnn.util import MoorePenrose
+        #
+        # Feed Beta
+        #
+        feed = Model(inputs=inputs, outputs=step_11_a_dummy)
+        output = feed.predict(normalized)
+        w_10_a = feed.get_layer(index=10).get_weights()
+        w_12_a = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
+        feed = Model(inputs=inputs, outputs=step_11_b_dummy)
+        output = feed.predict(normalized)
+        w_10_b = feed.get_layer(index=10).get_weights()
+        w_12_b = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
+        feed = Model(inputs=inputs, outputs=step_11_c_dummy)
+        output = feed.predict(normalized)
+        w_10_c = feed.get_layer(index=10).get_weights()
+        w_12_c = [K.eval(K.dot(MoorePenrose.pinv3(output), K.variable(categorical_label_init)))]
+
+        #
+        # Training Model
+        #
+        network = Model(inputs=inputs, outputs=step_15)
+        network.compile(optimizer=keras.optimizers.RMSprop(lr=0.0, rho=0.0, epsilon=None, decay=0.0),
+                        loss=keras.losses.categorical_crossentropy,
+                        metrics=[keras.metrics.categorical_accuracy, keras.metrics.mape])
+        for i in range(20):
+            layer = network.get_layer(index=i).get_weights()
+            self.assertIsNotNone(layer)
+            # print("step_%d" % (i + 1), layer)
+        network.get_layer(index=10).set_weights(w_10_a)
+        network.get_layer(index=11).set_weights(w_10_b)
+        network.get_layer(index=12).set_weights(w_10_c)
+        network.get_layer(index=16).set_weights(w_12_a)
+        network.get_layer(index=17).set_weights(w_12_b)
+        network.get_layer(index=18).set_weights(w_12_c)
+        network.fit(normalized, categorical_label_init, batch_size=normalized.shape[0])
+        self.assertTrue(numpy.allclose(w_10_a[0], network.get_layer(index=10).get_weights()[0], rtol=0))
+        self.assertTrue(numpy.allclose(w_10_b[0], network.get_layer(index=11).get_weights()[0], rtol=0))
+        self.assertTrue(numpy.allclose(w_10_c[0], network.get_layer(index=12).get_weights()[0], rtol=0))
+        self.assertTrue(numpy.allclose(w_12_a[0], network.get_layer(index=16).get_weights()[0], rtol=0))
+        self.assertTrue(numpy.allclose(w_12_b[0], network.get_layer(index=17).get_weights()[0], rtol=0))
+        self.assertTrue(numpy.allclose(w_12_c[0], network.get_layer(index=18).get_weights()[0], rtol=0))
+        result = network.predict(normalized, batch_size=normalized.shape[0])
+        # print(result.argmax(axis=1))
         self.assertIsNotNone(result)
