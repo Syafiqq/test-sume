@@ -74,19 +74,6 @@ class ConvTest(TestCase):
         self.assertTrue(numpy.allclose(nfeature, oneliner, rtol=1e-6))
         return oneliner
 
-    def test_corpus(self):
-        corpus = self.corpus()
-        self.assertIsNotNone(corpus)
-        # print(corpus)
-
-    def test_keras_invocation(self):
-        import tensorflow as tf
-        sess = tf.Session()
-        t = tf.constant(self.corpus()[0])
-        paddings = tf.constant([[2, 2, ], [2, 2]])
-        # print(sess.run(tf.pad(t, paddings, "CONSTANT")))
-        sess.close()
-
     def test_step_1(self):
         from dlnn.tests.ml.repos_helper import normalized
         from dlnn.tests.ml.repos_helper import corr_step_1
