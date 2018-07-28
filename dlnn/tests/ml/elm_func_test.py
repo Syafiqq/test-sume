@@ -59,6 +59,7 @@ step_10_c_dummy = layer_step_10_c_dummy()(step_9)
 step_11_c_dummy = layer_step_11_b()(step_10_c_dummy)
 step_12_c_dummy = layer_step_12_c_dummy()(step_11_c_dummy)
 step_13_dummy = keras.layers.concatenate([step_12_a_dummy, step_12_b_dummy, step_12_c_dummy])
+step_14_dummy = keras.layers.Reshape((3, 3))(step_13_dummy)
 
 
 class ElmFuncTest(TestCase):
