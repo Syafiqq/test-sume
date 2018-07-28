@@ -86,7 +86,8 @@ class StdDevFilter(_Filter, metaclass=Singleton):
     # use below function instead
     # @see: https://www.mathworks.com/help/matlab/ref/std.html
     # @see: https://stackoverflow.com/a/43409235
-    def reduce_var(self, x, axis=None, keepdims=False):
+    @staticmethod
+    def reduce_var(x, axis=None, keepdims=False):
         import tensorflow as tf
         m = tf.reduce_mean(x, axis=axis, keepdims=True)
         devs_squared = tf.square(x - m)
