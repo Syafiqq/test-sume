@@ -1,7 +1,7 @@
-from unittest import TestCase
-
 import numpy
 from keras import backend as K
+
+from dlnn.tests.ml.testcase import TestCase
 
 
 class PaddingTest(TestCase):
@@ -35,7 +35,7 @@ class PaddingTest(TestCase):
         # print(ntensor.shape)
 
     def test_pad_util(self):
-        from dlnn.layer.util import Pad as PadUtil
+        from dlnn.util import Pad as PadUtil
         tensor = K.variable(self.data[0][0])
         ntensor = PadUtil.pad_center(tensor, 1)
         self.assertIsNotNone(ntensor)
@@ -43,7 +43,7 @@ class PaddingTest(TestCase):
         # print(ntensor.shape)
 
     def test_repos_normalized_padding(self):
-        from dlnn.layer.util import Pad as PadUtil
+        from dlnn.util import Pad as PadUtil
         from dlnn.tests.ml.repos_helper import normalized
         import tensorflow as tf
         tensor = K.variable(normalized[0][0])

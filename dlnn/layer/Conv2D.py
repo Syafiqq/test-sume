@@ -1,7 +1,8 @@
 from keras import backend as K
+from keras.engine import InputSpec
 from keras.layers import Conv2D as c2D
 
-from dlnn.layer.util.Singleton import Singleton
+from dlnn.util.Singleton import Singleton
 
 
 class Conv2D(c2D):
@@ -12,7 +13,22 @@ class Conv2D(c2D):
         super(Conv2D, self).__init__(self.filters, **kwargs)
 
     def build(self, input_shape):
-        super(Conv2D, self).build(input_shape)  # Be sure to call this at the end
+        if self.data_format == 'channels_first':
+            channel_axis = 1
+        else:
+            channel_axis = -1
+        if input_shape[channel_axis] is None:
+            raise ValueError('The channel dimension of the inputs '
+                             'should be defined. Found `None`.')
+        input_dim = input_shape[channel_axis]
+        kernel_shape = self.kernel_size + (input_dim, self.filters)
+
+        # Set input spec.
+        self.input_spec = InputSpec(ndim=self.rank + 2,
+                                    axes={channel_axis: input_dim})
+        self.bias = None
+        self.kernel = None
+        self.built = True
 
     def call(self, x):
         import tensorflow as tf
@@ -38,7 +54,7 @@ class Conv2D(c2D):
 
 class _Filter:
     def filter(self, tensor, window, filter_fun):
-        from dlnn.layer.util import Pad as PadUtil
+        from dlnn.util import Pad as PadUtil
         pad = _Filter.calculate_padding(window)
         padded = PadUtil.pad_center(tensor, pad)
         padded_shape = padded.shape
@@ -70,7 +86,8 @@ class StdDevFilter(_Filter, metaclass=Singleton):
     # use below function instead
     # @see: https://www.mathworks.com/help/matlab/ref/std.html
     # @see: https://stackoverflow.com/a/43409235
-    def reduce_var(self, x, axis=None, keepdims=False):
+    @staticmethod
+    def reduce_var(x, axis=None, keepdims=False):
         import tensorflow as tf
         m = tf.reduce_mean(x, axis=axis, keepdims=True)
         devs_squared = tf.square(x - m)
