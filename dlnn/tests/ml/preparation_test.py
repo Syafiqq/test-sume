@@ -1,8 +1,9 @@
 import numpy as np
 from keras import Input, Model
+from keras import backend as K
 from keras.layers import Lambda, Reshape
 
-from dlnn.tests.ml.repos_helper import corpus, corpus_data, corpus_label
+from dlnn.tests.ml.repos_helper import corpus, corpus_data, corpus_label, normalized
 from dlnn.tests.ml.testcase import TestCase
 
 
@@ -37,5 +38,16 @@ class PreparationTest(TestCase):
         o = Reshape([1, 1, 4])(o)
         network = Model(inputs=i, outputs=o)
         result = network.predict(corpus_data)
+        # print(result)
+        self.assertIsNotNone(result)
+
+    def test_tiling_data(self):
+        i = Input(shape=(corpus_data.shape[-1],))
+        o = Lambda(lambda x: x * 1.0 / 300.)(i)
+        o = Reshape([1, 1, 4])(o)
+        o = Lambda(lambda x: K.tile(x, (1, 1, 4, 1)))(o)
+        network = Model(inputs=i, outputs=o)
+        result = network.predict(corpus_data)
+        self.assertTrue(np.allclose(result, normalized, rtol=1e-6))
         # print(result)
         self.assertIsNotNone(result)
