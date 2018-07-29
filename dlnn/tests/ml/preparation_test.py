@@ -22,3 +22,11 @@ class PreparationTest(TestCase):
         result = network.predict(corpus_data)
         # print(result)
         self.assertIsNotNone(result)
+
+    def test_scaling_value(self):
+        i = Input(shape=(corpus_data.shape[-1],))
+        o = Lambda(lambda x: x * 1.0 / 300.)(i)
+        network = Model(inputs=i, outputs=o)
+        result = network.predict(corpus_data)
+        # print(result)
+        self.assertIsNotNone(result)
