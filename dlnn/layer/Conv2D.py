@@ -7,6 +7,9 @@ from dlnn.util.Singleton import Singleton
 
 class Conv2D(c2D):
     def __init__(self, filters, window, **kwargs):
+        self.built = True
+        self.kernel = None
+        self.bias = None
         self.filters_cls = filters
         self.filters = len(self.filters_cls)
         self.window = window
@@ -21,14 +24,10 @@ class Conv2D(c2D):
             raise ValueError('The channel dimension of the inputs '
                              'should be defined. Found `None`.')
         input_dim = input_shape[channel_axis]
-        kernel_shape = self.kernel_size + (input_dim, self.filters)
 
         # Set input spec.
         self.input_spec = InputSpec(ndim=self.rank + 2,
                                     axes={channel_axis: input_dim})
-        self.bias = None
-        self.kernel = None
-        self.built = True
 
     def call(self, x):
         import tensorflow as tf
