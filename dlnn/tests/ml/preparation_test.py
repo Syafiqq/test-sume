@@ -7,7 +7,7 @@ from dlnn.tests.ml.repos_helper import corpus, corpus_data, corpus_label, normal
 from dlnn.tests.ml.testcase import TestCase
 
 inputs = Input(shape=(corpus_data.shape[-1],))
-scale = Lambda(lambda x: x * 1.0 / 300.0)(inputs)
+scale = Lambda(lambda x: (((x - 0.0) / (300.0 - 0.0)) * (1.0 - 0.0)) + 0.0)(inputs)
 reshape = Reshape([1, 1, 4])(scale)
 tile = Lambda(lambda x: K.tile(x, (1, 1, 4, 1)))(reshape)
 
