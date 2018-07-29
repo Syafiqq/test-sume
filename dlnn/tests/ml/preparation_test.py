@@ -3,7 +3,7 @@ from keras import Input, Model
 from keras import backend as K
 from keras.layers import Lambda, Reshape
 
-from dlnn.tests.ml.repos_helper import corpus, corpus_data, corpus_label, normalized
+from dlnn.tests.ml.repos_helper import corpus, corpus_data, corpus_label, normalized, label_init
 from dlnn.tests.ml.testcase import TestCase
 
 inputs = Input(shape=(corpus_data.shape[-1],))
@@ -20,6 +20,11 @@ class PreparationTest(TestCase):
         self.assertTrue(np.allclose(_corpus_label, corpus_label, rtol=0))
         # print(corpus_data, corpus_label)
         self.assertIsNotNone(combined)
+
+    def test_get_formatted_label(self):
+        label = corpus_label
+        label = label.flatten() - 1
+        self.assertTrue(np.allclose(label, label_init, rtol=0))
 
     def test_defining_input_tensor(self):
         o = Lambda(lambda x: x)(inputs)
