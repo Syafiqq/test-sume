@@ -1,4 +1,6 @@
 import numpy as np
+from keras import Input, Model
+from keras.layers import Lambda
 
 from dlnn.tests.ml.repos_helper import corpus, corpus_data, corpus_label
 from dlnn.tests.ml.testcase import TestCase
@@ -12,3 +14,11 @@ class PreparationTest(TestCase):
         self.assertTrue(np.allclose(_corpus_label, corpus_label, rtol=0))
         # print(corpus_data, corpus_label)
         self.assertIsNotNone(combined)
+
+    def test_defining_input_tensor(self):
+        i = Input(shape=(corpus_data.shape[-1],))
+        o = Lambda(lambda x: x)(i)
+        network = Model(inputs=i, outputs=o)
+        result = network.predict(corpus_data)
+        # print(result)
+        self.assertIsNotNone(result)
