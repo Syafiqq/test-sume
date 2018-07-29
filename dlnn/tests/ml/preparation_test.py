@@ -6,6 +6,11 @@ from keras.layers import Lambda, Reshape
 from dlnn.tests.ml.repos_helper import corpus, corpus_data, corpus_label, normalized
 from dlnn.tests.ml.testcase import TestCase
 
+inputs = Input(shape=(corpus_data.shape[-1],))
+scale = Lambda(lambda x: x * 1.0 / 300.0)(inputs)
+reshape = Reshape([1, 1, 4])(scale)
+tile = Lambda(lambda x: K.tile(x, (1, 1, 4, 1)))(reshape)
+
 
 class PreparationTest(TestCase):
     def test_separate_data_and_its_label(self):
@@ -17,36 +22,26 @@ class PreparationTest(TestCase):
         self.assertIsNotNone(combined)
 
     def test_defining_input_tensor(self):
-        i = Input(shape=(corpus_data.shape[-1],))
-        o = Lambda(lambda x: x)(i)
-        network = Model(inputs=i, outputs=o)
+        o = Lambda(lambda x: x)(inputs)
+        network = Model(inputs=inputs, outputs=o)
         result = network.predict(corpus_data)
         # print(result)
         self.assertIsNotNone(result)
 
     def test_scaling_value(self):
-        i = Input(shape=(corpus_data.shape[-1],))
-        o = Lambda(lambda x: x * 1.0 / 300.)(i)
-        network = Model(inputs=i, outputs=o)
+        network = Model(inputs=inputs, outputs=scale)
         result = network.predict(corpus_data)
         # print(result)
         self.assertIsNotNone(result)
 
     def test_reshape_data(self):
-        i = Input(shape=(corpus_data.shape[-1],))
-        o = Lambda(lambda x: x * 1.0 / 300.)(i)
-        o = Reshape([1, 1, 4])(o)
-        network = Model(inputs=i, outputs=o)
+        network = Model(inputs=inputs, outputs=reshape)
         result = network.predict(corpus_data)
         # print(result)
         self.assertIsNotNone(result)
 
     def test_tiling_data(self):
-        i = Input(shape=(corpus_data.shape[-1],))
-        o = Lambda(lambda x: x * 1.0 / 300.)(i)
-        o = Reshape([1, 1, 4])(o)
-        o = Lambda(lambda x: K.tile(x, (1, 1, 4, 1)))(o)
-        network = Model(inputs=i, outputs=o)
+        network = Model(inputs=inputs, outputs=tile)
         result = network.predict(corpus_data)
         self.assertTrue(np.allclose(result, normalized, rtol=1e-6))
         # print(result)
