@@ -13,6 +13,7 @@ from dlnn.tests.ml.elm_func_test import layer_9_flatten, layer_10_a_dense, layer
 from dlnn.tests.ml.pooling_test import layer_5_pool, layer_8_pool
 from dlnn.tests.ml.repos_helper import corpus_data, label_init
 from dlnn.tests.ml.testcase import TestCase
+from dlnn.util import to_categorical
 
 inputs = Input(shape=(corpus_data.shape[-1],))
 scale = Lambda(lambda x: x * 1.0 / 300.0)(inputs)
@@ -51,15 +52,15 @@ class DlnnFunctionalTest(TestCase):
         feed = Model(inputs=inputs, outputs=step_11_a_activation)
         output = feed.predict(corpus_data)
         w_10_a = feed.get_layer(index=13).get_weights()
-        w_12_a = [K.eval(K.dot(MoorePenrose.pinv3(output), keras.utils.to_categorical(label_init, 3)))]
+        w_12_a = [K.eval(K.dot(MoorePenrose.pinv3(output), to_categorical(label_init, 3)))]
         feed = Model(inputs=inputs, outputs=step_11_b_activation)
         output = feed.predict(corpus_data)
         w_10_b = feed.get_layer(index=13).get_weights()
-        w_12_b = [K.eval(K.dot(MoorePenrose.pinv3(output), keras.utils.to_categorical(label_init, 3)))]
+        w_12_b = [K.eval(K.dot(MoorePenrose.pinv3(output), to_categorical(label_init, 3)))]
         feed = Model(inputs=inputs, outputs=step_11_c_activation)
         output = feed.predict(corpus_data)
         w_10_c = feed.get_layer(index=13).get_weights()
-        w_12_c = [K.eval(K.dot(MoorePenrose.pinv3(output), keras.utils.to_categorical(label_init, 3)))]
+        w_12_c = [K.eval(K.dot(MoorePenrose.pinv3(output), to_categorical(label_init, 3)))]
 
         #
         # Training Model
@@ -78,7 +79,7 @@ class DlnnFunctionalTest(TestCase):
         network.get_layer(index=19).set_weights(w_12_a)
         network.get_layer(index=20).set_weights(w_12_b)
         network.get_layer(index=21).set_weights(w_12_c)
-        network.fit(corpus_data, keras.utils.to_categorical(label_init, 3), batch_size=corpus_data.shape[0])
+        network.fit(corpus_data, to_categorical(label_init, 3), batch_size=corpus_data.shape[0])
         self.assertTrue(numpy.allclose(w_10_a[0], network.get_layer(index=13).get_weights()[0], rtol=0))
         self.assertTrue(numpy.allclose(w_10_b[0], network.get_layer(index=14).get_weights()[0], rtol=0))
         self.assertTrue(numpy.allclose(w_10_c[0], network.get_layer(index=15).get_weights()[0], rtol=0))
