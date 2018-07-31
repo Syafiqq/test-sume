@@ -16,6 +16,7 @@ from dlnn.layer.Conv2D import Conv2D
 from dlnn.layer.Conv2D import MaxFilter
 from dlnn.layer.Conv2D import StdDevFilter
 from dlnn.layer.MergeCategorical import MergeCategorical
+from dlnn.layer.Scaling import Scaling
 from dlnn.util import MoorePenrose
 from dlnn.util.Initializers import Unifinv
 from sumeq.settings import BASE_DIR
@@ -104,9 +105,11 @@ class Dlnn(object):
     def __build_model(self):
         self.layer['input'] = Input(
             shape=(self.input_shape,))
-        self.layer['pre_scaling'] = Lambda(
-            function=lambda x: (((x - self.scale_min1) / (self.scale_max1 - self.scale_min1)) * (
-                    self.scale_max2 - self.scale_min2)) + self.scale_min2,
+        self.layer['pre_scaling'] = Scaling(
+            scale_min1=self.scale_min1,
+            scale_max1=self.scale_max1,
+            scale_min2=self.scale_max1,
+            scale_max2=self.scale_max2,
             name='pre_scaling')(self.layer['input'])
         self.layer['pre_reshaping'] = Reshape(
             target_shape=[1, 1, self.input_shape],
