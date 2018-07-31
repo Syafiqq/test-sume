@@ -1,5 +1,6 @@
 import os
 
+import numpy
 from keras import Input, Model
 from keras import backend as K
 from keras.activations import sigmoid
@@ -61,8 +62,10 @@ class Dlnn(object):
     def train(self, x, y):
         assert x is not None
         assert y is not None
+        if len(y.shape) > 1:
+            y = y.flatten()
         self.input_shape = x.shape[-1]
-        self.category_num = y.shape[-1]
+        self.category_num = len(numpy.unique(y))
         self.__build_model()
         self.__train(x, y)
         return self.__evaluate(x, y)
@@ -122,7 +125,7 @@ class Dlnn(object):
             window=self.conv_1_window,
             padding='same',
             use_bias=False,
-            kernel_size=(self.category_num, self.category_num),
+            kernel_size=(self.input_shape, self.input_shape),
             data_format='channels_first',
             name='cnn_conv_1')(self.layer['pre_tiling'])
         self.layer['cnn_activation_1'] = Activation(
@@ -133,7 +136,7 @@ class Dlnn(object):
             window=self.conv_2_window,
             padding='same',
             use_bias=False,
-            kernel_size=(self.category_num, self.category_num),
+            kernel_size=(self.input_shape, self.input_shape),
             data_format='channels_first',
             name='cnn_conv_2')(self.layer['cnn_activation_1'])
         self.layer['cnn_activation_2'] = Activation(
@@ -149,7 +152,7 @@ class Dlnn(object):
             window=self.conv_3_window,
             padding='same',
             use_bias=False,
-            kernel_size=(self.category_num, self.category_num),
+            kernel_size=(self.input_shape, self.input_shape),
             data_format='channels_first',
             name='cnn_conv_3')(self.layer['cnn_pooling_1'])
         self.layer['cnn_activation_3'] = Activation(
