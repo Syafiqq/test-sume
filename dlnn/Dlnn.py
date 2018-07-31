@@ -1,14 +1,16 @@
-from keras import Input
+from keras import Input, Model
 from keras import backend as K
 from keras.activations import sigmoid
 from keras.initializers import RandomUniform, Zeros
 from keras.layers import Lambda, Reshape, Activation, MaxPooling2D, Flatten, Dense, Concatenate
+from keras.utils import to_categorical
 
 from dlnn.layer.Conv2D import AvgFilter
 from dlnn.layer.Conv2D import Conv2D
 from dlnn.layer.Conv2D import MaxFilter
 from dlnn.layer.Conv2D import StdDevFilter
 from dlnn.layer.MergeCategorical import MergeCategorical
+from dlnn.util import MoorePenrose
 from dlnn.util.Initializers import Unifinv
 
 
@@ -25,7 +27,7 @@ class Dlnn(object):
         self.elm_2_dense_1_kernel_max = 0.5
         self.elm_2_dense_1_kernel_min = -0.5
         self.elm_2_dense_1_units = 7
-        self.category_num = 3
+        self.category_num = 0
         self.elm_1_dense_1_bias_max = 1.0
         self.elm_1_dense_1_bias_min = 0.0
         self.elm_1_dense_1_kernel_max = 0.5
@@ -48,13 +50,29 @@ class Dlnn(object):
         return Dlnn()
 
     def train(self, x, y):
+        assert x is not None
+        assert y is not None
         self.input_shape = x.shape[-1]
+        self.category_num = y.shape[-1]
         self.__build_model()
         self.__train(x, y)
         return self.__evaluate(x, y)
 
     def __train(self, x, y):
-        # TODO : Place Training Process Here
+        assert self.layer is not None
+        elm_1_beta_net = Model(inputs=self.layer['input'], outputs=self.layer['elm_1_activation_1'])
+        elm_1_activation_1_o = elm_1_beta_net.predict(x)
+        elm_1_dense_1_w = elm_1_beta_net.get_layer(name='elm_1_dense_1').get_weights()
+        elm_1_dense_2_w = [
+            K.eval(K.dot(MoorePenrose.pinv3(elm_1_activation_1_o), to_categorical(y, self.category_num)))]
+        feed = Model(inputs=inputs, outputs=step_11_b_activation)
+        output = feed.predict(corpus_data)
+        w_10_b = feed.get_layer(index=13).get_weights()
+        w_12_b = [K.eval(K.dot(MoorePenrose.pinv3(output), to_categorical(label_init, 3)))]
+        feed = Model(inputs=inputs, outputs=step_11_c_activation)
+        output = feed.predict(corpus_data)
+        w_10_c = feed.get_layer(index=13).get_weights()
+        w_12_c = [K.eval(K.dot(MoorePenrose.pinv3(output), to_categorical(label_init, 3)))]
         pass
 
     def __evaluate(self, x, y):
