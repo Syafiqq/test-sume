@@ -89,3 +89,8 @@ class DlnnFunctionalTest(TestCase):
         result = network.predict(corpus_data, batch_size=corpus_data.shape[0])
         # print(result.argmax(axis=1))
         self.assertIsNotNone(result)
+
+    def test_baked_dlnn(self):
+        self.assertTrue(True)
+        from dlnn.Dlnn import Dlnn
+        Dlnn.config().train(corpus_data, label_init)

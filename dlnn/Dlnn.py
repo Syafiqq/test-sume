@@ -1,8 +1,14 @@
+import os
+
 from keras import Input, Model
 from keras import backend as K
 from keras.activations import sigmoid
+from keras.engine.saving import load_model
 from keras.initializers import RandomUniform, Zeros
 from keras.layers import Lambda, Reshape, Activation, MaxPooling2D, Flatten, Dense, Concatenate
+from keras.losses import categorical_crossentropy
+from keras.metrics import categorical_accuracy, mape
+from keras.optimizers import RMSprop
 from keras.utils import to_categorical
 
 from dlnn.layer.Conv2D import AvgFilter
@@ -12,10 +18,12 @@ from dlnn.layer.Conv2D import StdDevFilter
 from dlnn.layer.MergeCategorical import MergeCategorical
 from dlnn.util import MoorePenrose
 from dlnn.util.Initializers import Unifinv
+from sumeq.settings import BASE_DIR
 
 
 class Dlnn(object):
     def __init__(self, scale_min1=0.0, scale_max1=0.0, scale_min2=0.0, scale_max2=0.0):
+        self.network_path = os.path.join(BASE_DIR, 'dlnn/resources/network.h5')
         self.fully_connected_num = 3
         self.elm_3_dense_1_bias_max = 1.0
         self.elm_3_dense_1_bias_min = 0.0
@@ -60,24 +68,38 @@ class Dlnn(object):
 
     def __train(self, x, y):
         assert self.layer is not None
+        yc = to_categorical(y, self.category_num)
         elm_1_beta_net = Model(inputs=self.layer['input'], outputs=self.layer['elm_1_activation_1'])
         elm_1_activation_1_o = elm_1_beta_net.predict(x)
         elm_1_dense_1_w = elm_1_beta_net.get_layer(name='elm_1_dense_1').get_weights()
         elm_1_dense_2_w = [
-            K.eval(K.dot(MoorePenrose.pinv3(elm_1_activation_1_o), to_categorical(y, self.category_num)))]
-        feed = Model(inputs=inputs, outputs=step_11_b_activation)
-        output = feed.predict(corpus_data)
-        w_10_b = feed.get_layer(index=13).get_weights()
-        w_12_b = [K.eval(K.dot(MoorePenrose.pinv3(output), to_categorical(label_init, 3)))]
-        feed = Model(inputs=inputs, outputs=step_11_c_activation)
-        output = feed.predict(corpus_data)
-        w_10_c = feed.get_layer(index=13).get_weights()
-        w_12_c = [K.eval(K.dot(MoorePenrose.pinv3(output), to_categorical(label_init, 3)))]
-        pass
+            K.eval(K.dot(MoorePenrose.pinv3(elm_1_activation_1_o), yc))]
+        elm_2_beta_net = Model(inputs=self.layer['input'], outputs=self.layer['elm_2_activation_1'])
+        elm_2_activation_1_o = elm_2_beta_net.predict(x)
+        elm_2_dense_1_w = elm_2_beta_net.get_layer(name='elm_2_dense_1').get_weights()
+        elm_2_dense_2_w = [
+            K.eval(K.dot(MoorePenrose.pinv3(elm_2_activation_1_o), yc))]
+        elm_3_beta_net = Model(inputs=self.layer['input'], outputs=self.layer['elm_3_activation_1'])
+        elm_3_activation_1_o = elm_3_beta_net.predict(x)
+        elm_3_dense_1_w = elm_3_beta_net.get_layer(name='elm_3_dense_1').get_weights()
+        elm_3_dense_2_w = [
+            K.eval(K.dot(MoorePenrose.pinv3(elm_3_activation_1_o), yc))]
+        network = Model(inputs=self.layer['input'], outputs=self.layer['fully_connected_merge'])
+        network.compile(optimizer=RMSprop(lr=0.0, rho=0.0, epsilon=None, decay=0.0),
+                        loss=categorical_crossentropy,
+                        metrics=[categorical_accuracy, mape])
+        network.get_layer(name='elm_1_dense_1').set_weights(elm_1_dense_1_w)
+        network.get_layer(name='elm_1_dense_2').set_weights(elm_1_dense_2_w)
+        network.get_layer(name='elm_2_dense_1').set_weights(elm_2_dense_1_w)
+        network.get_layer(name='elm_2_dense_2').set_weights(elm_2_dense_2_w)
+        network.get_layer(name='elm_3_dense_1').set_weights(elm_3_dense_1_w)
+        network.get_layer(name='elm_3_dense_2').set_weights(elm_3_dense_2_w)
+        network.fit(x, yc)
 
     def __evaluate(self, x, y):
-        # TODO : Place Evaluation Process Here
-        pass
+        yc = to_categorical(y, self.category_num)
+        network = load_model(self.network_path)
+        return network.evaluate(x, yc)
 
     def __build_model(self):
         self.layer['input'] = Input(
