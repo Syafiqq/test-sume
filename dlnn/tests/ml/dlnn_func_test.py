@@ -11,7 +11,7 @@ from dlnn.tests.ml.elm_func_test import layer_9_flatten, layer_10_a_dense, layer
     layer_12_b_dense, layer_10_c_dense, layer_12_c_dense, layer_13_concatenate, layer_14_reshape, \
     layer_15_merge_categorical
 from dlnn.tests.ml.pooling_test import layer_5_pool, layer_8_pool
-from dlnn.tests.ml.repos_helper import corpus_data, label_init
+from dlnn.tests.ml.repos_helper import corpus_data, label_init, corpus_label
 from dlnn.tests.ml.testcase import TestCase
 from dlnn.util import to_categorical
 
@@ -93,4 +93,4 @@ class DlnnFunctionalTest(TestCase):
     def test_baked_dlnn(self):
         self.assertTrue(True)
         from dlnn.Dlnn import Dlnn
-        Dlnn.config().train(corpus_data, label_init)
+        Dlnn.config().train(corpus_data, corpus_label - 1)
