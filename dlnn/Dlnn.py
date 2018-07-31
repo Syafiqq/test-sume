@@ -97,6 +97,7 @@ class Dlnn(object):
             window=self.conv_1_window,
             padding='same',
             use_bias=False,
+            kernel_size=(self.category_num, self.category_num),
             data_format='channels_first',
             name='cnn_conv_1')(self.layer['pre_tiling'])
         self.layer['cnn_activation_1'] = Activation(
@@ -107,6 +108,7 @@ class Dlnn(object):
             window=self.conv_2_window,
             padding='same',
             use_bias=False,
+            kernel_size=(self.category_num, self.category_num),
             data_format='channels_first',
             name='cnn_conv_2')(self.layer['cnn_activation_1'])
         self.layer['cnn_activation_2'] = Activation(
@@ -122,6 +124,7 @@ class Dlnn(object):
             window=self.conv_3_window,
             padding='same',
             use_bias=False,
+            kernel_size=(self.category_num, self.category_num),
             data_format='channels_first',
             name='cnn_conv_3')(self.layer['cnn_pooling_1'])
         self.layer['cnn_activation_3'] = Activation(
