@@ -6,7 +6,7 @@ from keras import backend as K
 from keras.activations import sigmoid
 from keras.engine.saving import load_model
 from keras.initializers import RandomUniform, Zeros
-from keras.layers import Lambda, Reshape, Activation, MaxPooling2D, Flatten, Dense, Concatenate
+from keras.layers import Reshape, Activation, MaxPooling2D, Flatten, Dense, Concatenate
 from keras.losses import categorical_crossentropy
 from keras.metrics import categorical_accuracy, mape
 from keras.optimizers import RMSprop
@@ -18,6 +18,7 @@ from dlnn.layer.Conv2D import MaxFilter
 from dlnn.layer.Conv2D import StdDevFilter
 from dlnn.layer.MergeCategorical import MergeCategorical
 from dlnn.layer.Scaling import Scaling
+from dlnn.layer.Tiling import Tiling
 from dlnn.util import MoorePenrose
 from dlnn.util.Initializers import Unifinv
 from sumeq.settings import BASE_DIR
@@ -117,8 +118,8 @@ class Dlnn(object):
         self.layer['pre_reshaping'] = Reshape(
             target_shape=[1, 1, self.input_shape],
             name='pre_reshaping')(self.layer['pre_scaling'])
-        self.layer['pre_tiling'] = Lambda(
-            function=lambda x: K.tile(x, (1, 1, self.input_shape, 1)),
+        self.layer['pre_tiling'] = Tiling(
+            units=self.input_shape,
             name='pre_tiling')(self.layer['pre_reshaping'])
         self.layer['cnn_conv_1'] = Conv2D(
             filters=[AvgFilter(), MaxFilter(), StdDevFilter()],
