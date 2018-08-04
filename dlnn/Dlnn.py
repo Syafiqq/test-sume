@@ -85,10 +85,6 @@ class Dlnn(object):
 
         self.fully_connected_num = 3
 
-    @staticmethod
-    def config(*args, **kwargs):
-        return Dlnn()
-
     def train(self, x, y):
         assert x is not None
         assert y is not None
