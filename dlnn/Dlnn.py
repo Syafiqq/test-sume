@@ -120,7 +120,7 @@ class Dlnn(object):
         self.layer['pre_scaling'] = Scaling(
             scale_min1=self.scale_min1,
             scale_max1=self.scale_max1,
-            scale_min2=self.scale_max1,
+            scale_min2=self.scale_min2,
             scale_max2=self.scale_max2,
             name='pre_scaling')(self.layer['input'])
         self.layer['pre_reshaping'] = Reshape(
