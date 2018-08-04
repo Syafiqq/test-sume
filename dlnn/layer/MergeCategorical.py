@@ -20,3 +20,10 @@ class MergeCategorical(Layer):
 
     def compute_output_shape(self, input_shape):
         return input_shape[0], self.categorical_length
+
+    def get_config(self):
+        config = {
+            'categorical_length': self.categorical_length,
+        }
+        base_config = super(MergeCategorical, self).get_config()
+        return dict(list(base_config.items()) + list(config.items()))
