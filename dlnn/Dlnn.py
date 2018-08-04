@@ -25,36 +25,65 @@ from sumeq.settings import BASE_DIR
 
 
 class Dlnn(object):
-    def __init__(self, scale_min1=0.0, scale_max1=0.0, scale_min2=0.0, scale_max2=0.0):
-        self.network_path = os.path.join(BASE_DIR, 'dlnn/resources/network.h5')
-        self.fully_connected_num = 3
-        self.elm_3_dense_1_bias_max = 1.0
-        self.elm_3_dense_1_bias_min = 0.0
-        self.elm_3_dense_1_kernel_max = 0.5
-        self.elm_3_dense_1_kernel_min = -0.5
-        self.elm_3_dense_1_units = 4
-        self.elm_2_dense_1_bias_max = 1.0
-        self.elm_2_dense_1_bias_min = 0.0
-        self.elm_2_dense_1_kernel_max = 0.5
-        self.elm_2_dense_1_kernel_min = -0.5
-        self.elm_2_dense_1_units = 7
-        self.category_num = 0
-        self.elm_1_dense_1_bias_max = 1.0
-        self.elm_1_dense_1_bias_min = 0.0
-        self.elm_1_dense_1_kernel_max = 0.5
-        self.elm_1_dense_1_kernel_min = -0.5
-        self.elm_1_dense_1_units = 5
-        self.pool_2_size = 1
-        self.pool_1_size = 2
-        self.conv_3_window = 3
-        self.conv_2_window = 3
-        self.conv_1_window = 3
-        self.scale_min2 = float(scale_min1)
-        self.scale_max2 = float(scale_max1)
-        self.scale_max1 = float(scale_min2)
-        self.scale_min1 = float(scale_max2)
+    def __init__(self,
+                 scale_min1=0.0,
+                 scale_max1=0.0,
+                 scale_min2=0.0,
+                 scale_max2=0.0,
+                 conv_1_window=0,
+                 conv_2_window=0,
+                 conv_3_window=0,
+                 pool_1_size=0,
+                 pool_2_size=0,
+                 elm_1_dense_1_units=0,
+                 elm_2_dense_1_units=0,
+                 elm_3_dense_1_units=0,
+                 elm_1_dense_1_kernel_min=0.0,
+                 elm_1_dense_1_kernel_max=0.0,
+                 elm_2_dense_1_kernel_min=0.0,
+                 elm_2_dense_1_kernel_max=0.0,
+                 elm_3_dense_1_kernel_min=0.0,
+                 elm_3_dense_1_kernel_max=0.0,
+                 elm_1_dense_1_bias_min=0.0,
+                 elm_1_dense_1_bias_max=0.0,
+                 elm_2_dense_1_bias_min=0.0,
+                 elm_2_dense_1_bias_max=0.0,
+                 elm_3_dense_1_bias_min=0.0,
+                 elm_3_dense_1_bias_max=0.0, ):
         self.layer = {}
-        self.input_shape = 0
+        self.network_path = os.path.join(BASE_DIR, 'dlnn/resources/network.h5')
+        self.input_shape = None
+        self.category_num = None
+
+        self.scale_min1 = float(scale_min1)
+        self.scale_max1 = float(scale_max1)
+        self.scale_min2 = float(scale_min2)
+        self.scale_max2 = float(scale_max2)
+
+        self.conv_1_window = int(conv_1_window)
+        self.conv_2_window = int(conv_2_window)
+        self.conv_3_window = int(conv_3_window)
+
+        self.pool_1_size = int(pool_1_size)
+        self.pool_2_size = int(pool_2_size)
+
+        self.elm_1_dense_1_units = int(elm_1_dense_1_units)
+        self.elm_2_dense_1_units = int(elm_2_dense_1_units)
+        self.elm_3_dense_1_units = int(elm_3_dense_1_units)
+        self.elm_1_dense_1_kernel_min = float(elm_1_dense_1_kernel_min)
+        self.elm_1_dense_1_kernel_max = float(elm_1_dense_1_kernel_max)
+        self.elm_2_dense_1_kernel_min = float(elm_2_dense_1_kernel_min)
+        self.elm_2_dense_1_kernel_max = float(elm_2_dense_1_kernel_max)
+        self.elm_3_dense_1_kernel_min = float(elm_3_dense_1_kernel_min)
+        self.elm_3_dense_1_kernel_max = float(elm_3_dense_1_kernel_max)
+        self.elm_1_dense_1_bias_min = float(elm_1_dense_1_bias_min)
+        self.elm_1_dense_1_bias_max = float(elm_1_dense_1_bias_max)
+        self.elm_2_dense_1_bias_min = float(elm_2_dense_1_bias_min)
+        self.elm_2_dense_1_bias_max = float(elm_2_dense_1_bias_max)
+        self.elm_3_dense_1_bias_min = float(elm_3_dense_1_bias_min)
+        self.elm_3_dense_1_bias_max = float(elm_3_dense_1_bias_max)
+
+        self.fully_connected_num = 3
 
     @staticmethod
     def config(*args, **kwargs):
