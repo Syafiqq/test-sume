@@ -1,6 +1,7 @@
 from keras import backend as K
 from keras.engine import InputSpec
 from keras.layers import Conv2D as c2D
+from keras.utils import deserialize_keras_object
 
 from dlnn.util.Singleton import Singleton
 
@@ -58,6 +59,16 @@ class Conv2D(c2D):
         }
         base_config = super(Conv2D, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
+
+    @classmethod
+    def from_config(cls, config):
+        if 'filters' in config and isinstance(config['filters'], list):
+            baked = []
+            for raw in config['filters']:
+                baked.append(deserialize_keras_object(raw))
+            config['filters'] = baked
+
+        return super().from_config(config)
 
 
 class _Filter:
