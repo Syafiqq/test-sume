@@ -45,7 +45,7 @@ class Conv2D(c2D):
                 xyz[k] = v.filter(xyz[k], self.window)
             return tf.stack(xyz)
 
-        zz = tf.map_fn(calls, x[:])
+        zz = tf.map_fn(calls, x)
         return zz
 
     def compute_output_shape(self, input_shape):
