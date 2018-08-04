@@ -23,6 +23,33 @@ from dlnn.util import MoorePenrose
 from dlnn.util.Initializers import Unifinv
 from sumeq.settings import BASE_DIR
 
+DLNN_DEFAULT_CONFIG = {
+    'scale_min1': 0.0,
+    'scale_max1': 300.0,
+    'scale_min2': 0.0,
+    'scale_max2': 1.0,
+    'conv_1_window': 3,
+    'conv_2_window': 3,
+    'conv_3_window': 3,
+    'pool_1_size': 2,
+    'pool_2_size': 1,
+    'elm_1_dense_1_units': 5,
+    'elm_2_dense_1_units': 7,
+    'elm_3_dense_1_units': 4,
+    'elm_1_dense_1_kernel_min': -0.5,
+    'elm_1_dense_1_kernel_max': +0.5,
+    'elm_2_dense_1_kernel_min': -0.5,
+    'elm_2_dense_1_kernel_max': +0.5,
+    'elm_3_dense_1_kernel_min': -0.5,
+    'elm_3_dense_1_kernel_max': +0.5,
+    'elm_1_dense_1_bias_min': 0.0,
+    'elm_1_dense_1_bias_max': 1.0,
+    'elm_2_dense_1_bias_min': 0.0,
+    'elm_2_dense_1_bias_max': 1.0,
+    'elm_3_dense_1_bias_min': 0.0,
+    'elm_3_dense_1_bias_max': 1.0,
+}
+
 
 class Dlnn(object):
     def __init__(self,
