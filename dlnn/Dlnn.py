@@ -117,18 +117,22 @@ class Dlnn(object):
     def __build_model(self):
         self.layer['input'] = Input(
             shape=(self.input_shape,))
+
         self.layer['pre_scaling'] = Scaling(
             scale_min1=self.scale_min1,
             scale_max1=self.scale_max1,
             scale_min2=self.scale_min2,
             scale_max2=self.scale_max2,
             name='pre_scaling')(self.layer['input'])
+
         self.layer['pre_reshaping'] = Reshape(
             target_shape=[1, 1, self.input_shape],
             name='pre_reshaping')(self.layer['pre_scaling'])
+
         self.layer['pre_tiling'] = Tiling(
             units=self.input_shape,
             name='pre_tiling')(self.layer['pre_reshaping'])
+
         self.layer['cnn_conv_1'] = Conv2D(
             filters=[AvgFilter(), MaxFilter(), StdDevFilter()],
             window=self.conv_1_window,
@@ -137,9 +141,11 @@ class Dlnn(object):
             kernel_size=(self.input_shape, self.input_shape),
             data_format='channels_first',
             name='cnn_conv_1')(self.layer['pre_tiling'])
+
         self.layer['cnn_activation_1'] = Activation(
             activation=sigmoid,
             name='cnn_activation_1')(self.layer['cnn_conv_1'])
+
         self.layer['cnn_conv_2'] = Conv2D(
             filters=[AvgFilter(), MaxFilter(), StdDevFilter()],
             window=self.conv_2_window,
@@ -148,14 +154,17 @@ class Dlnn(object):
             kernel_size=(self.input_shape, self.input_shape),
             data_format='channels_first',
             name='cnn_conv_2')(self.layer['cnn_activation_1'])
+
         self.layer['cnn_activation_2'] = Activation(
             activation=sigmoid,
             name='cnn_activation_2')(self.layer['cnn_conv_2'])
+
         self.layer['cnn_pooling_1'] = MaxPooling2D(
             pool_size=(self.pool_1_size, self.pool_1_size),
             padding='same',
             data_format='channels_first',
             name='cnn_pooling_1')(self.layer['cnn_activation_2'])
+
         self.layer['cnn_conv_3'] = Conv2D(
             filters=[AvgFilter(), MaxFilter(), StdDevFilter()],
             window=self.conv_3_window,
@@ -164,16 +173,20 @@ class Dlnn(object):
             kernel_size=(self.input_shape, self.input_shape),
             data_format='channels_first',
             name='cnn_conv_3')(self.layer['cnn_pooling_1'])
+
         self.layer['cnn_activation_3'] = Activation(
             activation=sigmoid,
             name='cnn_activation_3')(self.layer['cnn_conv_3'])
+
         self.layer['cnn_pooling_2'] = MaxPooling2D(
             pool_size=(self.pool_2_size, self.pool_2_size),
             padding='same',
             data_format='channels_first',
             name='cnn_pooling_2')(self.layer['cnn_activation_3'])
+
         self.layer['bridge_flatten'] = Flatten(
             name='bridge_flatten')(self.layer['cnn_pooling_2'])
+
         self.layer['elm_1_dense_1'] = Dense(
             units=self.elm_1_dense_1_units,
             activation=None,
@@ -182,9 +195,11 @@ class Dlnn(object):
             bias_initializer=RandomUniform(minval=self.elm_1_dense_1_bias_min, maxval=self.elm_1_dense_1_bias_max),
             trainable=False,
             name='elm_1_dense_1')(self.layer['bridge_flatten'])
+
         self.layer['elm_1_activation_1'] = Activation(
             activation=sigmoid,
             name='elm_1_activation_1')(self.layer['elm_1_dense_1'])
+
         self.layer['elm_1_dense_2'] = Dense(
             units=self.category_num,
             activation=None,
@@ -192,6 +207,7 @@ class Dlnn(object):
             kernel_initializer=Zeros(),
             trainable=False,
             name='elm_1_dense_2')(self.layer['elm_1_activation_1'])
+
         self.layer['elm_2_dense_1'] = Dense(
             units=self.elm_2_dense_1_units,
             activation=None,
@@ -200,9 +216,11 @@ class Dlnn(object):
             bias_initializer=RandomUniform(minval=self.elm_2_dense_1_bias_min, maxval=self.elm_2_dense_1_bias_max),
             trainable=False,
             name='elm_2_dense_1')(self.layer['bridge_flatten'])
+
         self.layer['elm_2_activation_1'] = Activation(
             activation=sigmoid,
             name='elm_2_activation_1')(self.layer['elm_2_dense_1'])
+
         self.layer['elm_2_dense_2'] = Dense(
             units=self.category_num,
             activation=None,
@@ -210,6 +228,7 @@ class Dlnn(object):
             kernel_initializer=Zeros(),
             trainable=False,
             name='elm_2_dense_2')(self.layer['elm_2_activation_1'])
+
         self.layer['elm_3_dense_1'] = Dense(
             units=self.elm_3_dense_1_units,
             activation=None,
@@ -218,9 +237,11 @@ class Dlnn(object):
             bias_initializer=RandomUniform(minval=self.elm_3_dense_1_bias_min, maxval=self.elm_3_dense_1_bias_max),
             trainable=False,
             name='elm_3_dense_1')(self.layer['bridge_flatten'])
+
         self.layer['elm_3_activation_1'] = Activation(
             activation=sigmoid,
             name='elm_3_activation_1')(self.layer['elm_3_dense_1'])
+
         self.layer['elm_3_dense_2'] = Dense(
             units=self.category_num,
             activation=None,
@@ -228,12 +249,15 @@ class Dlnn(object):
             kernel_initializer=Zeros(),
             trainable=False,
             name='elm_3_dense_2')(self.layer['elm_3_activation_1'])
+
         self.layer['fully_connected_concat'] = Concatenate(
             name='fully_connected_concat')(
             [self.layer['elm_1_dense_2'], self.layer['elm_2_dense_2'], self.layer['elm_3_dense_2']])
+
         self.layer['fully_connected_reshape'] = Reshape(
             target_shape=(self.fully_connected_num, self.category_num),
             name='fully_connected_reshape')(self.layer['fully_connected_concat'])
+
         self.layer['fully_connected_merge'] = MergeCategorical(
             categorical_length=self.category_num,
             name='fully_connected_merge')(self.layer['fully_connected_reshape'])
