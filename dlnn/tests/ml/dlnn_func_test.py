@@ -97,3 +97,15 @@ class DlnnFunctionalTest(TestCase):
         train_eval = Dlnn(**DLNN_DEFAULT_CONFIG).train(corpus_data, corpus_label - 1)
         self.assertIsNotNone(train_eval)
         # print(train_eval)
+
+    def test_baked_dlnn_value(self):
+        self.assertTrue(True)
+        from dlnn.Dlnn import Dlnn
+        from dlnn.Dlnn import DLNN_DEFAULT_CONFIG
+        dlnn = Dlnn(**DLNN_DEFAULT_CONFIG)
+        dlnn.train(corpus_data, corpus_label - 1)
+        network = dlnn.get_model()
+        yc = keras.utils.to_categorical(label_init, len(numpy.unique(label_init)))
+        train_eval = network.evaluate(corpus_data, yc)
+        self.assertIsNotNone(train_eval)
+        # print(train_eval)
