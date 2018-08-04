@@ -93,4 +93,5 @@ class DlnnFunctionalTest(TestCase):
     def test_baked_dlnn(self):
         self.assertTrue(True)
         from dlnn.Dlnn import Dlnn
-        Dlnn.config().train(corpus_data, corpus_label - 1)
+        train_eval = Dlnn.config().train(corpus_data, corpus_label - 1)
+        print(train_eval)
