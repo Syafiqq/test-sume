@@ -26,6 +26,7 @@ from sumeq.settings import BASE_DIR
 
 class Dlnn(object):
     def __init__(self,
+                 network_name='network',
                  scale_min1=0.0,
                  scale_max1=0.0,
                  scale_min2=0.0,
@@ -51,7 +52,8 @@ class Dlnn(object):
                  elm_3_dense_1_bias_min=0.0,
                  elm_3_dense_1_bias_max=0.0, ):
         self.layer = {}
-        self.network_path = os.path.join(BASE_DIR, 'dlnn/resources/network.h5')
+        self.network_name = network_name,
+        self.network_path = os.path.join(BASE_DIR, "dlnn/resources/%s.h5" % self.network_name)
         self.input_shape = None
         self.category_num = None
 
