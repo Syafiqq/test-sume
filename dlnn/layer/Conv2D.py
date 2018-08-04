@@ -51,6 +51,14 @@ class Conv2D(c2D):
     def compute_output_shape(self, input_shape):
         return super(Conv2D, self).compute_output_shape(input_shape)
 
+    def get_config(self):
+        config = {
+            'window': self.window,
+            'filters': self.filters_cls
+        }
+        base_config = super(Conv2D, self).get_config()
+        return dict(list(base_config.items()) + list(config.items()))
+
 
 class _Filter:
     def filter(self, tensor, window, filter_fun):
@@ -70,15 +78,29 @@ class _Filter:
         import math
         return int(math.ceil((window - 1.) / 2.))
 
+    def get_config(self):
+        config = {}
+        return dict(list(config.items()))
+
 
 class AvgFilter(_Filter, metaclass=Singleton):
     def filter(self, tensor, window, **kwargs):
         return super().filter(tensor, window, filter_fun=lambda x: K.mean(x))
 
+    def get_config(self):
+        config = {}
+        base_config = super(AvgFilter, self).get_config()
+        return dict(list(base_config.items()) + list(config.items()))
+
 
 class MaxFilter(_Filter, metaclass=Singleton):
     def filter(self, tensor, window, **kwargs):
         return super().filter(tensor, window, filter_fun=lambda x: K.max(x))
+
+    def get_config(self):
+        config = {}
+        base_config = super(MaxFilter, self).get_config()
+        return dict(list(base_config.items()) + list(config.items()))
 
 
 class StdDevFilter(_Filter, metaclass=Singleton):
@@ -100,3 +122,8 @@ class StdDevFilter(_Filter, metaclass=Singleton):
 
     def filter(self, tensor, window, **kwargs):
         return super().filter(tensor, window, filter_fun=lambda x: self.reduce_std(x))
+
+    def get_config(self):
+        config = {}
+        base_config = super(StdDevFilter, self).get_config()
+        return dict(list(base_config.items()) + list(config.items()))
