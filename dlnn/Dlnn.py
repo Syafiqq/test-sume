@@ -158,14 +158,7 @@ class Dlnn(object):
 
     def __evaluate(self, x, y):
         yc = to_categorical(y, self.category_num)
-        network = load_model(self.network_path, custom_objects={'Scaling': Scaling,
-                                                                'Tiling': Tiling,
-                                                                'AvgFilter': AvgFilter,
-                                                                'MaxFilter': MaxFilter,
-                                                                'StdDevFilter': StdDevFilter,
-                                                                'Conv2D': Conv2D,
-                                                                'MergeCategorical': MergeCategorical,
-                                                                'Unifinv': Unifinv})
+        network = self.get_model()
         return network.evaluate(x, yc)
 
     def __build_model(self):
@@ -315,3 +308,13 @@ class Dlnn(object):
         self.layer['fully_connected_merge'] = MergeCategorical(
             categorical_length=self.category_num,
             name='fully_connected_merge')(self.layer['fully_connected_reshape'])
+
+    def get_model(self):
+        return load_model(self.network_path, custom_objects={'Scaling': Scaling,
+                                                             'Tiling': Tiling,
+                                                             'AvgFilter': AvgFilter,
+                                                             'MaxFilter': MaxFilter,
+                                                             'StdDevFilter': StdDevFilter,
+                                                             'Conv2D': Conv2D,
+                                                             'MergeCategorical': MergeCategorical,
+                                                             'Unifinv': Unifinv})
