@@ -100,10 +100,18 @@ class Dlnn(object):
         network.get_layer(name='elm_3_dense_1').set_weights(elm_3_dense_1_w)
         network.get_layer(name='elm_3_dense_2').set_weights(elm_3_dense_2_w)
         network.fit(x, yc)
+        network.save(self.network_path)
 
     def __evaluate(self, x, y):
         yc = to_categorical(y, self.category_num)
-        network = load_model(self.network_path)
+        network = load_model(self.network_path, custom_objects={'Scaling': Scaling,
+                                                                'Tiling': Tiling,
+                                                                'AvgFilter': AvgFilter,
+                                                                'MaxFilter': MaxFilter,
+                                                                'StdDevFilter': StdDevFilter,
+                                                                'Conv2D': Conv2D,
+                                                                'MergeCategorical': MergeCategorical,
+                                                                'Unifinv': Unifinv})
         return network.evaluate(x, yc)
 
     def __build_model(self):
