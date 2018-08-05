@@ -3,6 +3,6 @@
 db.sqlite3
 /polls/migrations
 /sumeq/.env
-dlnn/resources/network.h5
+dlnn/resources/*.h5
 polls/__pycache__/
 sumeq/__pycache__/
