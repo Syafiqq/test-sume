@@ -21,7 +21,8 @@ from dlnn.tests.ml.pooling_test import layer_5_pool, layer_8_pool
 from dlnn.tests.ml.repos_helper import corpus_data, label_init, corpus_label, normalized, corr_step_1, corr_step_2, \
     corr_step_3, corr_step_4, corr_step_5, corr_step_6, corr_step_7, corr_step_8, corr_step_8_full, corr_step_9, \
     corr_step_10_a_bias_init, corr_step_10_a_kernel_init, corr_step_10_b_kernel_init, corr_step_10_b_bias_init, \
-    corr_step_10_c_bias_init, corr_step_10_c_kernel_init
+    corr_step_10_c_bias_init, corr_step_10_c_kernel_init, corr_step_10_a, corr_step_10_b, corr_step_10_c, \
+    corr_step_11_a, corr_step_11_b, corr_step_11_c
 from dlnn.tests.ml.testcase import TestCase
 from dlnn.util import to_categorical
 from dlnn.util.Initializers import Unifinv
@@ -392,3 +393,167 @@ class DlnnFunctionalTest(TestCase):
                              outputs=network.get_layer(layer_name).output)
         intermediate_output = intermediate.predict(corpus_data)
         self.assertTrue(numpy.allclose(intermediate_output, corr_step_9, rtol=1e-6))
+
+    def test_baked_dlnndump(self):
+        from keras import Model
+        from dlnn.util import MoorePenrose
+        #
+        # Feed Beta
+        #
+        feed = Model(inputs=inputs, outputs=step_11_a_activation)
+        output = feed.predict(corpus_data)
+        w_10_a = feed.get_layer(index=13).get_weights()
+        w_12_a = [K.eval(K.dot(MoorePenrose.pinv3(output), to_categorical(label_init, 3)))]
+        feed = Model(inputs=inputs, outputs=step_11_b_activation)
+        output = feed.predict(corpus_data)
+        w_10_b = feed.get_layer(index=13).get_weights()
+        w_12_b = [K.eval(K.dot(MoorePenrose.pinv3(output), to_categorical(label_init, 3)))]
+        feed = Model(inputs=inputs, outputs=step_11_c_activation)
+        output = feed.predict(corpus_data)
+        w_10_c = feed.get_layer(index=13).get_weights()
+        w_12_c = [K.eval(K.dot(MoorePenrose.pinv3(output), to_categorical(label_init, 3)))]
+
+        self.assertTrue(True)
+        from dlnn.Dlnn import DLNN_DEFAULT_CONFIG
+        yc = keras.utils.to_categorical(label_init, len(numpy.unique(label_init)))
+        dlnn = DlnnDump(**DLNN_DEFAULT_CONFIG)
+        # dlnn.train(corpus_data, corpus_label - 1)
+        network = dlnn.get_model()
+        train_eval = network.evaluate(corpus_data, yc)
+        self.assertIsNotNone(train_eval)
+        # network.summary()
+        # print(train_eval)
+
+        from keras import Model
+        layer_name = 'pre_tiling'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output, normalized, rtol=1e-6))
+
+        layer_name = 'cnn_conv_1'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output[0], corr_step_1, rtol=1e-6))
+
+        layer_name = 'cnn_activation_1'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output[0], corr_step_2, rtol=1e-6))
+
+        layer_name = 'cnn_conv_2'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output[0], corr_step_3, rtol=1e-6))
+
+        layer_name = 'cnn_activation_2'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output[0], corr_step_4, rtol=1e-6))
+
+        layer_name = 'cnn_pooling_1'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output[0], corr_step_5, rtol=1e-6))
+
+        layer_name = 'cnn_conv_3'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output[0], corr_step_6, rtol=1e-6))
+
+        layer_name = 'cnn_activation_3'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output[0], corr_step_7, rtol=1e-6))
+
+        layer_name = 'cnn_pooling_2'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output[0], corr_step_8, rtol=1e-6))
+        self.assertTrue(numpy.allclose(intermediate_output, corr_step_8_full, rtol=1e-6))
+
+        layer_name = 'bridge_flatten'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output, corr_step_9, rtol=1e-6))
+
+        layer_name = 'elm_1_dense_1'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output, corr_step_10_a, rtol=1e-6))
+        self.assertTrue(
+            numpy.allclose(corr_step_10_a_kernel_init, network.get_layer(layer_name).get_weights()[0], rtol=1e-6))
+        self.assertTrue(
+            numpy.allclose(corr_step_10_a_bias_init, network.get_layer(layer_name).get_weights()[1], rtol=1e-6))
+        self.assertTrue(
+            numpy.allclose(w_10_a[0], network.get_layer(layer_name).get_weights()[0], rtol=1e-6))
+        self.assertTrue(
+            numpy.allclose(w_10_a[1], network.get_layer(layer_name).get_weights()[1], rtol=1e-6))
+
+        layer_name = 'elm_1_activation_1'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output, corr_step_11_a, rtol=1e-6))
+
+        layer_name = 'elm_2_dense_1'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output, corr_step_10_b, rtol=1e-6))
+        self.assertTrue(
+            numpy.allclose(corr_step_10_b_kernel_init, network.get_layer(layer_name).get_weights()[0], rtol=1e-6))
+        self.assertTrue(
+            numpy.allclose(corr_step_10_b_bias_init, network.get_layer(layer_name).get_weights()[1], rtol=1e-6))
+        self.assertTrue(
+            numpy.allclose(w_10_b[0], network.get_layer(layer_name).get_weights()[0], rtol=1e-6))
+        self.assertTrue(
+            numpy.allclose(w_10_b[1], network.get_layer(layer_name).get_weights()[1], rtol=1e-6))
+
+        layer_name = 'elm_2_activation_1'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output, corr_step_11_b, rtol=1e-6))
+
+        layer_name = 'elm_3_dense_1'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output, corr_step_10_c, rtol=1e-6))
+        self.assertTrue(
+            numpy.allclose(corr_step_10_c_kernel_init, network.get_layer(layer_name).get_weights()[0], rtol=1e-6))
+        self.assertTrue(
+            numpy.allclose(corr_step_10_c_bias_init, network.get_layer(layer_name).get_weights()[1], rtol=1e-6))
+        self.assertTrue(
+            numpy.allclose(w_10_c[0], network.get_layer(layer_name).get_weights()[0], rtol=1e-6))
+        self.assertTrue(
+            numpy.allclose(w_10_c[1], network.get_layer(layer_name).get_weights()[1], rtol=1e-6))
+
+        layer_name = 'elm_3_activation_1'
+        intermediate = Model(inputs=network.input,
+                             outputs=network.get_layer(layer_name).output)
+        intermediate_output = intermediate.predict(corpus_data)
+        self.assertTrue(numpy.allclose(intermediate_output, corr_step_11_c, rtol=1e-6))
+
+        layer_name = 'elm_1_dense_2'
+        self.assertTrue(
+            numpy.allclose(w_12_a[0], network.get_layer(layer_name).get_weights()[0], rtol=1e-6))
+
+        layer_name = 'elm_2_dense_2'
+        self.assertTrue(
+            numpy.allclose(w_12_b[0], network.get_layer(layer_name).get_weights()[0], rtol=1e-6))
+
+        layer_name = 'elm_3_dense_2'
+        self.assertTrue(
+            numpy.allclose(w_12_c[0], network.get_layer(layer_name).get_weights()[0], rtol=1e-6))
