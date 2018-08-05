@@ -121,7 +121,7 @@ class Dlnn(object):
             y = y.flatten()
         self.input_shape = x.shape[-1]
         self.category_num = len(numpy.unique(y))
-        self.__build_model()
+        self.build_model()
         self.__train(x, y)
         return self.__evaluate(x, y)
 
@@ -161,7 +161,7 @@ class Dlnn(object):
         network = self.get_model()
         return network.evaluate(x, yc)
 
-    def __build_model(self):
+    def build_model(self):
         self.layer['input'] = Input(
             shape=(self.input_shape,))
 
