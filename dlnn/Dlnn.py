@@ -10,7 +10,6 @@ from keras.layers import Reshape, Activation, MaxPooling2D, Flatten, Dense, Conc
 from keras.losses import categorical_crossentropy
 from keras.metrics import categorical_accuracy, mape
 from keras.optimizers import RMSprop
-from keras.utils import to_categorical
 
 from dlnn.layer.Conv2D import AvgFilter
 from dlnn.layer.Conv2D import Conv2D
@@ -19,7 +18,7 @@ from dlnn.layer.Conv2D import StdDevFilter
 from dlnn.layer.MergeCategorical import MergeCategorical
 from dlnn.layer.Scaling import Scaling
 from dlnn.layer.Tiling import Tiling
-from dlnn.util import MoorePenrose
+from dlnn.util import MoorePenrose, to_categorical
 from dlnn.util.Initializers import Unifinv
 from sumeq.settings import BASE_DIR
 
